@@ -4,13 +4,7 @@ import WorkPathways from './work-pathways';
 import MobileMenu from './mobile-menu';
 import ExperienceGallery from './experience-gallery';
 import ContactForm from './contact-form';
-
-const services = [
-  { icon: 'A+', label: 'LEARNING PLUS', title: 'เรียนภาษาอังกฤษ', text: 'Beginner ถึง Advanced พร้อมคอร์ส IELTS, TOEFL, CU-TEP, TU-GET, KEP และ TCAS' },
-  { icon: 'UK', label: 'STUDY IN UK', title: 'เรียนต่อประเทศอังกฤษ', text: 'Summer Course และหลักสูตรระยะสั้น-ยาว ตั้งแต่ 1 เดือนถึง 1 ปี' },
-  { icon: 'W', label: 'WORK ABROAD', title: 'ทำงานต่างประเทศ', text: 'Seasonal Work, Work & Travel และโอกาสทำงานสำหรับผู้มีทักษะ' },
-  { icon: '✈', label: 'TRAVEL & VISA', title: 'ท่องเที่ยวและวีซ่า', text: 'วางแผนการเดินทาง วีซ่า ตั๋วเครื่องบิน ทัวร์ส่วนตัว และไกด์' },
-];
+import ServiceCards from './service-cards';
 
 const steps = [
   ['01', 'คุยกับที่ปรึกษา', 'เล่าเป้าหมาย งบประมาณ และช่วงเวลาที่ต้องการ'],
@@ -21,7 +15,7 @@ const steps = [
 
 const experiencePhotos = [
   { src: '/experience/experience-02.webp', alt: 'ครูผู้สอน Inter Plus Consulting', caption: 'ครูผู้สอน', kind: 'teacher' },
-  { src: '/experience/experience-07.webp', alt: 'บรรยากาศภายในห้องเรียน', caption: 'บรรยากาศการเรียน', kind: 'classroom' },
+  { src: '/experience/experience-02-arm-fixed.png', alt: 'บรรยากาศภายในห้องเรียน', caption: 'บรรยากาศการเรียน', kind: 'classroom' },
   { src: '/experience/experience-08.webp', alt: 'บรรยากาศกิจกรรมกลุ่มของผู้เรียน', caption: 'กิจกรรมของผู้เรียน', kind: 'group' },
   { src: '/experience/experience-05.webp', alt: 'บรรยากาศการเดินทางและกิจกรรมต่างประเทศ', caption: 'ประสบการณ์ต่างประเทศ', kind: 'travel-experience' },
 ];
@@ -38,7 +32,7 @@ export default function Home() {
 
     <div className="ticker">เรียนภาษาอังกฤษ　✦　เรียนต่อ UK　✦　ทำงานต่างประเทศ　✦　วีซ่าและการเดินทาง　✦　ทัวร์ส่วนตัว</div>
 
-    <section className="section" id="services"><div className="heading"><div><p className="kicker"><i/> OUR CORE SERVICES</p><h2>ทุกเป้าหมายของคุณ<br/><em>ไปได้ไกลกว่าเดิม</em></h2></div><p>บริการแบบ One-Stop Service ตั้งแต่ค้นหาเส้นทางที่ใช่ เตรียมเอกสาร จนถึงวันที่คุณออกเดินทาง</p></div><div className="service-grid">{services.map((s,i)=><article className="service-card" key={s.title}><div><span className="service-icon">{s.icon}</span><small>0{i+1}</small></div><label>{s.label}</label><h3>{s.title}</h3><p>{s.text}</p><a href="#contact">ดูรายละเอียด <b>↗</b></a></article>)}</div></section>
+    <section className="section" id="services"><div className="heading"><div><p className="kicker"><i/> OUR CORE SERVICES</p><h2>ทุกเป้าหมายของคุณ<br/><em>ไปได้ไกลกว่าเดิม</em></h2></div><p>บริการแบบ One-Stop Service ตั้งแต่ค้นหาเส้นทางที่ใช่ เตรียมเอกสาร จนถึงวันที่คุณออกเดินทาง</p></div><ServiceCards /></section>
 
     <section className="learning"><div className="learning-copy"><p className="kicker light"><i/> LEARNING PLUS BY KRU JEW</p><h2>ภาษาอังกฤษ<br/>ที่พาคุณไปถึง<br/><em>เป้าหมายจริง</em></h2><p>เรียนตัวต่อตัว กลุ่มเล็ก ออนไลน์ ออนไซต์ หรือ Hybrid ปรับบทเรียนให้เหมาะกับระดับและเป้าหมายของผู้เรียน</p><a className="button white" href="#contact">สอบถามคอร์สเรียน ↗</a></div><div className="course-list">{[['01','Test Preparation','TOEFL · IELTS · CU-TEP · TU-GET · KEPT'],['02','Academic & Admission','ม.1 / ม.4 · TCAS · NETSAT · TGAT · A-Level'],['03','Global Readiness','เตรียมภาษาเพื่อเรียนต่อและทำงานต่างประเทศ'],['04','Thai for Foreigners','คอร์สภาษาไทยสำหรับชาวต่างชาติ']].map(c=><article className="course" key={c[0]}><b>{c[0]}</b><div><h3>{c[1]}</h3><p>{c[2]}</p></div></article>)}</div></section>
 

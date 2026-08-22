@@ -80,6 +80,41 @@ h1, h2, h3, p, a, label { overflow-wrap: break-word; }
 .lightbox-next { justify-self: end; }
 @keyframes gallery-in { from { opacity: 0; } }
 
+/* Move dense sections to their compact layout before text starts to squeeze. */
+@media (max-width: 1280px) {
+  .contact { grid-template-columns: minmax(0, 1fr); }
+  .contact-intro, .contact form { min-width: 0; }
+  .details > a strong { overflow-wrap: normal; word-break: normal; }
+  .details > a[href^="tel:"] strong { white-space: nowrap; }
+}
+
+@media (max-width: 1180px) {
+  .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 761px) and (max-width: 980px) {
+  .travel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(32px, 6vw, 72px);
+  }
+  .travel > div:first-child {
+    flex: 1 1 48%;
+    min-width: 0;
+  }
+  .travel > div:last-child {
+    flex: 0 1 440px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(48%, 440px);
+  }
+  .travel span {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
 @media (max-width: 980px) {
   .hero {
     background-image:
@@ -161,6 +196,18 @@ h1, h2, h3, p, a, label { overflow-wrap: break-word; }
 /* Keep headings compact across languages and avoid isolated final words. */
 h1, h2, h3 { text-wrap: balance; }
 p, li, blockquote { text-wrap: pretty; }
+html[lang="th"] .hero h1 { line-height: 1.1; }
+html[lang="th"] .heading h2,
+html[lang="th"] .learning h2,
+html[lang="th"] .uk h2,
+html[lang="th"] .about h2,
+html[lang="th"] .travel h2,
+html[lang="th"] .contact h2,
+html[lang="th"] .gallery-heading h2 { line-height: 1.14; }
+html[lang="th"] .service-card h3,
+html[lang="th"] .path-grid h3,
+html[lang="th"] .steps h3,
+html[lang="th"] .contact-map h3 { line-height: 1.28; }
 html[lang="en"] .hero h1 {
   font-size: clamp(48px, 5.45vw, 78px);
   line-height: .98;
@@ -189,6 +236,24 @@ html[lang="en"] .hero h1 {
   .path-grid article > button { padding-left: 28px; padding-right: 28px; }
   .path-grid h3 { font-size: 25px; }
   .path-cta { padding-left: 28px; padding-right: 28px; }
+}
+
+@media (max-width: 760px) {
+  .travel {
+    align-items: center;
+    text-align: center;
+  }
+  .travel > div:first-child { width: 100%; }
+  .travel .kicker { justify-content: center; }
+  .travel > div:last-child {
+    grid-template-columns: 1fr;
+    width: min(100%, 360px);
+    margin-inline: auto;
+  }
+  .travel span {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 @media (max-width: 420px) {
@@ -251,3 +316,7 @@ html[lang="en"] .hero h1 {
   .language-switcher button { padding-left: 1px; padding-right: 1px; }
   .menu-toggle { width: 40px; height: 40px; }
 }
+.hero > .orbit { display: none; }
+.service-card { background: var(--cream); text-align: left; color: inherit; font: inherit; cursor: pointer; }
+.service-card > .service-link { margin-top: auto; font-weight: 600; }
+.service-card > .service-link b { float: right; }

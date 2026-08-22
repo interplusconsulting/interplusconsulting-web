@@ -10,14 +10,25 @@ const paths = [
 
 export default function WorkPathways() {
   const [selected, setSelected] = useState('travel');
+
+  const selectProgram = (path: (typeof paths)[number]) => {
+    setSelected(path.id);
+    window.dispatchEvent(new CustomEvent('interplus:program-selected', {
+      detail: {
+        service: 'ทำงานต่างประเทศ',
+        message: `สนใจโปรแกรม ${path.title}\nระยะเวลา: ${path.duration}\nรายละเอียด: ${path.description}`,
+      },
+    }));
+  };
+
   return <div className="path-grid">{paths.map(path => {
     const active = selected === path.id;
     return <article className={`${path.accent ? 'red' : ''} ${active ? 'selected' : ''}`} key={path.id}>
-      <button type="button" aria-pressed={active} onClick={()=>setSelected(path.id)}>
+      <button type="button" aria-pressed={active} onClick={() => selectProgram(path)}>
         <span className="path-arrow">↗</span><small>{path.duration}</small><h3>{path.title}</h3><p>{path.description}</p>
         <span className="selection-label">{active ? 'เลือกแล้ว ✓' : 'เลือกโปรแกรมนี้'}</span>
       </button>
-      <a className="path-cta" href="#contact">สนใจโปรแกรมนี้ <span>→</span></a>
+      <a className="path-cta" href="#contact" onClick={() => selectProgram(path)}>สนใจโปรแกรมนี้ <span>→</span></a>
     </article>;
   })}</div>;
 }
