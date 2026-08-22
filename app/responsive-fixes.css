@@ -1,0 +1,253 @@
+html, body { max-width: 100%; overflow-x: clip; }
+img { max-width: 100%; }
+h1, h2, h3, p, a, label { overflow-wrap: break-word; }
+
+.hero {
+  grid-template-columns: 1fr;
+  background-image:
+    linear-gradient(90deg, #f4f1e9fc 0%, #f4f1e9ed 35%, #f4f1e980 55%, #f4f1e908 76%),
+    url('/hero-study-abroad.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.hero-art { display: none; }
+.hero-copy { max-width: 720px; }
+
+.mobile-menu { display: none; }
+
+.experience-gallery { background: #fff; }
+.uk-art { display: block; overflow: hidden; background: var(--navy); }
+.uk-art img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
+.ticket { background: #073b67 url('/thailand-to-world.png') center / cover no-repeat; color: #fff; overflow: hidden; }
+.ticket::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #031f3bd9 0%, #06355da8 54%, #061d3240 100%); }
+.ticket small, .ticket b { position: relative; z-index: 1; text-shadow: 0 2px 12px #00182dcc; }
+.passport { background: #073b67 url('/passport-journey.png') center / cover no-repeat; }
+.passport::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, #031a31c7 0%, #052b4f8f 48%, #041a2fc7 100%); }
+.passport::after { display: none; }
+.passport small, .passport b { position: relative; z-index: 1; text-shadow: 0 2px 14px #00182de0; }
+.passport b { margin-top: 72px; }
+.passport span {
+  z-index: 2;
+  right: 25px;
+  bottom: 25px;
+  width: 78px;
+  height: 78px;
+  display: grid;
+  place-items: center;
+  padding: 12px 7px;
+  border: 3px double var(--red);
+  outline: 1px dashed #ef2d32aa;
+  outline-offset: -7px;
+  border-radius: 50%;
+  font: 800 10px/1.02 Manrope, sans-serif;
+  text-align: center;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--red);
+  transform: rotate(-13deg);
+  opacity: .92;
+  filter: drop-shadow(1px 1px 0 #ef2d3240);
+  text-shadow: 1px 0 #ef2d3255, -1px 0 #ef2d3230;
+}
+.gallery-heading { display: flex; justify-content: space-between; align-items: end; gap: 50px; margin-bottom: 52px; }
+.gallery-heading h2 { margin-bottom: 0; font: 800 clamp(42px, 5vw, 72px)/1 Manrope, 'IBM Plex Sans Thai', sans-serif; letter-spacing: -.045em; }
+.gallery-heading > p { width: min(100%, 590px); max-width: 590px; margin: 0; color: #536b7b; font-size: 18px; line-height: 1.8; text-wrap: pretty; }
+.photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.photo-item { position: relative; overflow: hidden; width: 100%; aspect-ratio: 16 / 10; margin: 0; background: #082f50; }
+.photo-item > button { position: relative; width: 100%; height: 100%; display: block; padding: 0; border: 0; background: transparent; cursor: zoom-in; overflow: hidden; }
+.photo-item img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: transform .7s cubic-bezier(.2,.8,.2,1), filter .35s ease; }
+.photo-item .photo-backdrop { display: none; }
+.photo-item .photo-main { object-fit: cover; object-position: center; z-index: 1; }
+.photo-item.teacher .photo-main { object-position: center 42%; }
+.photo-item.classroom .photo-main { object-position: center 45%; }
+.photo-item.group .photo-main, .photo-item.travel-experience .photo-main { object-position: center; }
+.photo-item:hover .photo-main { transform: scale(1.025); filter: saturate(1.06); }
+.photo-item figcaption { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 10px; padding: 24px 18px 13px; background: linear-gradient(transparent, #041d33dc); color: #fff; font: 700 9px Manrope; letter-spacing: .12em; }
+.photo-item figcaption span { color: var(--sky); }
+.photo-item figcaption b { margin-left: auto; color: #fff; font-size: 9px; }
+.photo-item.teacher, .photo-item.classroom, .photo-item.group, .photo-item.travel-experience { grid-column: auto; grid-row: auto; }
+.lightbox-open { overflow: hidden; }
+.gallery-lightbox { position: fixed; inset: 0; z-index: 9998; display: grid; grid-template-columns: 70px minmax(0, 1fr) 70px; align-items: center; padding: 28px; background: #031827f2; backdrop-filter: blur(8px); animation: gallery-in .22s ease; }
+.lightbox-content { min-width: 0; max-height: calc(100vh - 56px); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.lightbox-content img { max-width: 100%; max-height: calc(100vh - 110px); width: auto; height: auto; object-fit: contain; box-shadow: 0 24px 80px #0008; }
+.lightbox-content p { margin: 0; color: #fff; font-weight: 600; }
+.lightbox-content p span { margin-right: 10px; color: var(--sky); font: 700 11px Manrope; }
+.gallery-lightbox button { width: 50px; height: 50px; border: 1px solid #ffffff50; border-radius: 50%; background: #ffffff12; color: #fff; font-size: 25px; cursor: pointer; transition: .2s ease; }
+.gallery-lightbox button:hover { background: var(--red); border-color: var(--red); }
+.lightbox-close { position: absolute; top: 22px; right: 22px; z-index: 2; }
+.lightbox-prev { justify-self: start; }
+.lightbox-next { justify-self: end; }
+@keyframes gallery-in { from { opacity: 0; } }
+
+@media (max-width: 980px) {
+  .hero {
+    background-image:
+      linear-gradient(90deg, #f4f1e9fc 0%, #f4f1e9e8 58%, #f4f1e955 100%),
+      url('/hero-study-abroad.png');
+    background-position: 58% center;
+  }
+  .desktop-consult { display: none; }
+  .mobile-menu { display: block; }
+  .menu-toggle {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid #dbe4e9;
+    background: #fff;
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    cursor: pointer;
+    position: relative;
+    z-index: 12;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 21px;
+    height: 2px;
+    background: var(--navy);
+    transition: transform .28s ease, opacity .2s ease;
+  }
+  .mobile-menu.is-open .menu-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .mobile-menu.is-open .menu-toggle span:nth-child(2) { opacity: 0; }
+  .mobile-menu.is-open .menu-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu nav {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 12px max(5vw, 22px) 22px;
+    background: #fff;
+    border-top: 1px solid #eef2f4;
+    box-shadow: 0 22px 38px #072f5120;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity .22s ease, transform .28s ease, visibility 0s linear .28s;
+  }
+  .mobile-menu.is-open nav {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+  .mobile-menu nav a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 3px;
+    border-bottom: 1px solid #e4ebef;
+    font-weight: 600;
+  }
+  .mobile-menu nav a span { color: var(--red); }
+  .mobile-menu nav .mobile-consult {
+    margin-top: 12px;
+    padding: 15px 17px;
+    border: 0;
+    background: var(--red);
+    color: #fff;
+  }
+  .mobile-menu nav .mobile-consult span { color: #fff; }
+  .gallery-heading { align-items: start; flex-direction: column; gap: 20px; }
+  .photo-grid { gap: 12px; }
+}
+
+.path-grid article > button { padding-bottom: 72px; }
+
+/* Keep headings compact across languages and avoid isolated final words. */
+h1, h2, h3 { text-wrap: balance; }
+p, li, blockquote { text-wrap: pretty; }
+html[lang="en"] .hero h1 {
+  font-size: clamp(48px, 5.45vw, 78px);
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+.path-cta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity .25s ease, transform .3s cubic-bezier(.2,.8,.2,1), visibility 0s linear .3s;
+}
+.path-grid article.selected .path-cta {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+@media (max-width: 1100px) and (min-width: 641px) {
+  .path-grid article > button { padding-left: 28px; padding-right: 28px; }
+  .path-grid h3 { font-size: 25px; }
+  .path-cta { padding-left: 28px; padding-right: 28px; }
+}
+
+@media (max-width: 420px) {
+  .hero {
+    background-image:
+      linear-gradient(180deg, #f4f1e9fa 0%, #f4f1e9ed 64%, #f4f1e9b5 100%),
+      url('/hero-study-abroad.png');
+    background-position: 62% center;
+  }
+  .hero h1 { font-size: clamp(44px, 15vw, 52px); }
+  html[lang="en"] .hero h1 { font-size: clamp(36px, 11vw, 46px); }
+  .heading h2, .learning h2, .uk h2, .about h2, .travel h2, .contact h2 { font-size: clamp(36px, 11vw, 46px); }
+  .trust { flex-wrap: wrap; }
+  .travel { padding-left: 22px; padding-right: 22px; }
+  .travel span { min-width: 0; width: 100%; }
+  .intro-caption { left: 18px; right: 18px; font-size: 7px; letter-spacing: .12em; }
+  .gallery-heading h2 { font-size: clamp(36px, 11vw, 46px); }
+  .gallery-heading > p { font-size: 16px; }
+  .partners { padding: 42px 0 46px; }
+  .partners h2 { margin: 7px 18px 26px; font-size: 28px; }
+  .partners .kicker { padding: 0 18px; }
+  .partner-strip { padding: 12px 18px; }
+  .partner-static { gap: 22px; min-height: 72px; }
+  .partner-static > span { height: 48px; }
+  .partner-mark { height: 62px; }
+  .learning-plus-mark { width: min(66vw, 245px); }
+  .learning-plus-mark img { width: min(100%, 225px); height: auto; max-height: 48px; }
+  .stafford-mark { width: 82px; }
+  .stafford-mark img { width: 56px; height: 56px; }
+  .photo-grid { grid-template-columns: 1fr; gap: 10px; }
+  .photo-item, .photo-item.teacher, .photo-item.classroom, .photo-item.group, .photo-item.travel-experience { width: 100%; height: auto; aspect-ratio: 16 / 10; }
+  .passport b { margin-top: 52px; }
+  .gallery-lightbox { grid-template-columns: 48px minmax(0, 1fr) 48px; padding: 18px 8px; }
+  .gallery-lightbox button { width: 42px; height: 42px; font-size: 20px; }
+  .lightbox-close { top: 12px; right: 12px; }
+  .lightbox-content img { max-height: calc(100vh - 130px); }
+}
+
+@media (max-width: 760px) {
+  .contact-intro { padding: 34px 22px; }
+  .social-contacts { grid-template-columns: 1fr; }
+  .contact-map { grid-template-columns: 1fr; }
+  .contact-map > div { padding: 28px 22px; }
+  .contact-map iframe { height: 320px; }
+}
+
+@media (max-width: 340px) {
+  .hero, .section { padding-left: 16px; padding-right: 16px; }
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero-copy, .contact > div, .contact form { width: 100%; min-width: 0; }
+  .hero h1 { font-size: 36px; line-height: .98; }
+  html[lang="en"] .hero h1 { font-size: 34px; }
+  .heading h2, .learning h2, .uk h2, .about h2, .travel h2, .contact h2, .gallery-heading h2 { font-size: 32px; }
+  .kicker { min-width: 0; flex-wrap: wrap; font-size: 9px; letter-spacing: .08em; }
+  .contact { grid-template-columns: minmax(0, 1fr); }
+  .contact form { padding: 24px 16px; }
+  .details a { overflow-wrap: anywhere; font-size: 17px; }
+  .brand img { width: 112px; }
+  .site-header { padding-left: 10px; padding-right: 10px; }
+  .language-switcher button { padding-left: 1px; padding-right: 1px; }
+  .menu-toggle { width: 40px; height: 40px; }
+}

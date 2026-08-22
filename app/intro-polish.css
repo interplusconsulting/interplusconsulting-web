@@ -1,0 +1,32 @@
+.intro-screen {
+  contain: layout paint;
+}
+
+.intro-door {
+  transition-duration: .85s;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.intro-screen.is-opening .intro-door-left {
+  transform: translate3d(-100%, 0, 0) rotateY(7deg);
+}
+
+.intro-screen.is-opening .intro-door-right {
+  transform: translate3d(100%, 0, 0) rotateY(-7deg);
+}
+
+.intro-content {
+  transition-duration: .2s, .32s;
+  will-change: opacity, transform;
+}
+
+.intro-screen.is-opening .intro-content {
+  transform: scale(.975);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-door { transition-duration: .2s; }
+}
+.intro-screen::after { display: none !important; }
+.intro-door-left, .intro-door-right { border-left: 0 !important; border-right: 0 !important; }
