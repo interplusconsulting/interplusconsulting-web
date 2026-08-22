@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { smoothScrollToElement } from './smooth-scroll';
 
 const paths = [
   { id:'seasonal', duration:'3-6 เดือน', title:'Seasonal Work', description:'โครงการทำงานตามฤดูกาล เปิดประสบการณ์ใหม่ในระยะเวลาที่พอดี' },
@@ -28,7 +29,7 @@ export default function WorkPathways() {
         <span className="path-arrow">↗</span><small>{path.duration}</small><h3>{path.title}</h3><p>{path.description}</p>
         <span className="selection-label">{active ? 'เลือกแล้ว ✓' : 'เลือกโปรแกรมนี้'}</span>
       </button>
-      <a className="path-cta" href="#contact" onClick={() => selectProgram(path)}>สนใจโปรแกรมนี้ <span>→</span></a>
+      <a className="path-cta" href="#contact" onClick={event => { event.preventDefault(); selectProgram(path); smoothScrollToElement('#contact'); }}>สนใจโปรแกรมนี้ <span>→</span></a>
     </article>;
   })}</div>;
 }

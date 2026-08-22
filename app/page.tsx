@@ -5,6 +5,7 @@ import MobileMenu from './mobile-menu';
 import ExperienceGallery from './experience-gallery';
 import ContactForm from './contact-form';
 import ServiceCards from './service-cards';
+import ScrollToTop from './scroll-to-top';
 
 const steps = [
   ['01', 'คุยกับที่ปรึกษา', 'เล่าเป้าหมาย งบประมาณ และช่วงเวลาที่ต้องการ'],
@@ -25,7 +26,7 @@ function Brand() {
 }
 
 export default function Home() {
-  return <main><LoadingIntro />
+  return <main><LoadingIntro /><ScrollToTop />
     <header className="site-header"><a href="#top" aria-label="หน้าแรก"><Brand /></a><nav className="desktop-nav" aria-label="เมนูหลัก"><a href="#services">บริการ</a><a href="#about">เกี่ยวกับเรา</a><a href="#process">ขั้นตอน</a></nav><div className="header-actions"><LanguageSwitcher/><a className="button small desktop-consult" href="#contact">ปรึกษาฟรี ↗</a><MobileMenu /></div></header>
 
     <section className="hero" id="top"><div className="orbit one"/><div className="orbit two"/><div className="hero-copy"><p className="kicker"><i/> INTERNATIONAL EDUCATION & CAREER GUIDANCE</p><h1>เปิดประตูสู่<br/><em>โอกาสใหม่</em><br/>ทั่วโลก</h1><p className="lead">วางแผนการเรียน การทำงาน และการเดินทางต่างประเทศอย่างมั่นใจ ด้วยทีมที่ปรึกษาที่ดูแลคุณทุกขั้นตอน</p><div className="actions"><a className="button" href="#contact">เริ่มวางแผนกับเรา ↗</a><a className="text-link" href="#services">ดูบริการทั้งหมด ↓</a></div><div className="trust"><div><b>10+</b><span>ปีแห่งประสบการณ์</span></div><div><b>4</b><span>บริการหลักครบวงจร</span></div><div><b>1:1</b><span>ดูแลแบบรายบุคคล</span></div></div></div><div className="hero-art"><div className="passport"><small>YOUR NEXT CHAPTER</small><b>GO<br/>BEYOND</b><span>INTER<br/>PLUS</span></div><div className="ticket"><small>FROM THAILAND</small><b>TO THE<br/>WORLD</b></div><div className="note">เรียน • ทำงาน • เดินทาง<br/><b>เรื่องยาก เราช่วยให้ง่าย</b></div></div></section>

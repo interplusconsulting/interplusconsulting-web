@@ -355,3 +355,22 @@ html[lang="en"] .hero h1 {
 .service-modal li::before { content: '✓'; float: left; margin-left: -26px; color: var(--red); font-weight: 800; }
 .modal-open { overflow: hidden; }
 @media(max-width:640px){.service-card-trigger{min-height:340px;padding:26px 22px}.service-card > .service-actions{grid-template-columns:1fr}.service-card.selected .service-actions{max-height:140px}.service-actions button{min-height:62px}.service-interest-button{border-left:0!important;border-top:1px solid var(--line)!important}.service-modal{padding:34px 24px}}
+
+/* Floating back-to-top control */
+.scroll-to-top { position: fixed; right: clamp(16px,2.2vw,34px); bottom: clamp(18px,2.5vw,36px); z-index: 9000; width: 54px; height: 54px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: var(--navy); color: #fff; box-shadow: 0 12px 35px rgba(4,47,80,.28); opacity: 0; visibility: hidden; transform: translateY(34px) scale(.9); cursor: pointer; transition: opacity .45s ease,visibility .45s,transform .55s cubic-bezier(.16,1,.3,1),background .2s; }
+.scroll-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.scroll-to-top:hover { background: var(--red); transform: translateY(-4px); }
+.scroll-to-top:focus-visible { outline: 3px solid #55b7d9; outline-offset: 4px; }
+.scroll-to-top svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.scroll-to-top.visible svg { animation: scroll-arrow-float 1.8s ease-in-out infinite; }
+@keyframes scroll-arrow-float { 0%,100%{transform:translateY(2px)} 50%{transform:translateY(-3px)} }
+@media(max-width:640px){.scroll-to-top{width:48px;height:48px;right:14px;bottom:16px}}
+@media(prefers-reduced-motion:reduce){.scroll-to-top{transition:none}.scroll-to-top:hover{transform:none}.scroll-to-top.visible svg{animation:none}}
+
+/* Smooth loading-screen exit: avoid 3D edge slivers and finish before unmount. */
+.intro-screen { perspective: none; }
+.intro-door { width: 50.2%; transition-duration: .72s; transition-timing-function: cubic-bezier(.65,0,.25,1); backface-visibility: hidden; }
+.intro-door-left,.intro-door-right { transform-origin: center; }
+.intro-screen.is-opening .intro-door-left { transform: translate3d(-102%,0,0); }
+.intro-screen.is-opening .intro-door-right { transform: translate3d(102%,0,0); }
+.intro-content { transition-duration: .24s,.36s; }

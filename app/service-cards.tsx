@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { smoothScrollToElement } from './smooth-scroll';
 
 type Service = {
   icon: 'learning' | 'uk' | 'work' | 'travel';
@@ -40,7 +41,7 @@ export default function ServiceCards() {
     window.dispatchEvent(new CustomEvent('interplus:program-selected', {
       detail: { service: service.title, message: `สนใจบริการ ${service.title}\nรายละเอียด: ${service.text}` },
     }));
-    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    smoothScrollToElement('#contact');
   };
 
   return <>

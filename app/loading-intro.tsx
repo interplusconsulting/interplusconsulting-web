@@ -19,8 +19,8 @@ export default function LoadingIntro() {
   const [phase, setPhase] = useState<'show' | 'leave' | 'done'>('show');
 
   useEffect(() => {
-    const leaveTimer = window.setTimeout(() => setPhase('leave'), 1480);
-    const doneTimer = window.setTimeout(() => setPhase('done'), 2380);
+    const leaveTimer = window.setTimeout(() => setPhase('leave'), 1180);
+    const doneTimer = window.setTimeout(() => setPhase('done'), 2100);
     return () => {
       window.clearTimeout(leaveTimer);
       window.clearTimeout(doneTimer);
@@ -30,7 +30,9 @@ export default function LoadingIntro() {
   if (phase === 'done') return null;
 
   return (
-    <div className={`intro-screen ${phase === 'leave' ? 'is-opening' : ''}`} aria-label="กำลังเข้าสู่เว็บไซต์">
+    <div className={`intro-screen ${phase === 'leave' ? 'is-opening' : ''}`} aria-label="กำลังเข้าสู่เว็บไซต์" onTransitionEnd={event => {
+      if (phase === 'leave' && (event.target as HTMLElement).classList.contains('intro-door-right')) setPhase('done');
+    }}>
       <div className="intro-door intro-door-left" aria-hidden="true" />
       <div className="intro-door intro-door-right" aria-hidden="true" />
       <div className="intro-content">
