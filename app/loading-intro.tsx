@@ -34,7 +34,7 @@ export default function LoadingIntro() {
       <div className="intro-door intro-door-left" aria-hidden="true" />
       <div className="intro-door intro-door-right" aria-hidden="true" />
       <div className="intro-content">
-        <div className="intro-logo"><img src="/inter-plus-logo-transparent.png" alt="Inter Plus Consulting" /></div>
+        <div className="intro-logo"><img src="/inter-plus-logo-transparent.webp" alt="Inter Plus Consulting" /></div>
         <h1>
           <WaveLine text="เปิดประตูสู่" className="intro-line-small" offset={0.15} />
           <WaveLine text="โอกาสใหม่" className="intro-line-accent" offset={0.3} />

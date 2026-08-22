@@ -20,14 +20,14 @@ const steps = [
 ];
 
 const experiencePhotos = [
-  { src: '/experience/experience-02.png', alt: 'ครูผู้สอน Inter Plus Consulting', caption: 'ครูผู้สอน', kind: 'teacher' },
-  { src: '/experience/experience-07.png', alt: 'บรรยากาศภายในห้องเรียน', caption: 'บรรยากาศการเรียน', kind: 'classroom' },
-  { src: '/experience/experience-08.png', alt: 'บรรยากาศกิจกรรมกลุ่มของผู้เรียน', caption: 'กิจกรรมของผู้เรียน', kind: 'group' },
-  { src: '/experience/experience-05.png', alt: 'บรรยากาศการเดินทางและกิจกรรมต่างประเทศ', caption: 'ประสบการณ์ต่างประเทศ', kind: 'travel-experience' },
+  { src: '/experience/experience-02.webp', alt: 'ครูผู้สอน Inter Plus Consulting', caption: 'ครูผู้สอน', kind: 'teacher' },
+  { src: '/experience/experience-07.webp', alt: 'บรรยากาศภายในห้องเรียน', caption: 'บรรยากาศการเรียน', kind: 'classroom' },
+  { src: '/experience/experience-08.webp', alt: 'บรรยากาศกิจกรรมกลุ่มของผู้เรียน', caption: 'กิจกรรมของผู้เรียน', kind: 'group' },
+  { src: '/experience/experience-05.webp', alt: 'บรรยากาศการเดินทางและกิจกรรมต่างประเทศ', caption: 'ประสบการณ์ต่างประเทศ', kind: 'travel-experience' },
 ];
 
 function Brand() {
-  return <span className="brand"><img src="/inter-plus-logo-transparent.png" alt="Inter Plus Consulting" /></span>;
+  return <span className="brand"><img src="/inter-plus-logo-transparent.webp" alt="Inter Plus Consulting" /></span>;
 }
 
 export default function Home() {
@@ -42,15 +42,15 @@ export default function Home() {
 
     <section className="learning"><div className="learning-copy"><p className="kicker light"><i/> LEARNING PLUS BY KRU JEW</p><h2>ภาษาอังกฤษ<br/>ที่พาคุณไปถึง<br/><em>เป้าหมายจริง</em></h2><p>เรียนตัวต่อตัว กลุ่มเล็ก ออนไลน์ ออนไซต์ หรือ Hybrid ปรับบทเรียนให้เหมาะกับระดับและเป้าหมายของผู้เรียน</p><a className="button white" href="#contact">สอบถามคอร์สเรียน ↗</a></div><div className="course-list">{[['01','Test Preparation','TOEFL · IELTS · CU-TEP · TU-GET · KEPT'],['02','Academic & Admission','ม.1 / ม.4 · TCAS · NETSAT · TGAT · A-Level'],['03','Global Readiness','เตรียมภาษาเพื่อเรียนต่อและทำงานต่างประเทศ'],['04','Thai for Foreigners','คอร์สภาษาไทยสำหรับชาวต่างชาติ']].map(c=><article className="course" key={c[0]}><b>{c[0]}</b><div><h3>{c[1]}</h3><p>{c[2]}</p></div></article>)}</div></section>
 
-    <section className="section uk"><div className="uk-panel"><div className="uk-art"><img src="/the-uk-enhanced.png" alt="ธงสหราชอาณาจักรและหอนาฬิกาบิ๊กเบน" /></div><div className="uk-copy"><p className="eyebrow">SUMMER UK COURSE</p><h2>เรียนภาษาอังกฤษ<br/>พร้อมใช้ชีวิตจริง<br/>ที่ Cambridge</h2><p>สัมผัสบรรยากาศเมืองมหาวิทยาลัยชั้นนำ เรียนภาษา ทำกิจกรรม และพักกับ Host Family อย่างปลอดภัย</p><div><span>2-3 สัปดาห์</span><span>เรียน 30 ชั่วโมง</span><span>Certificate</span></div></div></div><blockquote>“เราไม่ได้พาไปแค่เรียนภาษา แต่พาไปค้นพบความมั่นใจและโลกใบใหม่”</blockquote></section>
+    <section className="section uk"><div className="uk-panel"><div className="uk-art"><img src="/the-uk-enhanced.webp" alt="ธงสหราชอาณาจักรและหอนาฬิกาบิ๊กเบน" /></div><div className="uk-copy"><p className="eyebrow">SUMMER UK COURSE</p><h2>เรียนภาษาอังกฤษ<br/>พร้อมใช้ชีวิตจริง<br/>ที่ Cambridge</h2><p>สัมผัสบรรยากาศเมืองมหาวิทยาลัยชั้นนำ เรียนภาษา ทำกิจกรรม และพักกับ Host Family อย่างปลอดภัย</p><div><span>2-3 สัปดาห์</span><span>เรียน 30 ชั่วโมง</span><span>Certificate</span></div></div></div><blockquote>“เราไม่ได้พาไปแค่เรียนภาษา แต่พาไปค้นพบความมั่นใจและโลกใบใหม่”</blockquote></section>
 
     <section className="section pathways"><div className="heading"><div><p className="kicker"><i/> WORK & TRAVEL ABROAD</p><h2>เลือกเส้นทางที่เหมาะ<br/>กับจังหวะชีวิตคุณ</h2></div></div><WorkPathways /></section>
 
     <section className="section process" id="process"><div className="heading"><div><p className="kicker light"><i/> SIMPLE PROCESS</p><h2>4 ขั้นตอน<br/>สู่เป้าหมายของคุณ</h2></div><p>เรื่องต่างประเทศไม่จำเป็นต้องซับซ้อน เมื่อมีคนที่เข้าใจคอยเดินไปกับคุณ</p></div><div className="steps">{steps.map(s=><article key={s[0]}><b>{s[0]}</b><h3>{s[1]}</h3><p>{s[2]}</p></article>)}</div></section>
 
-    <section className="section about" id="about"><div className="about-art"><img src="/about-consultation.png" alt="ที่ปรึกษา Inter Plus กำลังวางแผนการศึกษาต่อต่างประเทศกับผู้เรียน" /></div><div className="about-copy"><p className="kicker"><i/> WHY INTER PLUS</p><h2>คำแนะนำที่ดี<br/>เปลี่ยนอนาคตได้</h2><p>Inter Plus Consulting เชื่อว่าทุกคนมีเส้นทางที่เหมาะกับตัวเอง เราจึงเริ่มจากการฟัง ทำความเข้าใจ และวางแผนอย่างตรงจุด ไม่ขายฝัน แต่ช่วยให้คุณเห็นทางเลือกที่เป็นไปได้จริง</p><ul><li>ทีมงานมีประสบการณ์และเข้าใจระบบต่างประเทศ</li><li>ดูแลครบตั้งแต่เลือกโปรแกรมจนถึงวันเดินทาง</li><li>ให้คำปรึกษาอย่างจริงใจและเหมาะกับแต่ละบุคคล</li></ul></div></section>
+    <section className="section about" id="about"><div className="about-art"><img src="/about-consultation.webp" alt="ที่ปรึกษา Inter Plus กำลังวางแผนการศึกษาต่อต่างประเทศกับผู้เรียน" /></div><div className="about-copy"><p className="kicker"><i/> WHY INTER PLUS</p><h2>คำแนะนำที่ดี<br/>เปลี่ยนอนาคตได้</h2><p>Inter Plus Consulting เชื่อว่าทุกคนมีเส้นทางที่เหมาะกับตัวเอง เราจึงเริ่มจากการฟัง ทำความเข้าใจ และวางแผนอย่างตรงจุด ไม่ขายฝัน แต่ช่วยให้คุณเห็นทางเลือกที่เป็นไปได้จริง</p><ul><li>ทีมงานมีประสบการณ์และเข้าใจระบบต่างประเทศ</li><li>ดูแลครบตั้งแต่เลือกโปรแกรมจนถึงวันเดินทาง</li><li>ให้คำปรึกษาอย่างจริงใจและเหมาะกับแต่ละบุคคล</li></ul></div></section>
 
-    <section className="partners"><p className="kicker center"><i/> OUR EDUCATION NETWORK</p><h2>สถาบันที่ร่วมงานกับเรา</h2><div className="partner-strip"><div className="partner-static"><div className="partner-mark learning-plus-mark"><img src="/learning-plus-partner.png" alt="Learning Plus By Kru Jew" /></div><span aria-hidden="true"/><div className="partner-mark stafford-mark"><img src="/stafford-house-partner.png" alt="Stafford House Study Holidays" /></div></div></div></section>
+    <section className="partners"><p className="kicker center"><i/> OUR EDUCATION NETWORK</p><h2>สถาบันที่ร่วมงานกับเรา</h2><div className="partner-strip"><div className="partner-static"><div className="partner-mark learning-plus-mark"><img src="/learning-plus-partner.webp" alt="Learning Plus By Kru Jew" /></div><span aria-hidden="true"/><div className="partner-mark stafford-mark"><img src="/stafford-house-partner.webp" alt="Stafford House Study Holidays" /></div></div></div></section>
 
     <section className="section experience-gallery"><div className="gallery-heading"><div><p className="kicker"><i/> OUR GALLERY</p><h2>ภาพบรรยากาศ</h2></div><p>บรรยากาศการเรียนและกิจกรรมที่ช่วยเปิดโลกใหม่ให้ผู้เรียนของเรา</p></div><ExperienceGallery photos={experiencePhotos}/></section>
 

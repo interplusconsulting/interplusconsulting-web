@@ -6,7 +6,7 @@ h1, h2, h3, p, a, label { overflow-wrap: break-word; }
   grid-template-columns: 1fr;
   background-image:
     linear-gradient(90deg, #f4f1e9fc 0%, #f4f1e9ed 35%, #f4f1e980 55%, #f4f1e908 76%),
-    url('/hero-study-abroad.png');
+    url('/hero-study-abroad.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -19,10 +19,10 @@ h1, h2, h3, p, a, label { overflow-wrap: break-word; }
 .experience-gallery { background: #fff; }
 .uk-art { display: block; overflow: hidden; background: var(--navy); }
 .uk-art img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
-.ticket { background: #073b67 url('/thailand-to-world.png') center / cover no-repeat; color: #fff; overflow: hidden; }
+.ticket { background: #073b67 url('/thailand-to-world.webp') center / cover no-repeat; color: #fff; overflow: hidden; }
 .ticket::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #031f3bd9 0%, #06355da8 54%, #061d3240 100%); }
 .ticket small, .ticket b { position: relative; z-index: 1; text-shadow: 0 2px 12px #00182dcc; }
-.passport { background: #073b67 url('/passport-journey.png') center / cover no-repeat; }
+.passport { background: #073b67 url('/passport-journey.webp') center / cover no-repeat; }
 .passport::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, #031a31c7 0%, #052b4f8f 48%, #041a2fc7 100%); }
 .passport::after { display: none; }
 .passport small, .passport b { position: relative; z-index: 1; text-shadow: 0 2px 14px #00182de0; }
@@ -84,7 +84,7 @@ h1, h2, h3, p, a, label { overflow-wrap: break-word; }
   .hero {
     background-image:
       linear-gradient(90deg, #f4f1e9fc 0%, #f4f1e9e8 58%, #f4f1e955 100%),
-      url('/hero-study-abroad.png');
+      url('/hero-study-abroad.webp');
     background-position: 58% center;
   }
   .desktop-consult { display: none; }
@@ -195,7 +195,7 @@ html[lang="en"] .hero h1 {
   .hero {
     background-image:
       linear-gradient(180deg, #f4f1e9fa 0%, #f4f1e9ed 64%, #f4f1e9b5 100%),
-      url('/hero-study-abroad.png');
+      url('/hero-study-abroad.webp');
     background-position: 62% center;
   }
   .hero h1 { font-size: clamp(44px, 15vw, 52px); }

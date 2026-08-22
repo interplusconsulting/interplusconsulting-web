@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type Photo = { src: string; alt: string; caption: string; kind: string };
 
 export default function ExperienceGallery({ photos }: { photos: Photo[] }) {
   const [active, setActive] = useState<number | null>(null);
 
-  const move = (step: number) => setActive(current => current === null ? null : (current + step + photos.length) % photos.length);
+  const move = useCallback((step: number) => {
+    setActive(current => current === null ? null : (current + step + photos.length) % photos.length);
+  }, [photos.length]);
 
   useEffect(() => {
     if (active === null) return;
@@ -22,7 +24,7 @@ export default function ExperienceGallery({ photos }: { photos: Photo[] }) {
       document.body.classList.remove('lightbox-open');
       window.removeEventListener('keydown', onKey);
     };
-  }, [active]);
+  }, [active, move]);
 
   return <>
     <div className="photo-grid">{photos.map((photo, index) =>
