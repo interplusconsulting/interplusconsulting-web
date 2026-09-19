@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Inter Plus Consulting | เรียน ทำงาน และเดินทางต่างประเทศ',
   description: 'ที่ปรึกษาด้านการศึกษา การทำงาน และการเดินทางต่างประเทศ ดูแลครบทุกขั้นตอน',
   alternates: { canonical: '/' },
+  verification: { google: 'Pqklg76BiL2lNeC8Ksme0RBOEo9Qx8lyk-nWkpHXDk4' },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
