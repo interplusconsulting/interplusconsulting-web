@@ -2,53 +2,38 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { smoothScrollToElement } from './smooth-scroll';
-
-const announcements = [
-  {
-    image: '/announcements/english-m1-m3.jpg',
-    fullImage: '/announcements/english-m1-m3.jpg',
-    label: 'ENGLISH COURSE · ม.ต้น',
-    title: 'คอร์สภาษาอังกฤษ ม.1–ม.3 ภาคเรียนที่ 2/2569',
-    description: 'ปูพื้นฐานไวยากรณ์และโครงสร้างภาษา พร้อมเตรียมสอบเข้า ม.4 ห้องพิเศษและโครงการดัง รับจำนวนจำกัด 15 ที่นั่ง',
-  },
-  {
-    image: '/announcements/english-m4-m6.jpg',
-    fullImage: '/announcements/english-m4-m6.jpg',
-    label: 'ENGLISH COURSE · ม.ปลาย',
-    title: 'คอร์สภาษาอังกฤษ ม.4–ม.6 ภาคเรียนที่ 2/2569',
-    description: 'ปรับพื้นฐานและเตรียมสอบมหาวิทยาลัย ครอบคลุม TOEFL ITP, IELTS, KEPT, CU-TEP, NETSAT, TGAT และ A-Level รับ 15 ที่นั่ง',
-  },
-  {
-    image: '/announcements/canterbury-summer.jpg',
-    fullImage: '/announcements/canterbury-summer.jpg',
-    label: 'SUMMER UK 2027',
-    title: 'ใช้ชีวิตแบบชาวลอนดอน เรียนภาษาอังกฤษที่ Canterbury',
-    description: 'แพ็กเกจ All-inclusive เรียน Speaking for IELTS 30 ชั่วโมง พร้อมที่พัก อาหาร กิจกรรม ทัศนศึกษา ตั๋วเครื่องบินและประกันการเดินทาง',
-  },
-  {
-    image: '/announcements/canterbury-experience.jpg',
-    fullImage: '/announcements/canterbury-experience.jpg',
-    label: 'LIVE · LEARN · EXPLORE',
-    title: 'สัมผัสชีวิตจริงและเรียนรู้ที่ Canterbury',
-    description: 'เรียนภาษาอังกฤษผ่านประสบการณ์จริง พัก Residence Apartment ใจกลางเมือง พร้อมกิจกรรมและทัศนศึกษาที่ออกแบบให้เรียนรู้วัฒนธรรมอย่างเต็มที่',
-  },
-  {
-    image: '/announcements/canterbury-payment-plan.jpg',
-    fullImage: '/announcements/canterbury-payment-plan.jpg',
-    label: 'EDUCATION PLAN · UK 2027',
-    title: 'แผนการชำระเงินโปรแกรม Canterbury UK 2027',
-    description: 'ราคาพิเศษ 164,000 บาทเมื่อจองล่วงหน้า แบ่งชำระ 3 งวด รวมวีซ่า ที่พัก คอร์สเรียน อาหาร ประกัน และทริปท่องเที่ยว',
-  },
-];
+import { initialAnnouncementData, type Announcement } from '../lib/announcement-data';
 
 export default function Announcements() {
+  const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncementData);
   const announcementTrack = useRef<HTMLDivElement>(null);
   const announcementPosition = useRef(0);
   const announcementResetTimer = useRef<number | null>(null);
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupIndex, setPopupIndex] = useState(0);
-  const [preview, setPreview] = useState<number | null>(null);
+  const [preview, setPreview] = useState<{ index: number; image: number } | null>(null);
+  const [expandedImage, setExpandedImage] = useState(false);
   const activeAnnouncement = announcements[popupIndex];
+  const previewAnnouncement = preview === null ? null : announcements[preview.index];
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') return;
+    const refresh = async () => {
+      try {
+        const response = await fetch('/api/local-announcements', { cache: 'no-store' });
+        if (!response.ok) return;
+        const items: Announcement[] = await response.json();
+        setAnnouncements(items);
+        setPopupIndex(0);
+        announcementPosition.current = 0;
+      } catch { /* Keep bundled content if the local API is unavailable. */ }
+    };
+    void refresh();
+    const channel = new BroadcastChannel('local-announcements');
+    channel.onmessage = () => { void refresh(); };
+    window.addEventListener('focus', refresh);
+    return () => { channel.close(); window.removeEventListener('focus', refresh); };
+  }, []);
 
   const moveAnnouncementTrack = useCallback((direction: number) => {
     const track = announcementTrack.current;
@@ -69,10 +54,10 @@ export default function Announcements() {
         track.scrollLeft = 0;
       }, 850);
     }
-  }, []);
+  }, [announcements.length]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setPopupOpen(true), 2050);
+    const timer = window.setTimeout(() => { if (initialAnnouncementData.length) setPopupOpen(true); }, 2050);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -94,7 +79,8 @@ export default function Announcements() {
     if (!popupOpen && preview === null) return;
     const close = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
-      if (preview !== null) setPreview(null);
+      if (expandedImage) setExpandedImage(false);
+      else if (preview !== null) setPreview(null);
       else setPopupOpen(false);
     };
     document.addEventListener('keydown', close);
@@ -103,7 +89,12 @@ export default function Announcements() {
       document.removeEventListener('keydown', close);
       document.body.classList.remove('modal-open');
     };
-  }, [popupOpen, preview]);
+  }, [popupOpen, preview, expandedImage]);
+
+  const closePreview = () => {
+    setExpandedImage(false);
+    setPreview(null);
+  };
 
   const showAllAnnouncements = () => {
     setPopupOpen(false);
@@ -125,7 +116,7 @@ export default function Announcements() {
     <section className="section announcements" id="announcements">
       <div className="heading">
         <div><p className="kicker"><i/> NEWS & ANNOUNCEMENTS</p><h2>ข่าวสารและ<br/><em>ประกาศล่าสุด</em></h2></div>
-        <p>ติดตามโครงการ คอร์สเรียน และโอกาสใหม่จาก Inter Plus Consulting กดที่รูปเพื่อดูประกาศขนาดใหญ่</p>
+        <p>ติดตามโครงการ คอร์สเรียน และโอกาสใหม่จาก Inter Plus Consulting กดที่ประกาศเพื่อดูรายละเอียด</p>
       </div>
       <div className="announcement-carousel">
         <div className="announcement-carousel-controls" aria-label="เลื่อนดูประกาศ">
@@ -133,21 +124,20 @@ export default function Announcements() {
           <span>เลื่อนดูประกาศ</span>
           <button type="button" onClick={() => scrollAnnouncements(1)} aria-label="ดูประกาศถัดไป">→</button>
         </div>
-        <div className="announcement-grid" ref={announcementTrack}>{[...announcements, ...announcements].map((announcement, renderIndex) => {
+        <div className="announcement-grid" ref={announcementTrack}>{announcements.length === 0 && <p>ยังไม่มีประกาศ</p>}{[...announcements, ...announcements].map((announcement, renderIndex) => {
           const index = renderIndex % announcements.length;
           const isClone = renderIndex >= announcements.length;
-          return <article className="announcement-card" id={isClone ? undefined : `announcement-${index}`} aria-hidden={isClone || undefined} key={`${announcement.title}-${renderIndex}`}>
-            <button type="button" className="announcement-image" tabIndex={isClone ? -1 : undefined} onClick={() => setPreview(index)} aria-label={`ขยายรูปประกาศ ${announcement.title}`}>
-              <img src={announcement.image} alt={announcement.title} />
-              <span>ขยายรูป ↗</span>
+          return <article className="announcement-card" id={isClone ? undefined : `announcement-${index}`} aria-hidden={isClone || undefined} key={`${announcement.id}-${renderIndex}`}>
+            <button type="button" className="announcement-card-button" tabIndex={isClone ? -1 : undefined} onClick={() => setPreview({ index, image: 0 })} aria-label={`ดูรายละเอียดประกาศ ${announcement.title}`}>
+              <span className="announcement-image"><img src={announcement.image} alt="" /><span>ดูรายละเอียด ↗</span></span>
+              <span className="announcement-card-copy"><span className="eyebrow">{announcement.label}</span><strong>{announcement.title}</strong><span>{announcement.description}</span></span>
             </button>
-            <div><p className="eyebrow">{announcement.label}</p><h3>{announcement.title}</h3><p>{announcement.description}</p></div>
           </article>
         })}</div>
       </div>
     </section>
 
-    {popupOpen && <div className="announcement-popup-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setPopupOpen(false); }}>
+    {popupOpen && activeAnnouncement && <div className="announcement-popup-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setPopupOpen(false); }}>
       <section className="announcement-popup" role="dialog" aria-modal="true" aria-labelledby="announcement-popup-title">
         <button type="button" className="announcement-close" aria-label="ปิดประกาศ" onClick={() => setPopupOpen(false)}>×</button>
         <button type="button" className="announcement-popup-image" onClick={() => showAnnouncement(popupIndex)} aria-label="ไปยังประกาศ">
@@ -170,12 +160,28 @@ export default function Announcements() {
       </section>
     </div>}
 
-    {preview !== null && <div className="announcement-lightbox" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setPreview(null); }}>
-      <figure role="dialog" aria-modal="true" aria-label="รูปประกาศขนาดใหญ่">
-        <button type="button" className="announcement-close" aria-label="ปิดรูปประกาศ" onClick={() => setPreview(null)}>×</button>
-        <img src={announcements[preview].fullImage} alt={announcements[preview].title} />
-        <figcaption>{announcements[preview].title}</figcaption>
+    {preview !== null && <div className="announcement-lightbox" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) closePreview(); }}>
+      <figure className={previewAnnouncement?.details ? 'announcement-detail-dialog' : undefined} role="dialog" aria-modal="true" aria-label={`รายละเอียดประกาศ ${previewAnnouncement?.title}`}>
+        <button type="button" className="announcement-close" aria-label="ปิดรายละเอียดประกาศ" onClick={closePreview}>×</button>
+        <div className="announcement-detail-image"><button type="button" className="announcement-expand-image" onClick={() => setExpandedImage(true)} aria-label={`ขยายรูป ${previewAnnouncement?.title}`} title="คลิกเพื่อขยายรูป"><img src={previewAnnouncement?.gallery?.[preview.image] ?? previewAnnouncement?.fullImage} alt={`${previewAnnouncement?.title}${preview.image ? ' — แผนการเดินทาง' : ''}`} /><span>ขยายรูป ↗</span></button>
+          {previewAnnouncement?.gallery && <div className="announcement-gallery-controls" aria-label="ภาพประกาศและแผนการเดินทาง">
+            {previewAnnouncement.gallery.map((_, image) => <button type="button" className={preview.image === image ? 'active' : ''} key={image} onClick={() => setPreview({ index: preview.index, image })}>{image === 0 ? 'ภาพโปรโมชัน' : 'แผนการเดินทาง'}</button>)}
+          </div>}
+        </div>
+        <figcaption><h3>{previewAnnouncement?.title}</h3>{previewAnnouncement?.details && <div className="announcement-details">{previewAnnouncement.details.map(detail => <p className={detail.startsWith('•') ? 'announcement-detail-bullet' : detail.startsWith('#') ? 'announcement-detail-tags' : detail.startsWith('ราคาพิเศษ') ? 'announcement-detail-price' : undefined} key={detail}>{detail}</p>)}</div>}</figcaption>
       </figure>
+    </div>}
+
+    {expandedImage && preview !== null && previewAnnouncement && <div className="announcement-expanded-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setExpandedImage(false); }}>
+      <div className="announcement-expanded-dialog" role="dialog" aria-modal="true" aria-label={`รูปประกาศขนาดใหญ่ ${previewAnnouncement.title}`}>
+        <button type="button" className="announcement-expanded-close" onClick={() => setExpandedImage(false)} aria-label="ปิดรูปขนาดใหญ่">×</button>
+        <img src={previewAnnouncement.gallery?.[preview.image] ?? previewAnnouncement.fullImage} alt={`${previewAnnouncement.title}${preview.image ? ' — แผนการเดินทาง' : ''}`} />
+        {previewAnnouncement.gallery.length > 1 && <div className="announcement-expanded-controls">
+          <button type="button" onClick={() => setPreview({ index: preview.index, image: (preview.image - 1 + previewAnnouncement.gallery.length) % previewAnnouncement.gallery.length })} aria-label="รูปก่อนหน้า">←</button>
+          <span>{preview.image + 1} / {previewAnnouncement.gallery.length}</span>
+          <button type="button" onClick={() => setPreview({ index: preview.index, image: (preview.image + 1) % previewAnnouncement.gallery.length })} aria-label="รูปถัดไป">→</button>
+        </div>}
+      </div>
     </div>}
   </>;
 }
