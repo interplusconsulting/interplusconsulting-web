@@ -4,8 +4,10 @@ import './intro-polish.css';
 import './responsive-fixes.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://interplusconsulting-web.netlify.app'),
   title: 'Inter Plus Consulting | เรียน ทำงาน และเดินทางต่างประเทศ',
   description: 'ที่ปรึกษาด้านการศึกษา การทำงาน และการเดินทางต่างประเทศ ดูแลครบทุกขั้นตอน',
+  alternates: { canonical: '/' },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
