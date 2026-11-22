@@ -6,7 +6,7 @@ const thToEn: Record<string, string> = {
   'บริการ':'Services','เกี่ยวกับเรา':'About us','ขั้นตอน':'Process','ปรึกษาฟรี':'Free consultation','ปรึกษาฟรี ↗︎':'Free consultation ↗︎',
   'เปิดประตูสู่':'Open the door to','โอกาสใหม่':'new opportunities','ทั่วโลก':'around the world',
   'วางแผนการเรียน การทำงาน และการเดินทางต่างประเทศอย่างมั่นใจ ด้วยทีมที่ปรึกษาที่ดูแลคุณทุกขั้นตอน':'Plan your study, career and international journey with confidence, supported by advisors at every step.',
-  'เริ่มวางแผนกับเรา ↗︎':'Start planning with us ↗︎','ดูบริการทั้งหมด ↓':'Explore all services ↓','ปีแห่งประสบการณ์':'years of experience','บริการหลักครบวงจร':'complete core services','ดูแลแบบรายบุคคล':'personal guidance',
+  'เริ่มวางแผนกับเรา':'Start planning with us','ดูบริการทั้งหมด':'Explore all services','ปีแห่งประสบการณ์':'years of experience','บริการหลักครบวงจร':'complete core services','ดูแลแบบรายบุคคล':'personal guidance',
   'เรื่องยาก เราช่วยให้ง่าย':'We make complex journeys simple','เรียนภาษาอังกฤษ　✦　เรียนต่อ UK　✦　ทำงานต่างประเทศ　✦　วีซ่าและการเดินทาง　✦　ทัวร์ส่วนตัว':'English courses　✦　Study in the UK　✦　Work abroad　✦　Travel & visas　✦　Private tours','ม.1 / ม.4 · TCAS · NETSAT · TGAT · A-Level':'Grade 7 / Grade 10 · TCAS · NETSAT · TGAT · A-Level',
   'เรียนภาษาอังกฤษ':'English courses','เรียนต่อประเทศอังกฤษ':'Study in the UK','ทำงานต่างประเทศ':'Work abroad','ท่องเที่ยวและวีซ่า':'Travel & visa',
   'ทุกเป้าหมายของคุณ':'Every goal can','ไปได้ไกลกว่าเดิม':'go further','บริการแบบ One-Stop Service ตั้งแต่ค้นหาเส้นทางที่ใช่ เตรียมเอกสาร จนถึงวันที่คุณออกเดินทาง':'One-stop support from finding the right path and preparing documents to your departure day.',
