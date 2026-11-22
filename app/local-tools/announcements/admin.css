@@ -1,0 +1,45 @@
+.admin-page { min-height:100vh; background:#f7f5f0; color:#102b43; font-family:Arial,sans-serif; }
+.admin-header { display:flex; justify-content:space-between; align-items:end; gap:24px; padding:38px clamp(20px,5vw,72px); background:#103b60; color:#fff; }
+.admin-header p { margin:0 0 8px; color:#ff8a8a; font-size:12px; font-weight:800; letter-spacing:.12em; }
+.admin-header h1 { margin:0 0 8px; font-size:clamp(30px,4vw,48px); }
+.admin-header span { color:#d1e5f3; }
+.admin-header a { color:#103b60; background:#fff; padding:13px 18px; white-space:nowrap; text-decoration:none; font-weight:800; }
+.admin-layout { display:grid; grid-template-columns:minmax(270px,360px) minmax(0,1fr); gap:24px; max-width:1440px; margin:auto; padding:32px clamp(20px,5vw,72px) 70px; }
+.admin-list,.admin-editor { background:#fff; border:1px solid #dbe3e9; box-shadow:0 8px 30px #163b5910; }
+.admin-list { align-self:start; }
+.admin-list-header { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:20px; border-bottom:1px solid #dbe3e9; }
+.admin-list-header h2,.admin-editor h2 { margin:0; font-size:20px; }
+.admin-list-header button,.admin-actions button,.admin-upload { border:0; background:#ed2e36; color:#fff; font:700 14px Arial,sans-serif; padding:11px 14px; cursor:pointer; }
+.admin-list-item { display:flex; align-items:stretch; border-bottom:1px solid #e7ecef; }
+.admin-list-item.active { background:#e8f5fc; border-left:4px solid #ed2e36; }
+.admin-select { flex:1; min-width:0; display:flex; align-items:center; gap:12px; border:0; background:transparent; text-align:left; padding:12px; color:inherit; cursor:pointer; }
+.admin-select img { width:54px; height:70px; object-fit:cover; background:#eee; }
+.admin-select span { min-width:0; }
+.admin-select b { display:block; line-height:1.4; }
+.admin-select small { display:block; margin-top:5px; color:#687f91; }
+.admin-order { display:flex; flex-direction:column; justify-content:center; padding-right:10px; gap:4px; }
+.admin-order button { width:30px; height:28px; border:1px solid #dbe3e9; background:#fff; color:#103b60; cursor:pointer; }
+.admin-order button:disabled { opacity:.35; cursor:default; }
+.admin-editor { padding:clamp(20px,3vw,36px); }
+.admin-hint { color:#687f91; margin:8px 0 26px; }
+.admin-editor form { display:grid; gap:18px; }
+.admin-editor form>label { display:grid; gap:7px; font-weight:700; }
+.admin-editor input:not([type=file]),.admin-editor textarea { width:100%; padding:13px 14px; border:1px solid #bdccd6; border-radius:0; background:#fff; color:#102b43; font:400 15px/1.5 Arial,sans-serif; }
+.admin-editor input:focus,.admin-editor textarea:focus { outline:2px solid #2d81b9; outline-offset:1px; }
+.admin-images { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-top:5px; }
+.admin-images b,.admin-images small { display:block; }
+.admin-images small { margin-top:5px; color:#687f91; line-height:1.5; }
+.admin-upload { position:relative; white-space:nowrap; }
+.admin-upload input { position:absolute; width:1px; height:1px; opacity:0; }
+.admin-gallery { display:flex; flex-wrap:wrap; gap:12px; }
+.admin-gallery>div { width:108px; border:1px solid #dbe3e9; padding:6px; }
+.admin-gallery img { width:100%; aspect-ratio:3/4; object-fit:contain; background:#f1f1f1; }
+.admin-gallery span { display:block; font-size:12px; margin:5px 0; }
+.admin-gallery button { display:block; border:0; background:none; padding:2px 0; color:#c32b32; cursor:pointer; text-decoration:underline; }
+.admin-actions { display:flex; flex-wrap:wrap; gap:10px; padding-top:12px; border-top:1px solid #e7ecef; }
+.admin-actions button { min-width:140px; }
+.admin-actions button:disabled { opacity:.55; cursor:wait; }
+.admin-actions .admin-delete { background:#fff; color:#c32b32; border:1px solid #c32b32; }
+.admin-message { margin:0; padding:12px 14px; background:#e9f5fa; color:#123d5c; line-height:1.5; }
+@media(max-width:850px){.admin-layout{grid-template-columns:1fr}.admin-header{align-items:start}.admin-list{max-height:340px;overflow:auto}}
+@media(max-width:520px){.admin-header{flex-direction:column}.admin-images{align-items:start;flex-direction:column}.admin-upload{display:inline-block}}
