@@ -101,7 +101,7 @@ export default function AdminAnnouncements() {
   };
 
   return <main className="admin-page">
-    <header className="admin-header"><div><p>LOCAL ONLY · ไม่ต้องล็อกอิน</p><h1>จัดการประกาศ</h1><span>เพิ่ม แก้ไข ลบรูปและรายละเอียดได้จากเครื่องนี้</span></div><a href="/#announcements" target="_blank" rel="noreferrer">เปิดหน้าเว็บ ↗</a></header>
+    <header className="admin-header"><div><p>LOCAL ONLY · ไม่ต้องล็อกอิน</p><h1>จัดการประกาศ</h1><span>เพิ่ม แก้ไข ลบรูปและรายละเอียดได้จากเครื่องนี้</span></div><a href="/#announcements" target="_blank" rel="noreferrer">เปิดหน้าเว็บ ↗︎</a></header>
     <div className="admin-layout">
       <aside className="admin-list"><div className="admin-list-header"><h2>ประกาศทั้งหมด ({items.length})</h2><button type="button" onClick={() => select()}>+ เพิ่มใหม่</button></div>
         {items.map((item, index) => <div className={`admin-list-item ${draft.id === item.id ? 'active' : ''}`} key={item.id}>

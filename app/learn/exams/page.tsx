@@ -67,7 +67,7 @@ export default function ExamLibraryPage() {
           {forSale && !exam.has_access && <strong className="ip-price"><PriceTag price={exam.price} compareAt={exam.compare_at_price} /></strong>}
           {!forSale && exam.course_id && !exam.has_access && <small className="ip-muted">รวมอยู่ในคอร์ส “{exam.course_title}”</small>}
           {exam.has_access
-            ? <a className="ip-btn" href={exam.url} target="_blank" rel="noreferrer">เริ่มทำข้อสอบ ↗</a>
+            ? <a className="ip-btn" href={exam.url} target="_blank" rel="noreferrer">เริ่มทำข้อสอบ ↗︎</a>
             : freeToClaim
               ? <button type="button" className="ip-btn" disabled={claiming === exam.id} onClick={() => void claim(exam)}>{claiming === exam.id ? 'กำลังรับ…' : 'รับฟรี'}</button>
               : <Link className="ip-btn" href={`/learn/exam?id=${exam.id}`}>{exam.pending_order ? 'ดูสถานะ' : forSale ? 'ซื้อข้อสอบ' : 'ดูวิธีรับสิทธิ์'}</Link>}

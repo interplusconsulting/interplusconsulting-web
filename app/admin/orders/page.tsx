@@ -70,7 +70,7 @@ export default function AdminOrdersPage() {
         <button type="button" className="ip-modal-close" aria-label="ปิด" onClick={() => setSelected(null)}>×</button>
         <h2 id="slip-title">สลิปการโอน</h2>
         <div className="ip-slip-layout">
-          <div className="ip-slip">{!slipUrl ? <Loading text="กำลังโหลดสลิป…" /> : isPdf ? <a className="ip-btn" href={slipUrl} target="_blank" rel="noreferrer">เปิดสลิป (PDF) ↗</a> : <a href={slipUrl} target="_blank" rel="noreferrer"><img src={slipUrl} alt="สลิปการโอนเงิน" /></a>}</div>
+          <div className="ip-slip">{!slipUrl ? <Loading text="กำลังโหลดสลิป…" /> : isPdf ? <a className="ip-btn" href={slipUrl} target="_blank" rel="noreferrer">เปิดสลิป (PDF) ↗︎</a> : <a href={slipUrl} target="_blank" rel="noreferrer"><img src={slipUrl} alt="สลิปการโอนเงิน" /></a>}</div>
           <div>
             <dl className="ip-bank">
               <dt>ผู้ซื้อ</dt><dd>{selected.profiles?.full_name}<br />{selected.profiles?.email}<br />{selected.profiles?.phone}</dd>

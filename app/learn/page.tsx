@@ -92,7 +92,7 @@ export default function MyCoursesPage() {
             {exam.duration_min > 0 && <span>⏱ {exam.duration_min} นาที</span>}
           </div>
           {exam.url
-            ? <a className="ip-btn" href={exam.url} target="_blank" rel="noreferrer">เริ่มทำข้อสอบ ↗</a>
+            ? <a className="ip-btn" href={exam.url} target="_blank" rel="noreferrer">เริ่มทำข้อสอบ ↗︎</a>
             : <Link className="ip-btn" href={`/learn/exam?id=${exam.id}`}>ดูรายละเอียด</Link>}
         </div>
       </article>)}</div>

@@ -19,7 +19,7 @@ function English() {
         <h2>ภาษาอังกฤษ<br/>ที่พาคุณไปถึง<br/><em>เป้าหมายจริง</em></h2>
         <p>เรียนตัวต่อตัว กลุ่มเล็ก ออนไลน์ ออนไซต์ หรือ Hybrid ปรับบทเรียนให้เหมาะกับระดับและเป้าหมายของผู้เรียน</p>
         <div className="learning-levels"><span>Beginner – Advanced</span><span>ม.ต้น</span><span>ม.ปลาย</span><span>บุคคลทั่วไป</span></div>
-        <InterestButton className="button white" service="เรียนภาษาอังกฤษ" message="สนใจคอร์สเรียนภาษาอังกฤษกับ Learning Plus by Kru Jew">สอบถามคอร์สเรียน ↗</InterestButton>
+        <InterestButton className="button white" service="เรียนภาษาอังกฤษ" message="สนใจคอร์สเรียนภาษาอังกฤษกับ Learning Plus by Kru Jew">สอบถามคอร์สเรียน ↗︎</InterestButton>
       </div>
       <div className="course-list">{courses.map(course => <article className="course" key={course[0]}><b>{course[0]}</b><div><h3>{course[1]}</h3><p>{course[2]}</p></div></article>)}</div>
     </section>

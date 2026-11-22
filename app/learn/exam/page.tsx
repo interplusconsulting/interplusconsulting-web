@@ -67,7 +67,7 @@ function ExamDetail() {
         {forSale && <strong className="ip-price big"><PriceTag price={exam.price} compareAt={exam.compare_at_price} /></strong>}
         {exam.has_access ? <>
           <p className="ip-success">คุณมีสิทธิ์ทำข้อสอบชุดนี้แล้ว</p>
-          <a className="ip-btn wide" href={exam.url} target="_blank" rel="noreferrer">เริ่มทำข้อสอบ ↗</a>
+          <a className="ip-btn wide" href={exam.url} target="_blank" rel="noreferrer">เริ่มทำข้อสอบ ↗︎</a>
         </> : pending ? <>
           <p className="ip-notice">ได้รับสลิปของคุณแล้ว กำลังรอแอดมินตรวจสอบ เมื่ออนุมัติแล้วจะเริ่มทำข้อสอบได้ที่หน้า “คลังข้อสอบ”</p>
           <small className="ip-muted">ส่งเมื่อ {formatDate(pending.created_at)}</small>

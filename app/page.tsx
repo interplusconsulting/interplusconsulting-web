@@ -45,7 +45,7 @@ export default async function Home() {
         <p className="kicker"><i/> INTERNATIONAL EDUCATION & CAREER GUIDANCE</p>
         <h1>เปิดประตูสู่<br/><em>โอกาสใหม่</em><br/>ทั่วโลก</h1>
         <p className="lead">วางแผนการเรียน การทำงาน และการเดินทางต่างประเทศอย่างมั่นใจ ด้วยทีมที่ปรึกษาที่ดูแลคุณทุกขั้นตอน</p>
-        <div className="actions"><a className="button" href="#contact">เริ่มวางแผนกับเรา ↗</a>{show('services') && <a className="text-link" href="#services">ดูบริการทั้งหมด ↓</a>}</div>
+        <div className="actions"><a className="button" href="#contact">เริ่มวางแผนกับเรา ↗︎</a>{show('services') && <a className="text-link" href="#services">ดูบริการทั้งหมด ↓</a>}</div>
         <div className="trust"><div><b>10+</b><span>ปีแห่งประสบการณ์</span></div><div><b>4</b><span>บริการหลักครบวงจร</span></div><div><b>1:1</b><span>ดูแลแบบรายบุคคล</span></div></div>
       </div>
       <img className="hero-mobile-img" src="/hero-study-abroad.webp" alt="" />

@@ -26,7 +26,7 @@ export default function WorkPathways() {
     const active = selected === path.id;
     return <article className={`${path.accent ? 'red' : ''} ${active ? 'selected' : ''}`} key={path.id}>
       <button type="button" aria-pressed={active} onClick={() => selectProgram(path)}>
-        <span className="path-arrow">↗</span><small>{path.duration}</small><h3>{path.title}</h3><p>{path.description}</p>
+        <span className="path-arrow">↗︎</span><small>{path.duration}</small><h3>{path.title}</h3><p>{path.description}</p>
         <span className="selection-label">{active ? 'เลือกแล้ว ✓' : 'เลือกโปรแกรมนี้'}</span>
       </button>
       <a className="path-cta" href="#contact" onClick={event => { event.preventDefault(); selectProgram(path); smoothScrollToElement('#contact'); }}>สนใจโปรแกรมนี้ <span>→</span></a>

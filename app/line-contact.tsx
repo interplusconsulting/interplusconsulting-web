@@ -24,7 +24,7 @@ export default function LineContact({ className = 'line-contact', children }: Pr
 
   return <>
     <button type="button" className={className} onClick={() => setOpen(true)}>
-      {children ?? <><span>LINE</span>ติดต่อผ่าน LINE <b>↗</b></>}
+      {children ?? <><span>LINE</span>ติดต่อผ่าน LINE <b>↗︎</b></>}
     </button>
 
     {open && <div className="line-modal-backdrop" role="presentation" onMouseDown={event => {
@@ -36,7 +36,7 @@ export default function LineContact({ className = 'line-contact', children }: Pr
         <h3 id="line-modal-title">สแกนเพื่อเพิ่มเพื่อน</h3>
         <p>สแกน QR Code หรือกดปุ่มด้านล่างเพื่อติดต่อ Inter Plus Consulting ผ่าน LINE</p>
         <img src="/contact/line-qr.jpg" alt="QR Code สำหรับติดต่อ Inter Plus Consulting ผ่าน LINE" />
-        <a className="button line-modal-action" href={lineUrl} target="_blank" rel="noreferrer">ติดต่อผ่าน LINE ↗</a>
+        <a className="button line-modal-action" href={lineUrl} target="_blank" rel="noreferrer">ติดต่อผ่าน LINE ↗︎</a>
       </section>
     </div>}
   </>;

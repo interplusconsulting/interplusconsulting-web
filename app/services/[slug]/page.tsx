@@ -42,7 +42,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
           <p className="kicker"><i/> {content.kicker}</p>
           <h1>{service.title}</h1>
           <p className="lead">{content.intro}</p>
-          <div className="actions"><a className="button" href="#contact">ปรึกษาฟรี ↗</a><Link className="text-link" href="/#services">ดูบริการอื่น</Link></div>
+          <div className="actions"><a className="button" href="#contact">ปรึกษาฟรี ↗︎</a><Link className="text-link" href="/#services">ดูบริการอื่น</Link></div>
         </div>
       </div>
     </section>

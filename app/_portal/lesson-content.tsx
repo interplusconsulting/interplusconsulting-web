@@ -12,7 +12,7 @@ export function TextBlock({ text }: { text: string }) {
 
 export function VideoBlock({ url }: { url: string }) {
   const embed = videoEmbedUrl(url);
-  if (!embed) return <p className="ip-notice">ไม่สามารถแสดงวิดีโอจากลิงก์นี้ได้ <a href={safeHttpUrl(url) || undefined} target="_blank" rel="noreferrer">เปิดลิงก์วิดีโอ ↗</a></p>;
+  if (!embed) return <p className="ip-notice">ไม่สามารถแสดงวิดีโอจากลิงก์นี้ได้ <a href={safeHttpUrl(url) || undefined} target="_blank" rel="noreferrer">เปิดลิงก์วิดีโอ ↗︎</a></p>;
   return <div className="ip-video"><iframe src={embed} title="วิดีโอบทเรียน" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowFullScreen loading="lazy" referrerPolicy="strict-origin-when-cross-origin" /></div>;
 }
 
@@ -30,7 +30,7 @@ function PdfBlock({ path }: { path: string }) {
   if (error) return <p className="ip-error">เปิดไฟล์เอกสารไม่ได้: {error}</p>;
   if (!url) return <p className="ip-muted">กำลังเตรียมไฟล์เอกสาร…</p>;
   return <div className="ip-pdf">
-    <div className="ip-row"><strong>เอกสารประกอบบทเรียน (PDF)</strong><a className="ip-btn small" href={url} target="_blank" rel="noreferrer">เปิด / ดาวน์โหลด ↗</a></div>
+    <div className="ip-row"><strong>เอกสารประกอบบทเรียน (PDF)</strong><a className="ip-btn small" href={url} target="_blank" rel="noreferrer">เปิด / ดาวน์โหลด ↗︎</a></div>
     <iframe src={url} title="เอกสารประกอบบทเรียน" loading="lazy" />
     <p className="ip-muted ip-small">ถ้าเอกสารไม่แสดง (เช่น บนมือถือบางรุ่น) กรุณากดปุ่ม “เปิด / ดาวน์โหลด”</p>
   </div>;
@@ -82,7 +82,7 @@ export default function LessonContent({ lesson }: { lesson: Lesson }) {
     {lesson.image_urls.length > 0 && <div className="ip-lesson-images">{lesson.image_urls.map(src => <img key={src} src={src} alt="" loading="lazy" />)}</div>}
     {lesson.pdf_path && <PdfBlock path={lesson.pdf_path} />}
     {lesson.quiz.length > 0 && <QuizBlock key={lesson.id} lesson={lesson} />}
-    {quizUrl && <div className="ip-card ip-quiz-link"><div><strong>แบบทดสอบออนไลน์</strong><p className="ip-muted">แบบทดสอบนี้อยู่บนเว็บไซต์ภายนอก จะเปิดในแท็บใหม่</p></div><a className="ip-btn" href={quizUrl} target="_blank" rel="noreferrer">ทำแบบทดสอบ ↗</a></div>}
+    {quizUrl && <div className="ip-card ip-quiz-link"><div><strong>แบบทดสอบออนไลน์</strong><p className="ip-muted">แบบทดสอบนี้อยู่บนเว็บไซต์ภายนอก จะเปิดในแท็บใหม่</p></div><a className="ip-btn" href={quizUrl} target="_blank" rel="noreferrer">ทำแบบทดสอบ ↗︎</a></div>}
     {!hasAnything && <p className="ip-muted">บทเรียนนี้ยังไม่มีเนื้อหา</p>}
   </div>;
 }

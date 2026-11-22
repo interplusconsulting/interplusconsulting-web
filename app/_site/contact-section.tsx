@@ -11,14 +11,14 @@ export default function ContactSection({ showMap = true }: { showMap?: boolean }
       <h2>เริ่มต้นบทใหม่<br/>ของคุณวันนี้</h2>
       <p>บอกเราว่าคุณสนใจอะไร ทีมที่ปรึกษาจะติดต่อกลับเพื่อช่วยวางแผนเบื้องต้นโดยไม่มีค่าใช้จ่าย</p>
       <div className="details">
-        {contact.phones.map(phone => <a key={phone.tel} href={`tel:${phone.tel}`}><span>{`โทรศัพท์ • ${phone.label}`}</span><strong>{phone.display}</strong><b>โทรออก ↗</b></a>)}
-        <a href={`mailto:${contact.email}`}><span>อีเมล</span><strong>{contact.email}</strong><b>ส่งอีเมล ↗</b></a>
+        {contact.phones.map(phone => <a key={phone.tel} href={`tel:${phone.tel}`}><span>{`โทรศัพท์ • ${phone.label}`}</span><strong>{phone.display}</strong><b>โทรออก ↗︎</b></a>)}
+        <a href={`mailto:${contact.email}`}><span>อีเมล</span><strong>{contact.email}</strong><b>ส่งอีเมล ↗︎</b></a>
       </div>
-      <div className="social-contacts"><LineContact/><a className="facebook-contact" href={contact.facebook} target="_blank" rel="noreferrer"><span>FACEBOOK</span>ติดตามบน Facebook <b>↗</b></a></div>
+      <div className="social-contacts"><LineContact/><a className="facebook-contact" href={contact.facebook} target="_blank" rel="noreferrer"><span>FACEBOOK</span>ติดตามบน Facebook <b>↗︎</b></a></div>
     </div>
     <ContactForm />
     {showMap && <div className="contact-map">
-      <div><p className="kicker"><i/> VISIT US</p><h3>แผนที่และที่ตั้ง</h3><p>{contact.address}</p><a href={contact.mapLink} target="_blank" rel="noreferrer">เปิดใน Google Maps ↗</a></div>
+      <div><p className="kicker"><i/> VISIT US</p><h3>แผนที่และที่ตั้ง</h3><p>{contact.address}</p><a href={contact.mapLink} target="_blank" rel="noreferrer">เปิดใน Google Maps ↗︎</a></div>
       <iframe src={mapEmbed} title="แผนที่ Learning Plus By Kru Jew / Map" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
     </div>}
   </section>;

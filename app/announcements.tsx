@@ -156,7 +156,7 @@ export default function Announcements({ showList = true, showPopup = true }: { s
           const isClone = renderIndex >= announcements.length;
           return <article className="announcement-card" id={isClone ? undefined : `announcement-${index}`} aria-hidden={isClone || undefined} key={`${announcement.id}-${renderIndex}`}>
             <button type="button" className="announcement-card-button" tabIndex={isClone ? -1 : undefined} onClick={() => setPreview({ index, image: 0 })} aria-label={`ดูรายละเอียดประกาศ ${announcement.title}`}>
-              <span className="announcement-image"><img src={announcement.image} alt="" /><span>ดูรายละเอียด ↗</span></span>
+              <span className="announcement-image"><img src={announcement.image} alt="" /><span>ดูรายละเอียด ↗︎</span></span>
               <span className="announcement-card-copy"><span className="eyebrow">{announcement.label}</span><strong>{announcement.title}</strong><span>{announcement.description}</span></span>
             </button>
           </article>
@@ -170,7 +170,7 @@ export default function Announcements({ showList = true, showPopup = true }: { s
         <button type="button" className="announcement-popup-image" onClick={() => { if (showList) showAnnouncement(popupIndex); else { setPopupOpen(false); setPreview({ index: popupIndex, image: 0 }); } }} aria-label={showList ? 'ไปยังประกาศ' : 'ดูรายละเอียดประกาศ'}>
           <span className="announcement-popup-blur" style={{ backgroundImage: `url("${activeAnnouncement.image}")` }} aria-hidden="true" />
           <img key={activeAnnouncement.id} src={activeAnnouncement.image} alt={activeAnnouncement.title} />
-          <span className="announcement-popup-hint">{showList ? 'ไปยังประกาศ ↓' : 'ดูรายละเอียด ↗'}</span>
+          <span className="announcement-popup-hint">{showList ? 'ไปยังประกาศ ↓' : 'ดูรายละเอียด ↗︎'}</span>
         </button>
         <div className="announcement-popup-copy" key={activeAnnouncement.id}>
           <p className="announcement-popup-badge"><b>ประกาศ</b>{activeAnnouncement.label}</p>
@@ -196,7 +196,7 @@ export default function Announcements({ showList = true, showPopup = true }: { s
     {preview !== null && <div className="announcement-lightbox" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) closePreview(); }}>
       <figure className={previewAnnouncement?.details ? 'announcement-detail-dialog' : undefined} role="dialog" aria-modal="true" aria-label={`รายละเอียดประกาศ ${previewAnnouncement?.title}`}>
         <button type="button" className="announcement-close" aria-label="ปิดรายละเอียดประกาศ" onClick={closePreview}>×</button>
-        <div className="announcement-detail-image"><button type="button" className="announcement-expand-image" onClick={() => setExpandedImage(true)} aria-label={`ขยายรูป ${previewAnnouncement?.title}`} title="คลิกเพื่อขยายรูป"><img src={previewAnnouncement?.gallery?.[preview.image] ?? previewAnnouncement?.fullImage} alt={`${previewAnnouncement?.title}${preview.image ? ' — แผนการเดินทาง' : ''}`} /><span>ขยายรูป ↗</span></button>
+        <div className="announcement-detail-image"><button type="button" className="announcement-expand-image" onClick={() => setExpandedImage(true)} aria-label={`ขยายรูป ${previewAnnouncement?.title}`} title="คลิกเพื่อขยายรูป"><img src={previewAnnouncement?.gallery?.[preview.image] ?? previewAnnouncement?.fullImage} alt={`${previewAnnouncement?.title}${preview.image ? ' — แผนการเดินทาง' : ''}`} /><span>ขยายรูป ↗︎</span></button>
           {previewAnnouncement?.gallery && <div className="announcement-gallery-controls" aria-label="ภาพประกาศและแผนการเดินทาง">
             {previewAnnouncement.gallery.map((_, image) => <button type="button" className={preview.image === image ? 'active' : ''} key={image} onClick={() => setPreview({ index: preview.index, image })}>{image === 0 ? 'ภาพโปรโมชัน' : 'แผนการเดินทาง'}</button>)}
           </div>}

@@ -17,6 +17,6 @@ export default function SiteHeader({ hidden = [] }: { hidden?: readonly string[]
   return <header className="site-header">
     <Link href="/" aria-label="หน้าแรก"><span className="brand"><img src="/inter-plus-logo-transparent.webp" alt="Inter Plus Consulting" /></span></Link>
     <nav className="desktop-nav" aria-label="เมนูหลัก">{mainNav.filter(item => isLinkVisible(item.href, hidden)).map(item => <SectionLink key={item.href} href={item.href}>{item.label}</SectionLink>)}</nav>
-    <div className="header-actions"><LanguageSwitcher /><HeaderAccount /><SectionLink className="button small desktop-consult" href="#contact">ปรึกษาฟรี ↗</SectionLink><MobileMenu hidden={[...hidden]} /></div>
+    <div className="header-actions"><LanguageSwitcher /><HeaderAccount /><SectionLink className="button small desktop-consult" href="#contact">ปรึกษาฟรี ↗︎</SectionLink><MobileMenu hidden={[...hidden]} /></div>
   </header>;
 }

@@ -39,7 +39,7 @@ export function UkPrograms() {
     <h3>{program.title}</h3>
     <b>{program.duration}</b>
     <p>{program.text}</p>
-    <InterestButton className="program-interest" service="เรียนต่อประเทศอังกฤษ" message={`สนใจโปรแกรม ${program.title}\nระยะเวลา: ${program.duration}`}>สนใจโปรแกรมนี้ ↗</InterestButton>
+    <InterestButton className="program-interest" service="เรียนต่อประเทศอังกฤษ" message={`สนใจโปรแกรม ${program.title}\nระยะเวลา: ${program.duration}`}>สนใจโปรแกรมนี้ ↗︎</InterestButton>
   </article>)}</div>;
 }
 
@@ -50,7 +50,7 @@ export function TravelServices() {
       <small>{group.label}</small>
       <h3>{group.title}</h3>
       <ul>{group.items.map(([name, text]) => <li key={name}><b>{name}</b><span>{text}</span></li>)}</ul>
-      <InterestButton className="program-interest" service="ท่องเที่ยวและวีซ่า" message={`สนใจบริการ${group.title}`}>สอบถามบริการ ↗</InterestButton>
+      <InterestButton className="program-interest" service="ท่องเที่ยวและวีซ่า" message={`สนใจบริการ${group.title}`}>สอบถามบริการ ↗︎</InterestButton>
     </article>)}</div>
   </section>;
 }
@@ -62,14 +62,14 @@ export function OtherServices() {
       <b>{no}</b>
       <h3>{title}</h3>
       <p>{text}</p>
-      <InterestButton className="program-interest" service="บริการอื่นๆ" message={`สนใจบริการ${title}`}>สอบถามบริการ ↗</InterestButton>
+      <InterestButton className="program-interest" service="บริการอื่นๆ" message={`สนใจบริการ${title}`}>สอบถามบริการ ↗︎</InterestButton>
     </article>)}</div>
   </section>;
 }
 
 export function Faq() {
   return <section className="section faq" id="faq">
-    <div className="faq-intro"><p className="kicker"><i/> FAQS</p><h2>คำถาม<br/>ที่พบบ่อย</h2><p>ไม่เจอคำตอบที่ต้องการ? ทักมาคุยกับทีมที่ปรึกษาได้เลย</p><a className="button" href="#contact">ถามทีมที่ปรึกษา ↗</a></div>
+    <div className="faq-intro"><p className="kicker"><i/> FAQS</p><h2>คำถาม<br/>ที่พบบ่อย</h2><p>ไม่เจอคำตอบที่ต้องการ? ทักมาคุยกับทีมที่ปรึกษาได้เลย</p><a className="button" href="#contact">ถามทีมที่ปรึกษา ↗︎</a></div>
     <div className="faq-list">{faqs.map(([q, a]) => <details key={q}><summary><span>{q}</span><b aria-hidden="true">+</b></summary><p>{a}</p></details>)}</div>
   </section>;
 }

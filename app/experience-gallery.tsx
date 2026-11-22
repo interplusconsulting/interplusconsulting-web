@@ -32,7 +32,7 @@ export default function ExperienceGallery({ photos }: { photos: Photo[] }) {
         <button type="button" onClick={() => setActive(index)} aria-label={`เปิดดูภาพ: ${photo.caption}`}>
           <img className="photo-backdrop" src={photo.src} alt="" aria-hidden="true" loading="lazy"/>
           <img className="photo-main" src={photo.src} alt={photo.alt} loading="lazy"/>
-          <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{photo.caption}<b>ขยาย ↗</b></figcaption>
+          <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{photo.caption}<b>ขยาย ↗︎</b></figcaption>
         </button>
       </figure>
     )}</div>

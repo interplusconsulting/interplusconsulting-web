@@ -48,7 +48,7 @@ export default function AdminSiteSettingsPage() {
   return <>
     <div className="ip-page-head">
       <div><h1>ตั้งค่าการแสดงหน้าเว็บ</h1><p className="ip-muted">เปิดหรือปิดส่วนต่าง ๆ ของเว็บไซต์ ส่วนที่ปิดไว้จะถูกซ่อน ข้อมูลไม่ถูกลบ เปิดกลับมาเมื่อไหร่ก็แสดงเหมือนเดิม</p></div>
-      <a className="ip-btn ghost" href="/" target="_blank" rel="noreferrer">ดูหน้าเว็บ ↗</a>
+      <a className="ip-btn ghost" href="/" target="_blank" rel="noreferrer">ดูหน้าเว็บ ↗︎</a>
     </div>
     <p className="admin-settings-summary">แสดงอยู่ <b>{shownCount}</b> จาก {siteSections.length} รายการ{hidden.length > 0 && <> · ซ่อน <b>{hidden.length}</b> รายการ</>}</p>
     {groups.map(group => <section className="ip-card admin-settings-group" key={group.key}>

@@ -36,8 +36,8 @@ export default function MobileMenu({ hidden = [] }: { hidden?: string[] }) {
       <span/><span/><span/>
     </button>
     <nav id="mobile-navigation" aria-label="เมนูมือถือ">
-      {links.filter(([href]) => isLinkVisible(href, hidden)).map(([href, label]) => <SectionLink key={href} href={href} onNavigate={() => setOpen(false)}>{label}<span>↗</span></SectionLink>)}
-      <SectionLink className="mobile-consult" href="#contact" onNavigate={() => setOpen(false)}>ปรึกษาฟรี <span>↗</span></SectionLink>
+      {links.filter(([href]) => isLinkVisible(href, hidden)).map(([href, label]) => <SectionLink key={href} href={href} onNavigate={() => setOpen(false)}>{label}<span>↗︎</span></SectionLink>)}
+      <SectionLink className="mobile-consult" href="#contact" onNavigate={() => setOpen(false)}>ปรึกษาฟรี <span>↗︎</span></SectionLink>
     </nav>
   </div>;
 }

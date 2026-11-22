@@ -31,8 +31,8 @@ export default function ReviewsSection({ google, summary }: { google: GoogleRevi
     <div className="heading">
       <div><p className="kicker"><i/> REVIEWS</p><h2>เสียงจากผู้ใช้บริการ</h2></div>
       {summary
-        ? <a className="review-summary" href={summary.url} target="_blank" rel="noreferrer"><b>{summary.rating.toFixed(1)}</b><span><Stars value={summary.rating} /><small>จาก {summary.count} รีวิวบน Google ↗</small></span></a>
-        : <a className="review-summary" href={contact.mapLink} target="_blank" rel="noreferrer"><span><Stars value={5} /><small>ดูรีวิวทั้งหมดบน Google Maps ↗</small></span></a>}
+        ? <a className="review-summary" href={summary.url} target="_blank" rel="noreferrer"><b>{summary.rating.toFixed(1)}</b><span><Stars value={summary.rating} /><small>จาก {summary.count} รีวิวบน Google ↗︎</small></span></a>
+        : <a className="review-summary" href={contact.mapLink} target="_blank" rel="noreferrer"><span><Stars value={5} /><small>ดูรีวิวทั้งหมดบน Google Maps ↗︎</small></span></a>}
     </div>
     <div className="review-grid">
       {manual.map(review => {

@@ -2,6 +2,10 @@
 .header-account,.header-actions .button.small{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 20px;font-size:15px;font-weight:600;line-height:1;box-sizing:border-box}
 .header-account{border:1px solid var(--line);color:var(--navy);background:#fff;transition:border-color .2s,color .2s}
 .header-actions .button.small{border:1px solid var(--red)}
+/* The button text (with its own arrow) stays visible on phones, so drop the extra arrow an older mobile rule adds. */
+.header-actions .button.small::after{content:none}
+.header-actions .button.small{white-space:nowrap}
+@media(max-width:420px){.header-actions .button.small{padding:0 12px;font-size:14px}}
 .header-account:hover{border-color:var(--red);color:var(--red)}
 @media(max-width:980px){.header-account{display:none}}
 

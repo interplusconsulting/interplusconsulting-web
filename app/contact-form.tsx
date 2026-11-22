@@ -92,7 +92,7 @@ export default function ContactForm() {
     </div>
     <input ref={honeypot} type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
     {error && <p className="ip-error" role="alert">{error}</p>}
-    <button className="button" type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'กำลังส่ง…' : 'ส่งข้อมูลให้ที่ปรึกษา ↗'}</button>
+    <button className="button" type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'กำลังส่ง…' : 'ส่งข้อมูลให้ที่ปรึกษา ↗︎'}</button>
     <small>ข้อมูลของคุณใช้เพื่อติดต่อกลับเรื่องบริการที่สนใจเท่านั้น</small>
   </form>;
 }

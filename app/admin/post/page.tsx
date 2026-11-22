@@ -57,7 +57,7 @@ function PostEditor() {
       <ImageField label="รูปปก" value={post.cover_url} folder="posts" onChange={cover_url => update({ cover_url })} />
       <label>เนื้อหา (เว้นบรรทัดว่างเพื่อขึ้นย่อหน้าใหม่)<textarea rows={14} value={post.body} onChange={event => update({ body: event.target.value })} /></label>
       <PublishSwitch showLabel label="เผยแพร่" checked={post.is_published} onToggle={() => update({ is_published: !post.is_published })} />
-      <SaveBar busy={busy} message={message}>{post.is_published && <Link className="ip-link-btn" href={`/blog/post?slug=${post.slug}`} target="_blank">ดูหน้าโพสต์ ↗</Link>}</SaveBar>
+      <SaveBar busy={busy} message={message}>{post.is_published && <Link className="ip-link-btn" href={`/blog/post?slug=${post.slug}`} target="_blank">ดูหน้าโพสต์ ↗︎</Link>}</SaveBar>
       <button type="button" className="ip-link-btn danger" onClick={() => void remove()}>ลบโพสต์นี้</button>
     </form>
   </>;
