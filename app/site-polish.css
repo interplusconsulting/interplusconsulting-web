@@ -1,0 +1,309 @@
+/* ───────── Public site polish (loaded last, overrides older rules) ───────── */
+
+/* Calmer type scale; Thai text needs normal letter spacing */
+.section{padding:88px max(6vw,40px)}
+.heading{margin-bottom:40px}
+.heading h2,.learning h2,.uk h2,.about h2,.contact h2,.gallery-heading h2,.faq-intro h2,.travel-head h2,.section-title{font:800 clamp(30px,3.4vw,46px)/1.3 var(--font-sarabun),sans-serif;letter-spacing:-.01em;margin:0}
+.page-hero h1{line-height:1.3 !important}
+.heading>p,.gallery-heading>p{font-size:17px;line-height:1.75}
+.section-title{margin-bottom:28px}
+.kicker{margin-bottom:16px}
+
+/* Hero */
+.hero{min-height:620px;align-items:center;padding:72px max(6vw,40px);background-image:linear-gradient(90deg,#f4f1e9 0%,#f4f1e9f5 38%,#f4f1e9b0 54%,#f4f1e900 72%),url('/hero-study-abroad.webp')}
+.hero-copy{max-width:600px}
+/* Thai needs room above/below for vowels and tone marks (ู ่ ้ ั), so headings use a looser line height */
+.hero h1{font:800 clamp(44px,5.4vw,76px)/1.32 var(--font-sarabun),sans-serif;letter-spacing:-.01em;margin-bottom:22px}
+.lead{max-width:520px;font-size:19px;line-height:1.7;color:#2c4a63}
+.actions{margin:30px 0 40px}
+.trust{gap:40px;border-top-color:#c9d6db}
+.trust b{font-size:34px;line-height:1.1}
+.trust span{font-size:14px;color:#4b5f6e}
+.hero-mobile-img{display:none}
+
+/* Section background rhythm: cream / white alternate, one dark band (process) */
+#services{background:#fff}
+.announcements{background:var(--cream)}
+.about{background:#fff}
+.experience-gallery{background:#fff}
+.reviews{background:var(--cream)}
+.faq{background:#fff}
+.contact{background:var(--cream)}
+
+/* Service cards — one click opens the service page */
+.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;border:0}
+.service-card{display:flex;flex-direction:column;gap:10px;min-height:290px;padding:28px;background:#fff;border:1px solid var(--line);border-radius:14px;color:inherit;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.service-card .service-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.service-card .service-card-top small{font:700 12px var(--font-sarabun),sans-serif;color:#9aa9b4}
+.service-card .service-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:14px;background:#e9f5fa}
+.service-label{font:700 10px var(--font-sarabun),sans-serif;letter-spacing:.15em;color:var(--red)}
+.service-card h3{font-size:22px;margin:0}
+.service-card p{margin:0;color:#5b6e7d;line-height:1.65;flex:1}
+.service-more{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-weight:700;color:var(--blue)}
+.service-more b{transition:transform .2s}
+@media(hover:hover){
+  .service-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px #0b29441a;border-color:#9cc6dd;background:#fff;color:inherit}
+  .service-card:hover p{color:#5b6e7d}
+  .service-card:hover .service-more b{transform:translateX(4px)}
+}
+.service-card:focus-visible,.extra-services:focus-visible,.service-link-card:focus-visible{outline:3px solid #55b7d9;outline-offset:3px}
+.extra-services{display:flex;align-items:center;gap:16px;margin-top:18px;padding:18px 22px;border:1px dashed #b9cbd6;border-radius:12px;color:#33495a;transition:border-color .2s,background .2s}
+.extra-services:hover{border-color:var(--blue);background:#f7fbfd}
+.extra-label{flex:none;font-weight:700;color:var(--red)}
+.extra-services b{margin-left:auto;color:var(--blue)}
+
+/* Announcement cards: shorter titles and descriptions */
+.announcement-card{border-radius:12px;overflow:hidden;background:#fff}
+.announcement-card-copy{padding:20px 22px 24px}
+.announcement-card-copy strong{font-size:clamp(17px,1.3vw,20px);line-height:1.35;margin:8px 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.announcement-card-copy>span:last-child{font-size:15px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* About + partners inline */
+.about{gap:6vw}
+.about-art{height:520px;border-radius:16px}
+.about-copy ul{margin:0}
+.partner-inline{display:flex;align-items:center;flex-wrap:wrap;gap:12px 14px;margin-top:22px}
+.partner-inline span{flex-basis:100%;font-size:13px;font-weight:600;color:#7d8f9c}
+.partner-inline img{height:64px;width:auto;max-width:220px;padding:10px 16px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:10px;box-sizing:border-box}
+
+/* Process band */
+.steps article{padding:32px 28px}
+.steps h3{margin-top:28px}
+
+/* Reviews */
+.review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.review-card{margin:0;display:flex;flex-direction:column;gap:14px;padding:26px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.review-stars{color:#f5a623;letter-spacing:2px;font-size:18px}
+.review-card blockquote{margin:0;line-height:1.75;color:#33495a;flex:1;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}
+.review-card figcaption{display:flex;align-items:center;gap:12px}
+.review-card figcaption img{width:40px;height:40px;border-radius:50%}
+.review-card figcaption span{display:grid;font-weight:700}
+.review-card figcaption small{font-weight:400;color:#7d8f9c;font-size:13px}
+.review-avatar{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700}
+.review-card figcaption a{color:var(--navy)}
+.review-card figcaption a:hover{text-decoration:underline}
+.review-summary{display:flex;align-items:center;gap:14px;padding:14px 20px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.review-summary b{font:800 38px var(--font-sarabun),sans-serif;color:var(--navy)}
+.review-summary span{display:grid}
+.review-summary small{color:#5b6e7d}
+
+.contact-map h3{font-size:clamp(24px,2.4vw,32px)}
+
+/* Contact form success + honeypot */
+.contact-success{background:#fff;padding:46px;box-shadow:0 18px 60px #153d5420;display:grid;gap:14px;align-content:center;justify-items:start}
+.contact-success>span{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:#e7f6ec;color:#17803d;font-size:26px;font-weight:800}
+.contact-success h3{margin:0;font-size:26px}
+.contact-success p{margin:0;line-height:1.75;color:#536b7b}
+.hp-field{position:absolute !important;left:-9999px !important;width:1px;height:1px;opacity:0}
+.contact form .ip-field{margin-bottom:18px}
+.contact form .ip-field>label{font-size:15px}
+.contact form select,.contact form textarea{width:100%;border:1px solid #cddbe2;padding:14px;background:#fff;font:inherit}
+.contact form .ip-field.has-error select{border-color:#d33a40}
+.contact form>small{display:block;color:#5f7381;margin-top:12px;text-align:center}
+
+/* Service detail pages */
+.page-hero{background:var(--cream);padding:34px max(6vw,40px) 64px}
+.breadcrumb{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:#6a7d8b;margin-bottom:34px}
+.breadcrumb a{color:var(--blue)}
+.page-hero-inner{display:flex;gap:28px;align-items:flex-start;max-width:900px}
+.page-hero-icon{flex:none;display:grid;place-items:center;width:84px;height:84px;border-radius:20px;background:#fff;box-shadow:0 10px 30px #0b294412}
+.page-hero-icon img{width:62px;height:62px;object-fit:contain;border-radius:50%}
+.page-hero h1{font:800 clamp(36px,4.6vw,60px)/1.1 var(--font-sarabun),sans-serif;letter-spacing:-.02em;margin:0 0 16px}
+.page-hero .actions{margin:26px 0 0}
+.format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.format-grid article{padding:24px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.format-grid h3{margin:0 0 8px;font-size:19px}
+.format-grid p{margin:0;color:#5b6e7d;line-height:1.6}
+.service-formats{background:var(--cream)}
+.other-service-links{background:#fff}
+.service-link-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.service-link-card{display:flex;align-items:center;gap:16px;padding:20px;border:1px solid var(--line);border-radius:12px;color:inherit;transition:border-color .2s,box-shadow .2s}
+.service-link-card:hover{border-color:#9cc6dd;box-shadow:0 12px 30px #0b294414}
+.service-link-card img{width:48px;height:48px;object-fit:contain;flex:none}
+.service-link-card span{display:grid;gap:4px}
+.service-link-card small{color:#5b6e7d;line-height:1.5}
+.service-link-card em{margin-left:auto;font-style:normal;color:var(--blue);font-weight:700}
+
+/* Footer */
+footer.site-footer{display:block;background:#061f35;color:#c7d6e1;padding:64px max(6vw,40px) 28px}
+.footer-grid{display:grid !important;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:36px}
+.site-footer .brand{display:inline-block;background:#fff;padding:7px 12px;border-radius:6px}
+.site-footer p{margin:14px 0 0;color:#91a7b6;text-align:left;line-height:1.7}
+.footer-address{font-size:14px}
+.site-footer h3{margin:0 0 14px;color:#fff;font-size:16px}
+.site-footer ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.site-footer a{color:#c7d6e1;transition:color .2s}
+.site-footer a:hover{color:#fff;text-decoration:underline}
+.site-footer small{color:#7f97a8}
+.footer-social{display:flex !important;flex-wrap:wrap;gap:8px}
+.footer-social a{padding:6px 12px;border:1px solid #ffffff33;border-radius:999px;font-size:14px}
+.footer-social a:hover{text-decoration:none;background:#ffffff14}
+.site-footer>.footer-copy{display:block;text-align:left;margin-top:40px;padding-top:20px;border-top:1px solid #ffffff1a}
+
+/* Floating contact: on phones keep only the LINE button */
+@media(max-width:640px){
+  .floating-consult{display:none !important}
+  .floating-line{border-radius:999px !important}
+}
+
+@media(max-width:1100px){
+  .service-grid{grid-template-columns:1fr 1fr}
+  .format-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:980px){
+  .hero{min-height:0;padding:48px 22px 40px;background-image:none;background-color:var(--cream)}
+  .hero-mobile-img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;margin-top:8px;box-shadow:0 18px 40px #0b29441f}
+  .service-link-grid{grid-template-columns:1fr}
+  .about-art{height:380px}
+}
+@media(max-width:640px){
+  .section{padding:64px 20px}
+  .hero h1{font-size:clamp(40px,11vw,52px);line-height:1.3}
+  .lead{font-size:17px}
+  .trust{gap:22px}
+  .trust b{font-size:28px}
+  .trust span{font-size:13px}
+  .service-grid,.format-grid,.footer-grid{grid-template-columns:1fr}
+  .service-card{min-height:0}
+  .extra-services{flex-wrap:wrap}
+  .page-hero{padding:24px 20px 48px}
+  .page-hero-inner{flex-direction:column;gap:18px}
+  .page-hero-icon{width:68px;height:68px}
+  .page-hero-icon img{width:50px;height:50px}
+  .contact-success{padding:30px 22px}
+  footer.site-footer{padding:48px 20px 24px}
+}
+@media(prefers-reduced-motion:reduce){.service-card,.service-more b{transition:none}.service-card:hover{transform:none}}
+
+/* ───────── Online courses teaser (same card language as service cards) ───────── */
+.online-course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 360px)); gap: 20px; }
+.online-course-card { display: flex; flex-direction: column; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 14px; color: inherit; transition: border-color .2s; }
+.online-course-card:hover { border-color: var(--blue); }
+.online-course-cover { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--navy); }
+.online-course-cover img { width: 100%; height: 100%; object-fit: cover; }
+.online-course-placeholder { display: grid; place-items: center; width: 100%; height: 100%; color: #ffffff55; font: 800 56px var(--font-sarabun), sans-serif; }
+.online-course-price { display: none; }
+.online-course-body { display: flex; flex-direction: column; gap: 6px; flex: 1; padding: 20px 22px 22px; }
+.online-course-body strong { color: var(--ink); font-size: 18px; line-height: 1.5; }
+.online-course-body > span { color: #5b6f7f; font-size: 14px; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.online-course-body > .online-course-meta { overflow: visible; -webkit-line-clamp: unset; color: inherit; display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; padding-top: 14px; border-top: 1px solid #edf1f4; font-size: 14px; }
+.online-course-meta em { font-style: normal; font-weight: 700; color: var(--ink); }
+.online-course-meta b { color: var(--blue); font-weight: 600; }
+/* Courses on top, exams below — both full width. */
+.online-layout { display: grid; gap: 44px; }
+.online-layout .online-course-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.online-group { min-width: 0; }
+.online-group-title { margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 17px; }
+.online-more { display: inline-block; margin-top: 20px; color: var(--blue); font-weight: 600; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.online-exam-panel { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.online-exam-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+.online-exam-list li { border-bottom: 1px solid #edf1f4; }
+.online-exam-list li:nth-child(odd) { border-right: 1px solid #edf1f4; }
+.online-exam-list li:nth-last-child(-n+2):nth-child(odd), .online-exam-list li:last-child { border-bottom: 0; }
+.online-exam { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 16px 20px; color: inherit; transition: background .15s; }
+.online-exam:hover { background: #f6f9fb; }
+.online-exam-main { display: grid; gap: 3px; min-width: 0; }
+.online-exam-main strong { color: var(--ink); font-size: 15px; line-height: 1.45; }
+.online-exam-facts { color: #6b7f8e; font-size: 13px; }
+.online-exam-price { flex: none; color: var(--ink); font-size: 14px; font-weight: 700; text-align: right; max-width: 45%; }
+.online-exam-all { display: block; padding: 14px 20px; border-top: 1px solid #edf1f4; color: var(--blue); font-size: 14px; font-weight: 600; }
+.online-exam-all:hover { background: #f6f9fb; }
+@media (max-width: 760px) {
+  .online-exam-list { grid-template-columns: minmax(0, 1fr); }
+  .online-exam-list li:nth-child(odd) { border-right: 0; }
+  .online-exam-list li:nth-last-child(-n+2):nth-child(odd) { border-bottom: 1px solid #edf1f4; }
+}
+
+/* ───────── Badges and promotion prices (homepage + student area) ───────── */
+.item-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 9px; border-radius: 999px;
+  font: 700 13px/1.2 var(--font-sarabun), sans-serif; letter-spacing: .01em; color: #fff; background: var(--navy);
+  white-space: nowrap; box-shadow: 0 4px 12px color-mix(in srgb, var(--badge, #073b67), transparent 65%);
+}
+.item-badge svg { width: 15px; height: 15px; flex: none; fill: currentColor; }
+.item-badge-bestseller { --badge: #e11d2e; background: #e11d2e; }
+.item-badge-recommended { --badge: #07559f; background: #07559f; }
+.item-badge-new { --badge: #0f8a4f; background: #0f8a4f; }
+.item-badge-promotion { --badge: #f08c00; background: #ffb700; color: #3d2600; }
+.item-badge.on-cover { position: absolute; top: 14px; left: 14px; z-index: 1; padding: 7px 14px 7px 10px; font-size: 14px; border: 2px solid #fff; box-shadow: 0 6px 18px #0004; }
+.online-course-cover { position: relative; }
+.ip-cover .item-badge.on-cover { top: auto; bottom: 12px; }
+
+/* Course/exam cards: every cover is the same 16:9 box; the image is cropped to fill it. Cards line up in equal heights. */
+.ip-course-grid { align-items: stretch; }
+.ip-cover, .ip-detail-cover { overflow: hidden; }
+.ip-cover > img, .ip-detail-cover > img, .online-course-cover > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.ip-detail-cover { position: relative; }
+.ip-course-card { height: 100%; }
+.ip-course-body h3 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.9em; line-height: 1.45; }
+.ip-course-card .ip-course-body > p { display: -webkit-box !important; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 0 0 auto; height: 4.8em; margin-bottom: auto; }
+/* No description: push meta/price/button to the bottom from the title instead. */
+.ip-course-card .ip-course-body > h3:not(:has(+ p)) { margin-bottom: auto; }
+.ip-buy > .item-badge { justify-self: start; margin-bottom: 4px; }
+.ip-row.center { justify-content: center; }
+.ip-my-section + .ip-my-section { margin-top: 8px; }
+.ip-my-section .ip-section-title { display: flex; align-items: baseline; gap: 8px; margin-top: 8px; }
+.ip-my-section .ip-section-title small { color: #7d8f9c; font-size: 14px; font-weight: 600; }
+.price-tag { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; }
+.price-now { font-weight: 700; color: var(--ink); }
+.price-tag.is-promo .price-now { color: #e11d2e; font-size: 1.15em; }
+.price-was { color: #6b7c89; font-size: .88em; font-weight: 400; }
+.price-off { align-self: center; padding: 5px 14px; border-radius: 999px; background: linear-gradient(135deg, #ef3340, #c8102e); color: #fff; font-size: 1.12em; font-weight: 800; line-height: 1.2; letter-spacing: .01em; box-shadow: 0 4px 12px #e11d2e40; white-space: nowrap; }
+.online-course-meta em { font-style: normal; }
+.online-exam-side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; max-width: 48%; text-align: right; font-size: 14px; }
+.online-exam-side .price-tag { justify-content: flex-end; }
+.online-exam-note { color: #5b6f7f; font-size: 13px; }
+
+/* ───────── Process: original layout, small line icon above each number ───────── */
+.process ol.steps { list-style: none; margin: 0; padding: 0; }
+.steps li { padding: 32px 28px; border-right: 1px solid #ffffff30; }
+.steps li:last-child { border-right: 0; }
+.step-icon { display: block; color: var(--sky); margin-bottom: 18px; }
+.step-icon svg { width: 24px; height: 24px; }
+.steps li b { display: block; font: 800 38px var(--font-sarabun), sans-serif; color: var(--sky); }
+.steps li h3 { margin: 28px 0 8px; font-size: 22px; }
+.steps li p { margin: 0; color: #b9cad4; line-height: 1.7; }
+
+/* ───────── Gallery: six photos, 3 per row ───────── */
+.photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.photo-item { aspect-ratio: 4 / 3; }
+.photo-item.group .photo-main { object-position: center 78%; }
+.photo-item.city-life .photo-main { object-position: 30% 70%; }
+.photo-item.field-trip .photo-main { object-position: center 60%; }
+
+/* ───────── Partner logos: a little larger ───────── */
+.partner-inline img { height: 76px; max-width: 240px; }
+
+@media (max-width: 980px) {
+  .process ol.steps { grid-template-columns: 1fr 1fr; }
+  .steps li:nth-child(2) { border-right: 0; }
+  .steps li:nth-child(-n+2) { border-bottom: 1px solid #ffffff30; }
+  .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .process ol.steps { grid-template-columns: 1fr; }
+  .steps li { border-right: 0; border-bottom: 1px solid #ffffff30; padding: 24px 4px; }
+  .steps li:last-child { border-bottom: 0; }
+  .steps li h3 { margin-top: 14px; font-size: 19px; }
+  .photo-grid { gap: 8px; }
+  .photo-item, .photo-item.teacher, .photo-item.classroom, .photo-item.group, .photo-item.travel-experience { aspect-ratio: 4 / 3; height: auto; }
+  .partner-inline img { height: 64px; }
+}
+
+/* ───────── Announcement popup: small refinements on the original design ───────── */
+.announcement-popup-blur { display: none; }
+.announcement-popup-copy .eyebrow { color: var(--red); }
+/* Small category labels (e.g. "PRIVATE TOUR · นครพนม–ท่าแขก"): larger and darker so they read on white cards. */
+.eyebrow { font-size: 12px; letter-spacing: .06em; }
+.announcement-card-copy .eyebrow, .announcement-popup-copy .eyebrow { color: #c4202f; font-weight: 700; }
+.announcement-popup-actions { grid-template-columns: 1fr 1fr; }
+.announcement-popup-actions .button:not(.secondary) { background: var(--red); color: #fff; border: 0; }
+@media (max-width: 420px) {
+  .announcement-popup-image img { min-height: 160px; max-height: 30vh; }
+  .announcement-popup-copy { padding: 18px 16px 16px; }
+  .announcement-popup-copy h3 { font-size: 22px; margin-bottom: 10px; }
+  .announcement-popup-copy > p:not(.eyebrow) { margin-bottom: 16px; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .announcement-popup-actions .button { padding-inline: 8px; font-size: 14px; }
+  .announcement-pager { margin: 0 0 14px; }
+}

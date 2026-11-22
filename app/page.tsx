@@ -1,13 +1,16 @@
 import LoadingIntro from './loading-intro';
-import LanguageSwitcher from './language-switcher';
-import WorkPathways from './work-pathways';
-import MobileMenu from './mobile-menu';
 import ExperienceGallery from './experience-gallery';
-import ContactForm from './contact-form';
 import ServiceCards from './service-cards';
-import ScrollToTop from './scroll-to-top';
 import Announcements from './announcements';
-import LineContact from './line-contact';
+import { Faq } from './more-services';
+import SiteChrome from './_site/site-chrome';
+import ContactSection from './_site/contact-section';
+import GoogleReviews from './_site/google-reviews';
+import OnlineCourses from './_site/online-courses';
+import { getHiddenSections } from '../lib/site-settings.server';
+import type { SectionKey } from '../lib/site-sections';
+
+export const revalidate = 43200; // refresh Google reviews twice a day
 
 const steps = [
   ['01', 'คุยกับที่ปรึกษา', 'เล่าเป้าหมาย งบประมาณ และช่วงเวลาที่ต้องการ'],
@@ -16,47 +19,63 @@ const steps = [
   ['04', 'เดินทางอย่างมั่นใจ', 'มีทีมงานประสานงานและให้คำแนะนำตลอดทริป'],
 ];
 
-const experiencePhotos = [
-  { src: '/experience/experience-02.webp', alt: 'ครูผู้สอน Inter Plus Consulting', caption: 'ครูผู้สอน', kind: 'teacher' },
-  { src: '/experience/experience-02-arm-fixed.png', alt: 'บรรยากาศภายในห้องเรียน', caption: 'บรรยากาศการเรียน', kind: 'classroom' },
-  { src: '/experience/experience-08.webp', alt: 'บรรยากาศกิจกรรมกลุ่มของผู้เรียน', caption: 'กิจกรรมของผู้เรียน', kind: 'group' },
-  { src: '/experience/experience-05.webp', alt: 'บรรยากาศการเดินทางและกิจกรรมต่างประเทศ', caption: 'ประสบการณ์ต่างประเทศ', kind: 'travel-experience' },
+const iconProps = { width: 26, height: 26, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+const stepIcons = [
+  <svg key="talk" {...iconProps}><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>,
+  <svg key="plan" {...iconProps}><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>,
+  <svg key="docs" {...iconProps}><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg>,
+  <svg key="fly" {...iconProps}><path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2l-1.3 1.3L10 11l-3 3H4.5l-1 1 3.5 1.5L8.5 20l1-1v-2.5l3-3 3.5 6.5 1.8-1.3Z"/></svg>,
 ];
 
-function Brand() {
-  return <span className="brand"><img src="/inter-plus-logo-transparent.webp" alt="Inter Plus Consulting" /></span>;
-}
+const experiencePhotos = [
+  { src: '/experience/experience-02.webp', alt: 'ครูผู้สอน Inter Plus Consulting', caption: 'ครูผู้สอน', kind: 'teacher' },
+  { src: '/experience/experience-02-classroom.webp', alt: 'บรรยากาศภายในห้องเรียน', caption: 'บรรยากาศการเรียน', kind: 'classroom' },
+  { src: '/experience/experience-08.webp', alt: 'บรรยากาศกิจกรรมกลุ่มของผู้เรียน', caption: 'กิจกรรมของผู้เรียน', kind: 'group' },
+  { src: '/experience/experience-05.webp', alt: 'บรรยากาศการเดินทางและกิจกรรมต่างประเทศ', caption: 'ประสบการณ์ต่างประเทศ', kind: 'travel-experience' },
+  { src: '/experience/experience-03.webp', alt: 'ทัศนศึกษาที่ศาลาว่าการเมืองในต่างประเทศ', caption: 'ทัศนศึกษา', kind: 'field-trip' },
+  { src: '/experience/experience-06.webp', alt: 'ใช้ชีวิตและเดินทางด้วยรถสาธารณะในต่างประเทศ', caption: 'ใช้ชีวิตจริงในต่างประเทศ', kind: 'city-life' },
+];
 
-export default function Home() {
-  return <main><LoadingIntro /><ScrollToTop />
-    <header className="site-header"><a href="#top" aria-label="หน้าแรก"><Brand /></a><nav className="desktop-nav" aria-label="เมนูหลัก"><a href="#services">บริการ</a><a href="#about">เกี่ยวกับเรา</a><a href="#process">ขั้นตอน</a></nav><div className="header-actions"><LanguageSwitcher/><a className="button small desktop-consult" href="#contact">ปรึกษาฟรี ↗</a><MobileMenu /></div></header>
+export default async function Home() {
+  const hidden = await getHiddenSections();
+  const show = (key: SectionKey) => !hidden.includes(key);
+  return <SiteChrome before={<LoadingIntro />}>
+    <section className="hero" id="top">
+      <div className="hero-copy">
+        <p className="kicker"><i/> INTERNATIONAL EDUCATION & CAREER GUIDANCE</p>
+        <h1>เปิดประตูสู่<br/><em>โอกาสใหม่</em><br/>ทั่วโลก</h1>
+        <p className="lead">วางแผนการเรียน การทำงาน และการเดินทางต่างประเทศอย่างมั่นใจ ด้วยทีมที่ปรึกษาที่ดูแลคุณทุกขั้นตอน</p>
+        <div className="actions"><a className="button" href="#contact">เริ่มวางแผนกับเรา ↗</a>{show('services') && <a className="text-link" href="#services">ดูบริการทั้งหมด ↓</a>}</div>
+        <div className="trust"><div><b>10+</b><span>ปีแห่งประสบการณ์</span></div><div><b>4</b><span>บริการหลักครบวงจร</span></div><div><b>1:1</b><span>ดูแลแบบรายบุคคล</span></div></div>
+      </div>
+      <img className="hero-mobile-img" src="/hero-study-abroad.webp" alt="" />
+    </section>
 
-    <section className="hero" id="top"><div className="orbit one"/><div className="orbit two"/><div className="hero-copy"><p className="kicker"><i/> INTERNATIONAL EDUCATION & CAREER GUIDANCE</p><h1>เปิดประตูสู่<br/><em>โอกาสใหม่</em><br/>ทั่วโลก</h1><p className="lead">วางแผนการเรียน การทำงาน และการเดินทางต่างประเทศอย่างมั่นใจ ด้วยทีมที่ปรึกษาที่ดูแลคุณทุกขั้นตอน</p><div className="actions"><a className="button" href="#contact">เริ่มวางแผนกับเรา ↗</a><a className="text-link" href="#services">ดูบริการทั้งหมด ↓</a></div><div className="trust"><div><b>10+</b><span>ปีแห่งประสบการณ์</span></div><div><b>4</b><span>บริการหลักครบวงจร</span></div><div><b>1:1</b><span>ดูแลแบบรายบุคคล</span></div></div></div><div className="hero-art"><div className="passport"><small>YOUR NEXT CHAPTER</small><b>GO<br/>BEYOND</b><span>INTER<br/>PLUS</span></div><div className="ticket"><small>FROM THAILAND</small><b>TO THE<br/>WORLD</b></div><div className="note">เรียน • ทำงาน • เดินทาง<br/><b>เรื่องยาก เราช่วยให้ง่าย</b></div></div></section>
+    {show('services') && <section className="section" id="services"><div className="heading"><div><p className="kicker"><i/> OUR CORE SERVICES</p><h2>ทุกเป้าหมายของคุณ<br/><em>ไปได้ไกลกว่าเดิม</em></h2></div><p>บริการแบบ One-Stop Service ตั้งแต่ค้นหาเส้นทางที่ใช่ เตรียมเอกสาร จนถึงวันที่คุณออกเดินทาง</p></div><ServiceCards /></section>}
 
-    <div className="ticker">เรียนภาษาอังกฤษ　✦　เรียนต่อ UK　✦　ทำงานต่างประเทศ　✦　วีซ่าและการเดินทาง　✦　ทัวร์ส่วนตัว</div>
+    {(show('announcements') || show('announcement_popup')) && <Announcements showList={show('announcements')} showPopup={show('announcement_popup')} />}
 
-    <section className="section" id="services"><div className="heading"><div><p className="kicker"><i/> OUR CORE SERVICES</p><h2>ทุกเป้าหมายของคุณ<br/><em>ไปได้ไกลกว่าเดิม</em></h2></div><p>บริการแบบ One-Stop Service ตั้งแต่ค้นหาเส้นทางที่ใช่ เตรียมเอกสาร จนถึงวันที่คุณออกเดินทาง</p></div><ServiceCards /></section>
+    {show('courses') && <OnlineCourses />}
 
-    <Announcements />
+    {show('about') && <section className="section about" id="about">
+      <div className="about-art"><img src="/about-consultation.webp" alt="ที่ปรึกษา Inter Plus กำลังวางแผนการศึกษาต่อต่างประเทศกับผู้เรียน" /></div>
+      <div className="about-copy">
+        <p className="kicker"><i/> WHY INTER PLUS</p>
+        <h2>คำแนะนำที่ดี<br/>เปลี่ยนอนาคตได้</h2>
+        <p>Inter Plus Consulting เชื่อว่าทุกคนมีเส้นทางที่เหมาะกับตัวเอง เราจึงเริ่มจากการฟัง ทำความเข้าใจ และวางแผนอย่างตรงจุด ไม่ขายฝัน แต่ช่วยให้คุณเห็นทางเลือกที่เป็นไปได้จริง</p>
+        <ul><li>ทีมงานมีประสบการณ์และเข้าใจระบบต่างประเทศ</li><li>ดูแลครบตั้งแต่เลือกโปรแกรมจนถึงวันเดินทาง</li><li>ให้คำปรึกษาอย่างจริงใจและเหมาะกับแต่ละบุคคล</li></ul>
+        <div className="partner-inline"><span>สถาบันที่ร่วมงานกับเรา</span><img src="/learning-plus-partner.webp" alt="Learning Plus By Kru Jew" /><img src="/stafford-house-partner.webp" alt="Stafford House Study Holidays" /></div>
+      </div>
+    </section>}
 
-    <section className="learning"><div className="learning-copy"><p className="kicker light"><i/> LEARNING PLUS BY KRU JEW</p><h2>ภาษาอังกฤษ<br/>ที่พาคุณไปถึง<br/><em>เป้าหมายจริง</em></h2><p>เรียนตัวต่อตัว กลุ่มเล็ก ออนไลน์ ออนไซต์ หรือ Hybrid ปรับบทเรียนให้เหมาะกับระดับและเป้าหมายของผู้เรียน</p><a className="button white" href="#contact">สอบถามคอร์สเรียน ↗</a></div><div className="course-list">{[['01','Test Preparation','TOEFL · IELTS · CU-TEP · TU-GET · KEPT'],['02','Academic & Admission','ม.1 / ม.4 · TCAS · NETSAT · TGAT · A-Level'],['03','Global Readiness','เตรียมภาษาเพื่อเรียนต่อและทำงานต่างประเทศ'],['04','Thai for Foreigners','คอร์สภาษาไทยสำหรับชาวต่างชาติ']].map(c=><article className="course" key={c[0]}><b>{c[0]}</b><div><h3>{c[1]}</h3><p>{c[2]}</p></div></article>)}</div></section>
+    {show('process') && <section className="section process" id="process"><div className="heading"><div><p className="kicker light"><i/> SIMPLE PROCESS</p><h2>4 ขั้นตอน<br/>สู่เป้าหมายของคุณ</h2></div><p>เรื่องต่างประเทศไม่จำเป็นต้องซับซ้อน เมื่อมีคนที่เข้าใจคอยเดินไปกับคุณ</p></div><ol className="steps">{steps.map((s, index)=><li key={s[0]}><span className="step-icon" aria-hidden="true">{stepIcons[index]}</span><b>{s[0]}</b><h3>{s[1]}</h3><p>{s[2]}</p></li>)}</ol></section>}
 
-    <section className="section uk"><div className="uk-panel"><div className="uk-art"><img src="/the-uk-enhanced.webp" alt="ธงสหราชอาณาจักรและหอนาฬิกาบิ๊กเบน" /></div><div className="uk-copy"><p className="eyebrow">SUMMER UK COURSE</p><h2>เรียนภาษาอังกฤษ<br/>พร้อมใช้ชีวิตจริง<br/>ที่ Cambridge</h2><p>สัมผัสบรรยากาศเมืองมหาวิทยาลัยชั้นนำ เรียนภาษา ทำกิจกรรม และพักกับ Host Family อย่างปลอดภัย</p><div><span>2-3 สัปดาห์</span><span>เรียน 30 ชั่วโมง</span><span>Certificate</span></div></div></div><blockquote>“เราไม่ได้พาไปแค่เรียนภาษา แต่พาไปค้นพบความมั่นใจและโลกใบใหม่”</blockquote></section>
+    {show('gallery') && <section className="section experience-gallery"><div className="gallery-heading"><div><p className="kicker"><i/> OUR GALLERY</p><h2>ภาพบรรยากาศ</h2></div><p>บรรยากาศการเรียนและกิจกรรมที่ช่วยเปิดโลกใหม่ให้ผู้เรียนของเรา</p></div><ExperienceGallery photos={experiencePhotos}/></section>}
 
-    <section className="section pathways"><div className="heading"><div><p className="kicker"><i/> WORK & TRAVEL ABROAD</p><h2>เลือกเส้นทางที่เหมาะ<br/>กับจังหวะชีวิตคุณ</h2></div></div><WorkPathways /></section>
+    {show('reviews') && <GoogleReviews />}
 
-    <section className="section process" id="process"><div className="heading"><div><p className="kicker light"><i/> SIMPLE PROCESS</p><h2>4 ขั้นตอน<br/>สู่เป้าหมายของคุณ</h2></div><p>เรื่องต่างประเทศไม่จำเป็นต้องซับซ้อน เมื่อมีคนที่เข้าใจคอยเดินไปกับคุณ</p></div><div className="steps">{steps.map(s=><article key={s[0]}><b>{s[0]}</b><h3>{s[1]}</h3><p>{s[2]}</p></article>)}</div></section>
+    {show('faq') && <Faq />}
 
-    <section className="section about" id="about"><div className="about-art"><img src="/about-consultation.webp" alt="ที่ปรึกษา Inter Plus กำลังวางแผนการศึกษาต่อต่างประเทศกับผู้เรียน" /></div><div className="about-copy"><p className="kicker"><i/> WHY INTER PLUS</p><h2>คำแนะนำที่ดี<br/>เปลี่ยนอนาคตได้</h2><p>Inter Plus Consulting เชื่อว่าทุกคนมีเส้นทางที่เหมาะกับตัวเอง เราจึงเริ่มจากการฟัง ทำความเข้าใจ และวางแผนอย่างตรงจุด ไม่ขายฝัน แต่ช่วยให้คุณเห็นทางเลือกที่เป็นไปได้จริง</p><ul><li>ทีมงานมีประสบการณ์และเข้าใจระบบต่างประเทศ</li><li>ดูแลครบตั้งแต่เลือกโปรแกรมจนถึงวันเดินทาง</li><li>ให้คำปรึกษาอย่างจริงใจและเหมาะกับแต่ละบุคคล</li></ul></div></section>
-
-    <section className="partners"><p className="kicker center"><i/> OUR EDUCATION NETWORK</p><h2>สถาบันที่ร่วมงานกับเรา</h2><div className="partner-strip"><div className="partner-static"><div className="partner-mark learning-plus-mark"><img src="/learning-plus-partner.webp" alt="Learning Plus By Kru Jew" /></div><span aria-hidden="true"/><div className="partner-mark stafford-mark"><img src="/stafford-house-partner.webp" alt="Stafford House Study Holidays" /></div></div></div></section>
-
-    <section className="section experience-gallery"><div className="gallery-heading"><div><p className="kicker"><i/> OUR GALLERY</p><h2>ภาพบรรยากาศ</h2></div><p>บรรยากาศการเรียนและกิจกรรมที่ช่วยเปิดโลกใหม่ให้ผู้เรียนของเรา</p></div><ExperienceGallery photos={experiencePhotos}/></section>
-
-    <section className="travel"><div><p className="kicker light"><i/> TRAVEL WITH CONFIDENCE</p><h2>พร้อมออกเดินทาง<br/>แบบไม่ต้องกังวล?</h2></div><div><span>วีซ่าทุกประเภท</span><span>ตั๋วเครื่องบิน</span><span>Private Tour</span><span>Transport & Guide</span></div></section>
-
-    <section className="section contact" id="contact"><div className="contact-intro"><p className="kicker"><i/> LET&apos;S TALK</p><h2>เริ่มต้นบทใหม่<br/>ของคุณวันนี้</h2><p>บอกเราว่าคุณสนใจอะไร ทีมที่ปรึกษาจะติดต่อกลับเพื่อช่วยวางแผนเบื้องต้นโดยไม่มีค่าใช้จ่าย</p><div className="details"><a href="tel:0981045788"><span>โทรศัพท์ • ครูจิว</span><strong>098-104-5788</strong><b>โทรออก ↗</b></a><a href="tel:0910179300"><span>โทรศัพท์ • พี่ลิต้า</span><strong>091-017-9300</strong><b>โทรออก ↗</b></a><a href="mailto:jewellyji1234@gmail.com"><span>อีเมล</span><strong>jewellyji1234@gmail.com</strong><b>ส่งอีเมล ↗</b></a></div><div className="social-contacts"><LineContact/><a className="facebook-contact" href="https://www.facebook.com/englishtutot/" target="_blank" rel="noreferrer"><span>FACEBOOK</span>ติดตามบน Facebook <b>↗</b></a></div></div><ContactForm /><div className="contact-map"><div><p className="kicker"><i/> VISIT US</p><h3>แผนที่และที่ตั้ง</h3><p>Learning Plus By Kru Jew เลขที่ 130 ซอย 1 ตำบลสำราญ อำเภอเมืองยโสธร จังหวัดยโสธร 35000</p><a href="https://maps.app.goo.gl/E2rDNDmPYyJnz4Eo7?g_st=com.hammerandchisel.discord.Share" target="_blank" rel="noreferrer">เปิดใน Google Maps ↗</a></div><iframe src="https://www.google.com/maps?q=Learning+Plus+By+Kru+Jew+130+Soi+1+%E0%B8%95%E0%B8%B3%E0%B8%9A%E0%B8%A5+%E0%B8%AA%E0%B8%B3%E0%B8%A3%E0%B8%B2%E0%B8%8D+%E0%B8%AD%E0%B8%B3%E0%B9%80%E0%B8%A0%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%A2%E0%B9%82%E0%B8%AA%E0%B8%98%E0%B8%A3+%E0%B8%A2%E0%B9%82%E0%B8%AA%E0%B8%98%E0%B8%A3+35000&amp;output=embed" title="แผนที่ Learning Plus By Kru Jew / Map" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div></section>
-
-    <footer><Brand/><p>International Education & Career Guidance Center</p><div><a href="#services">บริการ</a><a href="#about">เกี่ยวกับเรา</a><a href="#contact">ติดต่อเรา</a></div><small>© 2026 Inter Plus Consulting. All rights reserved.</small></footer>
-  </main>;
+    <ContactSection showMap={show('map')} />
+  </SiteChrome>;
 }

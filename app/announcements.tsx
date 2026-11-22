@@ -3,8 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { smoothScrollToElement } from './smooth-scroll';
 import { initialAnnouncementData, type Announcement } from '../lib/announcement-data';
+import { isSupabaseConfigured, supabase } from '../lib/supabase';
+import type { DbAnnouncement } from '../lib/types';
 
-export default function Announcements() {
+/** Announcement carousel and the once-a-day popup; each can be turned off in Admin → ตั้งค่าการแสดงหน้าเว็บ. */
+export default function Announcements({ showList = true, showPopup = true }: { showList?: boolean; showPopup?: boolean }) {
   const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncementData);
   const announcementTrack = useRef<HTMLDivElement>(null);
   const announcementPosition = useRef(0);
@@ -17,7 +20,21 @@ export default function Announcements() {
   const previewAnnouncement = preview === null ? null : announcements[preview.index];
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'development') return;
+    if (!isSupabaseConfigured) return;
+    supabase().from('announcements').select('*').eq('is_published', true).order('position').order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (error || !data?.length) return; // Keep the bundled announcements as a fallback.
+        setAnnouncements((data as DbAnnouncement[]).map(item => ({
+          id: item.id, label: item.label, title: item.title, description: item.description, details: item.details,
+          image: item.image_url, fullImage: item.gallery[0] ?? item.image_url, gallery: item.gallery.length ? item.gallery : [item.image_url],
+        })));
+        setPopupIndex(0);
+        announcementPosition.current = 0;
+      });
+  }, []);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development' || isSupabaseConfigured) return;
     const refresh = async () => {
       try {
         const response = await fetch('/api/local-announcements', { cache: 'no-store' });
@@ -57,9 +74,19 @@ export default function Announcements() {
   }, [announcements.length]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => { if (initialAnnouncementData.length) setPopupOpen(true); }, 2050);
+    // Show the popup at most once per day per visitor.
+    const key = 'ip-announcement-popup';
+    const today = new Date().toISOString().slice(0, 10);
+    let seenToday = false;
+    try { seenToday = window.localStorage.getItem(key) === today; } catch { /* storage unavailable */ }
+    if (seenToday || !showPopup) return;
+    const timer = window.setTimeout(() => {
+      if (!initialAnnouncementData.length) return;
+      setPopupOpen(true);
+      try { window.localStorage.setItem(key, today); } catch { /* storage unavailable */ }
+    }, 2050);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [showPopup]);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -113,7 +140,7 @@ export default function Announcements() {
   const scrollAnnouncements = (direction: number) => moveAnnouncementTrack(direction);
 
   return <>
-    <section className="section announcements" id="announcements">
+    {showList && <section className="section announcements" id="announcements">
       <div className="heading">
         <div><p className="kicker"><i/> NEWS & ANNOUNCEMENTS</p><h2>ข่าวสารและ<br/><em>ประกาศล่าสุด</em></h2></div>
         <p>ติดตามโครงการ คอร์สเรียน และโอกาสใหม่จาก Inter Plus Consulting กดที่ประกาศเพื่อดูรายละเอียด</p>
@@ -135,14 +162,14 @@ export default function Announcements() {
           </article>
         })}</div>
       </div>
-    </section>
+    </section>}
 
     {popupOpen && activeAnnouncement && <div className="announcement-popup-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setPopupOpen(false); }}>
       <section className="announcement-popup" role="dialog" aria-modal="true" aria-labelledby="announcement-popup-title">
         <button type="button" className="announcement-close" aria-label="ปิดประกาศ" onClick={() => setPopupOpen(false)}>×</button>
-        <button type="button" className="announcement-popup-image" onClick={() => showAnnouncement(popupIndex)} aria-label="ไปยังประกาศ">
+        <button type="button" className="announcement-popup-image" onClick={() => { if (showList) showAnnouncement(popupIndex); else { setPopupOpen(false); setPreview({ index: popupIndex, image: 0 }); } }} aria-label={showList ? 'ไปยังประกาศ' : 'ดูรายละเอียดประกาศ'}>
           <img src={activeAnnouncement.image} alt={activeAnnouncement.title} />
-          <span>ไปยังประกาศ ↓</span>
+          <span>{showList ? 'ไปยังประกาศ ↓' : 'ดูรายละเอียด ↗'}</span>
         </button>
         <div className="announcement-popup-copy">
           <p className="eyebrow">ประกาศ · {activeAnnouncement.label}</p>
@@ -154,7 +181,8 @@ export default function Announcements() {
             <button type="button" onClick={() => changePopup(1)} aria-label="ประกาศถัดไป">→</button>
           </div>}
           <div className="announcement-popup-actions">
-            <button type="button" className="button secondary" onClick={showAllAnnouncements}>ดูประกาศทั้งหมด</button>
+            <button type="button" className="button" onClick={() => { setPopupOpen(false); setPreview({ index: popupIndex, image: 0 }); }}>ดูรายละเอียด</button>
+            {showList && <button type="button" className="button secondary" onClick={showAllAnnouncements}>ดูประกาศทั้งหมด</button>}
           </div>
         </div>
       </section>

@@ -1,0 +1,86 @@
+/* Learning levels */
+.learning-levels{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 30px}
+.learning-levels span{border:1px solid #ffffff55;padding:7px 13px;font-size:14px}
+
+/* Shared interest button */
+.program-interest{align-self:flex-start;margin-top:auto;padding:0;border:0;border-bottom:1px solid currentColor;background:none;color:var(--red);font:600 15px var(--font-sarabun),sans-serif;cursor:pointer;transition:transform .2s}
+.program-interest:hover{transform:translateX(4px)}
+.program-interest:focus-visible{outline:3px solid #55b7d9;outline-offset:4px}
+
+/* UK programs */
+.uk-programs-head{margin:80px 0 26px}
+.uk-programs-head .kicker{margin-bottom:12px}
+.uk-programs-head h3{font:800 clamp(28px,3vw,40px)/1.15 var(--font-sarabun),sans-serif;letter-spacing:-.03em;margin:0}
+.uk-programs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.uk-programs article{display:flex;flex-direction:column;gap:12px;background:#fff;border-top:5px solid var(--blue);padding:34px 32px;min-height:300px;transition:transform .3s ease,box-shadow .3s ease}
+.uk-programs article:hover{transform:translateY(-8px);box-shadow:0 22px 50px #153d5420}
+.uk-programs small{font:700 11px var(--font-sarabun),sans-serif;letter-spacing:.15em;color:var(--sky)}
+.uk-programs h3{font:800 24px/1.25 var(--font-sarabun),sans-serif;margin:6px 0 0}
+.uk-programs b{color:var(--blue);font-weight:700}
+.uk-programs p{line-height:1.75;color:#60717d;margin:0 0 12px}
+
+/* Travel services */
+.travel-services{background:var(--blue);color:#fff;padding:95px max(6vw,40px)}
+.travel-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:48px}
+.travel-head h2{font:800 clamp(38px,4.6vw,60px)/1.05 var(--font-sarabun),sans-serif;letter-spacing:-.05em;margin:0}
+.travel-head>p{max-width:420px;line-height:1.8;color:#cfe4f3;margin:0}
+.travel-groups{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.travel-groups article{display:flex;flex-direction:column;border:1px solid #ffffff40;padding:36px;background:#ffffff0d}
+.travel-groups small{font:700 11px var(--font-sarabun),sans-serif;letter-spacing:.15em;color:#9cd5e9}
+.travel-groups h3{font-size:26px;margin:12px 0 18px}
+.travel-groups ul{list-style:none;padding:0;margin:0 0 26px}
+.travel-groups li{display:grid;gap:4px;padding:16px 0;border-bottom:1px solid #ffffff2a}
+.travel-groups li b{font:700 17px var(--font-sarabun),sans-serif}
+.travel-groups li span{color:#cfe4f3;line-height:1.65}
+.travel-groups .program-interest{color:#fff}
+
+/* Other services */
+.other-services{background:var(--cream)}
+.other-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.other-grid article{display:flex;flex-direction:column;gap:10px;background:#fff;padding:36px 32px;min-height:250px;border-left:4px solid var(--red)}
+.other-grid article>b{font:800 34px var(--font-sarabun),sans-serif;color:var(--sky)}
+.other-grid h3{font-size:22px;margin:14px 0 0}
+.other-grid p{line-height:1.75;color:#60717d;margin:0 0 12px}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:6vw;align-items:start}
+.faq-intro h2{font:800 clamp(40px,5vw,70px)/1.03 var(--font-sarabun),sans-serif;letter-spacing:-.055em;margin:0 0 22px}
+.faq-intro>p:not(.kicker){line-height:1.8;color:#5b6e7d;margin:0 0 28px}
+.faq-list{border-top:1px solid var(--line)}
+.faq-list details{border-bottom:1px solid var(--line)}
+.faq-list summary{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:19px;font-weight:600;cursor:pointer;list-style:none}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary b{flex:none;display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--line);border-radius:50%;color:var(--red);font:600 20px var(--font-sarabun),sans-serif;transition:transform .25s ease,background .25s ease}
+.faq-list details[open] summary b{transform:rotate(45deg);background:var(--red);color:#fff;border-color:var(--red)}
+.faq-list summary:focus-visible{outline:3px solid #55b7d9;outline-offset:4px}
+.faq-list details>p{margin:0;padding:0 50px 26px 0;line-height:1.85;color:#536b7b}
+
+/* Floating contact */
+.floating-contact{position:fixed;left:clamp(16px,2.2vw,34px);bottom:clamp(18px,2.5vw,36px);z-index:9000;display:flex;gap:8px;box-shadow:0 12px 35px rgba(4,47,80,.28);border-radius:999px}
+.floating-contact a,.floating-contact button{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 20px;border:0;font:600 15px var(--font-sarabun),sans-serif;cursor:pointer;text-decoration:none;transition:transform .2s ease,background .2s ease}
+.floating-consult{background:var(--red);color:#fff;border-radius:999px 0 0 999px}
+.floating-consult:hover{background:#c82029}
+.floating-line{background:#06c755;color:#fff;border-radius:0 999px 999px 0}
+.floating-line:hover{background:#05a948}
+.floating-line span{font:800 11px var(--font-sarabun),sans-serif;letter-spacing:.08em;background:#fff;color:#06c755;padding:3px 6px;border-radius:5px}
+.floating-contact a:focus-visible,.floating-contact button:focus-visible{outline:3px solid #55b7d9;outline-offset:3px}
+
+@media(max-width:980px){
+  .uk-programs,.other-grid{grid-template-columns:1fr}
+  .uk-programs article,.other-grid article{min-height:0}
+  .travel-head{flex-direction:column;align-items:start}
+  .travel-groups{grid-template-columns:1fr}
+  .faq{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .travel-services{padding:70px 20px}
+  .travel-groups article{padding:26px 22px}
+  .faq-list summary{font-size:17px}
+  .faq-list details>p{padding-right:0}
+  .floating-contact{left:14px;bottom:16px}
+  .floating-contact a,.floating-contact button{min-height:48px;padding:0 15px;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  .uk-programs article,.program-interest,.faq-list summary b{transition:none}
+  .uk-programs article:hover,.program-interest:hover{transform:none}
+}

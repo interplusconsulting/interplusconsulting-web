@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 const lineUrl = 'https://line.me/ti/p/cBuPUGY7jm#~';
 
-export default function LineContact() {
+type Props = { className?: string; children?: ReactNode };
+
+export default function LineContact({ className = 'line-contact', children }: Props) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -21,8 +23,8 @@ export default function LineContact() {
   }, [open]);
 
   return <>
-    <button type="button" className="line-contact" onClick={() => setOpen(true)}>
-      <span>LINE</span>ติดต่อผ่าน LINE <b>↗</b>
+    <button type="button" className={className} onClick={() => setOpen(true)}>
+      {children ?? <><span>LINE</span>ติดต่อผ่าน LINE <b>↗</b></>}
     </button>
 
     {open && <div className="line-modal-backdrop" role="presentation" onMouseDown={event => {
