@@ -1,9 +1,12 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { safeHttpUrl } from '../../../lib/media';
 import { errorText, supabase } from '../../../lib/supabase';
 import type { Review } from '../../../lib/types';
+import { formatReviewAge, readReviewAge, reviewAgeUnits, saveReviewAge, type ReviewAgeUnit } from '../../../lib/review-age';
+import { useReviewDay } from '../../_portal/use-review-day';
 import { AdminListHeading, AdminSelect, IconButton, IconLink, SaveBar, StatusPill, NumberInput, PublishSwitch } from '../../_portal/admin-ui';
 import { Loading } from '../../_portal/shell';
 
@@ -16,6 +19,15 @@ export default function AdminReviewsPage() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const [error, setError] = useState('');
+  const today = useReviewDay();
+  const [ageInput, setAgeInput] = useState<{ amount: string; unit: ReviewAgeUnit; changed: boolean }>({ amount: '', unit: 'day', changed: false });
+
+  const openEditor = (draft: Draft) => {
+    const age = readReviewAge(draft.review_date, today);
+    setAgeInput({ amount: age ? String(age.amount) : '', unit: age?.unit ?? 'day', changed: false });
+    setMessage(null);
+    setEditing(draft);
+  };
 
   const load = useCallback(async () => {
     const { data, error: loadError } = await supabase().from('reviews').select('*').order('position').order('created_at', { ascending: false });
@@ -30,10 +42,18 @@ export default function AdminReviewsPage() {
     if (!editing) return;
     if (!editing.author_name.trim() || !editing.body.trim()) { setMessage({ ok: false, text: 'กรุณากรอกชื่อผู้รีวิวและข้อความรีวิว' }); return; }
     if (editing.review_url.trim() && !safeHttpUrl(editing.review_url)) { setMessage({ ok: false, text: 'ลิงก์รีวิวต้องขึ้นต้นด้วย https://' }); return; }
+    const amount = Number(ageInput.amount);
+    if (ageInput.changed && ageInput.amount && (!Number.isInteger(amount) || amount < 0 || amount > 1000)) {
+      setMessage({ ok: false, text: 'ช่วงเวลาต้องเป็นจำนวนเต็มตั้งแต่ 0 ถึง 1,000' });
+      return;
+    }
+    const reviewDate = ageInput.changed
+      ? ageInput.amount ? saveReviewAge(amount, ageInput.unit) : ''
+      : editing.review_date;
     setBusy(true); setMessage(null);
     const row = {
       author_name: editing.author_name.trim(), rating: editing.rating, body: editing.body.trim(), review_url: editing.review_url.trim(),
-      review_date: editing.review_date.trim(), source: editing.source.trim() || 'Google', is_published: editing.is_published, position: Number(editing.position) || 0,
+      review_date: reviewDate, source: editing.source.trim() || 'Google', is_published: editing.is_published, position: Number(editing.position) || 0,
     };
     const table = supabase().from('reviews');
     const { error: saveError } = editing.id ? await table.update(row).eq('id', editing.id) : await table.insert(row);
@@ -57,7 +77,7 @@ export default function AdminReviewsPage() {
   return <>
     <div className="ip-page-head">
       <div><h1>จัดการรีวิว</h1><p className="ip-muted">คัดลอกรีวิวจริงจาก Google Maps มาใส่ หน้าเว็บจะแสดงเฉพาะรีวิว 5 ดาวที่ตั้งเป็น “แสดงบนเว็บ”</p></div>
-      <button type="button" className="ip-btn" onClick={() => { setMessage(null); setEditing({ ...blank, position: items?.length ?? 0 }); }}>+ เพิ่มรีวิว</button>
+      <button type="button" className="ip-btn" onClick={() => openEditor({ ...blank, position: items?.length ?? 0 })}>+ เพิ่มรีวิว</button>
     </div>
     <details className="ip-card ip-howto">
       <summary>วิธีคัดลอกรีวิวจาก Google Maps</summary>
@@ -71,20 +91,20 @@ export default function AdminReviewsPage() {
     {!items && <Loading />}
     {items && items.length === 0 && <div className="ip-empty"><h2>ยังไม่มีรีวิว</h2><p>กด “+ เพิ่มรีวิว” เพื่อเริ่ม</p></div>}
     {!!items?.length && <AdminListHeading title="รายการรีวิว" count={items.length} />}
-    {items && items.length > 0 && <div className="ip-review-admin">{items.map(item => <article key={item.id} className="ip-card">
+    <PaginatedList items={items ?? []}>{pageItems => <div className="ip-review-admin">{pageItems.map(item => <article key={item.id} className="ip-card">
       <div className="ip-row space">
         <span className="review-stars" aria-label={`${item.rating} ดาว`}>{'★'.repeat(item.rating)}<span className="ip-stars-off">{'★'.repeat(5 - item.rating)}</span></span>
         <StatusPill on={item.is_published && item.rating === 5} onText="แสดงบนเว็บ" offText={item.rating < 5 ? 'ไม่แสดง (ต่ำกว่า 5 ดาว)' : 'ซ่อน'} />
       </div>
       <p className="ip-review-body">{item.body}</p>
-      <p className="ip-muted ip-small"><b>{item.author_name}</b>{item.review_date && ` · ${item.review_date}`} · {item.source} · ลำดับ {item.position}</p>
+      <p className="ip-muted ip-small"><b>{item.author_name}</b>{item.review_date && ` · ${formatReviewAge(item.review_date, today)}`} · {item.source} · ลำดับ {item.position}</p>
       <div className="admin-row-actions">
         <PublishSwitch checked={item.is_published} label={`เปิดการเผยแพร่รีวิวของ ${item.author_name}`} onToggle={() => togglePublished(item)} />
-        <IconButton icon="edit" label="แก้ไข" onClick={() => { setMessage(null); setEditing(item); }} />
+        <IconButton icon="edit" label="แก้ไข" onClick={() => openEditor(item)} />
         {item.review_url && <IconLink icon="open" label="ดูรีวิวต้นฉบับ" href={item.review_url} external />}
         <IconButton icon="delete" label="ลบ" tone="danger" onClick={() => void remove(item)} />
       </div>
-    </article>)}</div>}
+    </article>)}</div>}</PaginatedList>
 
     {editing && <div className="ip-modal-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setEditing(null); }}>
       <form className="ip-modal wide ip-form" role="dialog" aria-modal="true" aria-labelledby="review-title" onSubmit={save}>
@@ -99,7 +119,17 @@ export default function AdminReviewsPage() {
         <label>ข้อความรีวิว (คัดลอกตามต้นฉบับ)<textarea rows={6} value={editing.body} onChange={event => setEditing({ ...editing, body: event.target.value })} maxLength={3000} required /></label>
         <label>ลิงก์รีวิวบน Google Maps<input value={editing.review_url} onChange={event => setEditing({ ...editing, review_url: event.target.value })} placeholder="https://maps.app.goo.gl/…" maxLength={1000} /></label>
         <div className="ip-form-row">
-          <label>ช่วงเวลา (เช่น 2 เดือนที่แล้ว)<input value={editing.review_date} onChange={event => setEditing({ ...editing, review_date: event.target.value })} maxLength={60} /></label>
+          <fieldset className="admin-review-age">
+            <legend>ผ่านมาแล้ว</legend>
+            <div className="admin-review-age-fields">
+              <label>จำนวน<input type="number" min={0} max={1000} step={1} inputMode="numeric" placeholder="เช่น 1"
+                value={ageInput.amount} onChange={event => setAgeInput(current => ({ ...current, amount: event.target.value, changed: true }))} /></label>
+              <AdminSelect label="หน่วยเวลา" value={ageInput.unit} options={reviewAgeUnits}
+                onChange={value => setAgeInput(current => ({ ...current, unit: value as ReviewAgeUnit, changed: true }))} />
+            </div>
+            {!ageInput.changed && editing.review_date && !readReviewAge(editing.review_date, today) &&
+              <small className="ip-muted">ค่าเดิม: {editing.review_date} · กรอกจำนวนใหม่เพื่อเริ่มนับอัตโนมัติ</small>}
+          </fieldset>
           <label>ลำดับการแสดง<NumberInput value={Number(editing.position)} onChange={value => setEditing({ ...editing, position: value })} /></label>
         </div>
         <PublishSwitch showLabel label="แสดงบนเว็บ (เฉพาะรีวิว 5 ดาว)" checked={editing.is_published}

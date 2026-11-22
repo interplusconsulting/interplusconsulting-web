@@ -12,28 +12,32 @@ type ShowcaseExam = {
 };
 
 /** Homepage teaser for published online courses and practice exams. Renders nothing until there is something to show. */
-export default function OnlineCourses() {
+export default function OnlineCourses({ showCourses, showExams }: { showCourses: boolean; showExams: boolean }) {
   const [courses, setCourses] = useState<Course[]>([]);
   const [exams, setExams] = useState<ShowcaseExam[]>([]);
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
-    supabase().from('courses').select('id,title,summary,price,compare_at_price,badge,cover_url,position,created_at')
+    if (showCourses) void supabase().from('courses').select('id,title,summary,price,compare_at_price,badge,cover_url,position,created_at')
       .eq('is_published', true).order('position').order('created_at', { ascending: false }).limit(3)
       .then(({ data }) => setCourses((data as Course[] | null) ?? []));
     // exam_showcase() returns display fields only (no exam links). Missing function = no exams shown.
-    supabase().rpc('exam_showcase').then(({ data, error }) => { if (!error) setExams(((data as ShowcaseExam[] | null) ?? []).slice(0, 4)); });
-  }, []);
+    if (showExams) void supabase().rpc('exam_showcase').then(({ data, error }) => { if (!error) setExams(((data as ShowcaseExam[] | null) ?? []).slice(0, 4)); });
+  }, [showCourses, showExams]);
 
-  if (!courses.length && !exams.length) return null;
+  const hasCourses = showCourses && courses.length > 0;
+  const hasExams = showExams && exams.length > 0;
+  if (!hasCourses && !hasExams) return null;
 
   return <section className="section online-courses" id="courses">
     <div className="heading">
-      <div><p className="kicker"><i/> ONLINE COURSES & EXAMS</p><h2>เรียนออนไลน์<br/><em>ได้ทุกที่ ทุกเวลา</em></h2></div>
-      <p>คอร์สภาษาอังกฤษและข้อสอบเสมือนจริงจาก Learning Plus by Kru Jew สมัครแล้วเรียนและทำข้อสอบผ่านเว็บได้ทันที</p>
+      <div><p className="kicker"><i/> {showCourses && showExams ? 'ONLINE COURSES & EXAMS' : showCourses ? 'ONLINE COURSES' : 'ONLINE EXAMS'}</p><h2>เรียนออนไลน์<br/><em>ได้ทุกที่ ทุกเวลา</em></h2></div>
+      <p>{showCourses && showExams
+        ? 'คอร์สภาษาอังกฤษและข้อสอบเสมือนจริงจาก Learning Plus by Kru Jew สมัครแล้วเรียนและทำข้อสอบผ่านเว็บได้ทันที'
+        : showCourses ? 'คอร์สภาษาอังกฤษออนไลน์จาก Learning Plus by Kru Jew' : 'ข้อสอบเสมือนจริงจาก Learning Plus by Kru Jew'}</p>
     </div>
     <div className="online-layout">
-      {!!courses.length && <div className="online-group">
+      {hasCourses && <div className="online-group">
         <h3 className="online-group-title">คอร์สเรียน</h3>
         <div className="online-course-grid">
           {courses.map(course => <Link key={course.id} className="online-course-card" href={`/learn/course?id=${course.id}`}>
@@ -50,7 +54,7 @@ export default function OnlineCourses() {
         </div>
         <Link className="online-more" href="/learn/courses">ดูคอร์สทั้งหมด →</Link>
       </div>}
-      {!!exams.length && <div className="online-group">
+      {hasExams && <div className="online-group">
         <h3 className="online-group-title">ข้อสอบเสมือนจริง</h3>
         <div className="online-exam-panel">
           <ul className="online-exam-list">

@@ -411,9 +411,33 @@ code{background:#eef2f5;padding:1px 6px;border-radius:4px;font-size:.92em}
 .ip-stat strong{font:800 38px var(--font-sarabun),sans-serif;color:var(--navy)}
 .ip-stat.accent{border-color:var(--red);background:#fff5f5}
 .ip-stat.accent strong{color:var(--red)}
-.ip-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.ip-tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:600;color:#33495a}
-.ip-tabs button.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.ip-tabs {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+}
+.ip-tabs button {
+  flex: 1 0 auto;
+  min-height: 46px;
+  padding: 8px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #52677b;
+  white-space: nowrap;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ip-tabs button:hover { background: #eaf2fa; }
+.ip-tabs button:is(.active, [aria-pressed="true"], [aria-selected="true"]) {
+  border-bottom-color: #245c9c;
+  color: #174e83;
+}
+.ip-tabs button:focus-visible { outline: 2px solid #245c9c; outline-offset: -3px; }
 .ip-editor{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
 .ip-lesson-admin{list-style:none;padding:0;margin:0;display:grid;gap:8px}
 .ip-lesson-admin li{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:8px}
@@ -567,3 +591,27 @@ code{background:#eef2f5;padding:1px 6px;border-radius:4px;font-size:.92em}
   .ip-topbar.simple nav{order:0;flex-basis:auto;flex-direction:row}
 }
 @media(prefers-reduced-motion:reduce){.ip-sidebar{transition:none}.ip-spinner{animation-duration:2s}.ip-course-card,.ip-stat{transition:none}.ip-course-card:hover,.ip-stat:hover{transform:none}}
+.ip-pagination-options, .ip-pagination-pages {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  color: #52677b;
+  font-size: .875rem;
+}
+.ip-pagination-options { margin: 0 0 10px; }
+.ip-pagination-options label { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.ip-pagination-options select {
+  min-height: 40px;
+  min-width: 66px;
+  padding: 4px 8px;
+  border: 1px solid #c9d8e5;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--navy);
+  font: inherit;
+}
+.ip-pagination-pages { justify-content: flex-end; margin: 12px 0 0; }
+.ip-pagination-pages button { min-height: 40px; }
+.ip-pagination-pages button:disabled { opacity: .55; cursor: default; }

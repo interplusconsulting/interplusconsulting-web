@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 
 const thToEn: Record<string, string> = {
+  'คอร์สภาษาอังกฤษออนไลน์จาก Learning Plus by Kru Jew': 'Online English courses from Learning Plus by Kru Jew',
+  'ข้อสอบเสมือนจริงจาก Learning Plus by Kru Jew': 'Practice exams from Learning Plus by Kru Jew',
   'บริการ':'Services','เกี่ยวกับเรา':'About us','ขั้นตอน':'Process','ปรึกษาฟรี':'Free consultation','ปรึกษาฟรี ↗︎':'Free consultation ↗︎',
   'เปิดประตูสู่':'Open the door to','โอกาสใหม่':'new opportunities','ทั่วโลก':'around the world',
   'วางแผนการเรียน การทำงาน และการเดินทางต่างประเทศอย่างมั่นใจ ด้วยทีมที่ปรึกษาที่ดูแลคุณทุกขั้นตอน':'Plan your study, career and international journey with confidence, supported by advisors at every step.',

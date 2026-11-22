@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { formatBaht, formatDate, supabase } from '../../../../lib/supabase';
 import { orderStatusText, type OrderStatus } from '../../../../lib/types';
 import type { ReactNode } from 'react';
+import PaginatedList from '../../../_portal/paginated-list';
 
 export type RecentOrder = { id: string; amount: number; created_at: string; status: OrderStatus };
-export async function loadRecentPayments(signal: AbortSignal, status?: OrderStatus): Promise<RecentOrder[] | null> {
+export async function loadRecentPayments(signal: AbortSignal, status?: OrderStatus, limit = 5): Promise<RecentOrder[] | null> {
   try {
     const query = supabase().from('orders').select('id, amount, created_at, status')
-      .order('created_at', { ascending: false }).order('id').limit(5).abortSignal(signal);
+      .order('created_at', { ascending: false }).order('id').limit(limit).abortSignal(signal);
     const { data, error } = await (status ? query.eq('status', status) : query);
     return error ? null : data;
   } catch {
@@ -91,28 +92,31 @@ export function BreakdownChart({ title, metrics, selectMetric }: {
     </section>;
 }
 
-export function RecentPayments({ orders, showAll = false, controls, filterLabel }: {
+export function RecentPayments({ orders, showAll = false, controls, filterLabel, paginate = false }: {
   orders?: RecentOrder[] | null;
   showAll?: boolean;
   controls?: ReactNode;
   filterLabel?: string;
+  paginate?: boolean;
 }) {
-  return <section className="ip-card ip-recent-payments">
-    <header className="ip-recent-payments-head">
-      <h2>รายการชำระเงินล่าสุด</h2>
-      {showAll && <Link href="/admin/orders">ดูทั้งหมด</Link>}
-    </header>
-    {controls}
-    {orders?.length ? <div className="ip-table-wrap">
+  const renderTable = (items: readonly RecentOrder[]) => <div className="ip-table-wrap">
       <table className="ip-table">
         <thead><tr><th scope="col">รหัสรายการ</th><th scope="col">วันที่สร้าง</th><th scope="col">สถานะ</th><th scope="col">ยอดเงิน</th></tr></thead>
-        <tbody>{orders.map(order => <tr key={order.id}>
+        <tbody>{items.map(order => <tr key={order.id}>
           <td data-label="รหัสรายการ"><span title={order.id}>{order.id.slice(0, 8)}</span></td>
           <td data-label="วันที่สร้าง">{formatDate(order.created_at)}</td>
           <td data-label="สถานะ"><span className={`ip-status ${order.status}`}>{orderStatusText[order.status]}</span></td>
           <td data-label="ยอดเงิน">{formatBaht(order.amount)}</td>
         </tr>)}</tbody>
       </table>
-    </div> : <p role="status">{orders === null ? 'โหลดรายการล่าสุดไม่สำเร็จ' : orders ? filterLabel ? `ไม่มีรายการสถานะ ${filterLabel}` : 'ยังไม่มีรายการชำระเงิน' : 'กำลังโหลดรายการ…'}</p>}
+    </div>;
+  return <section className="ip-card ip-recent-payments">
+    <header className="ip-recent-payments-head">
+      <h2>รายการชำระเงินล่าสุด</h2>
+      {showAll && <Link href="/admin/orders">ดูทั้งหมด</Link>}
+    </header>
+    {controls}
+    {paginate ? <PaginatedList items={orders ?? []} resetKey={filterLabel}>{renderTable}</PaginatedList> : !!orders?.length && renderTable(orders)}
+    {!orders?.length && <p role="status">{orders === null ? 'โหลดรายการล่าสุดไม่สำเร็จ' : orders ? filterLabel ? `ไม่มีรายการสถานะ ${filterLabel}` : 'ยังไม่มีรายการชำระเงิน' : 'กำลังโหลดรายการ…'}</p>}
   </section>;
 }

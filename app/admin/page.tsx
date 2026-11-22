@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
-import { loadWeeklyCounts, recentWeeks } from '../_portal/dashboard-periods';
+import { formatBaht, supabase } from '../../lib/supabase';
+import { loadRevenue, loadWeeklyCounts, recentWeeks } from '../_portal/dashboard-periods';
 import { AdminSelect } from '../_portal/admin-ui';
+import DashboardExport from '../_portal/dashboard-export';
 import { BreakdownChart, loadRecentPayments, RecentPayments, TrendChart, type RecentOrder } from './overview/[section]/payment-charts';
 
 type Count = number | null;
@@ -21,6 +22,7 @@ const series = [
 export default function AdminHome() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [recentOrders, setRecentOrders] = useState<RecentOrder[] | null>();
+  const [revenueTotal, setRevenueTotal] = useState<Count>();
   const [selected, setSelected] = useState<(typeof series)[number]['table']>('orders');
   const [weeks] = useState(recentWeeks);
   const [activity, setActivity] = useState<{ table: string; counts: Count[] }>();
@@ -64,6 +66,14 @@ export default function AdminHome() {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    void loadRevenue(weeks, controller.signal).catch(() => null).then(result => {
+      if (!controller.signal.aborted) setRevenueTotal(result?.total ?? null);
+    });
+    return () => controller.abort();
+  }, [weeks]);
+
   const tasks = [
     { href: '/admin/overview/payments', label: 'สลิปรอตรวจสอบ', value: stats?.pending },
     { href: '/admin/overview/contacts', label: 'ผู้ติดต่อใหม่', value: stats?.contacts },
@@ -88,7 +98,19 @@ export default function AdminHome() {
         <h1>ภาพรวมหลังบ้าน</h1>
         <p>Inter Plus Consulting</p>
       </div>
-      <Link className="ip-btn" href="/admin/orders">ไปหน้าตรวจสลิป <DirectionArrow /></Link>
+      <div className="ip-row admin-dashboard-actions">
+        <DashboardExport name="ภาพรวมหลังบ้าน" ready={Boolean(stats && weekly && revenueTotal !== undefined)} sheets={[
+          { name: 'สรุป', headers: ['รายการ', 'ยอดรวม', 'หน่วย'], rows: [
+            ['รายได้จากรายการที่อนุมัติแล้ว', revenueTotal, 'บาท'],
+            ...[...metrics, ...tasks, ...content].map(({ label, value }) => [label, value, 'รายการ']),
+            ['อนุมัติแล้ว', stats?.approved, 'รายการ'],
+            ['ปฏิเสธแล้ว', stats?.rejected, 'รายการ'],
+          ] },
+          { name: 'แนวโน้ม 28 วัน', headers: ['ช่วงวันที่', selectedSeries.label],
+            rows: weeks.map(({ label }, index) => [label, weekly?.[index]]) },
+        ]} />
+        <Link className="ip-btn" href="/admin/orders">ไปหน้าตรวจสลิป <DirectionArrow /></Link>
+      </div>
     </div>
 
     <div className="admin-overview-grid admin-overview-charts">
@@ -112,7 +134,15 @@ export default function AdminHome() {
       ]} />
     </div>
 
-    <ul className="admin-kpis" aria-label="ยอดรวมระบบสมาชิก" aria-busy={!stats}>
+    <ul className="admin-kpis" aria-label="ยอดรวมระบบสมาชิก" aria-busy={!stats || revenueTotal === undefined}>
+      <li className="admin-revenue-kpi">
+        <Link href="/admin/overview/payments">
+          <span>รายได้ทั้งหมด</span>
+          <strong>{typeof revenueTotal === 'number' ? formatBaht(revenueTotal) : formatCount(revenueTotal)}</strong>
+          <DirectionArrow />
+          <small>จากรายการที่อนุมัติแล้ว</small>
+        </Link>
+      </li>
       {metrics.map(({ href, label, value }) => <li key={href}>
         <Link href={href}><span>{label}</span><strong>{formatCount(value)}</strong><DirectionArrow /></Link>
       </li>)}

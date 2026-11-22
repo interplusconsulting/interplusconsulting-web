@@ -1,5 +1,7 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../lib/auth';
@@ -36,7 +38,7 @@ export default function CourseStorePage() {
     {error && <p className="ip-error">{error}</p>}
     {!courses && !error && <Loading />}
     {courses && courses.length === 0 && <div className="ip-empty"><h2>ยังไม่มีคอร์สที่เปิดขาย</h2><p>ติดตามคอร์สใหม่เร็ว ๆ นี้</p></div>}
-    {courses && courses.length > 0 && <div className="ip-course-grid">{courses.map(course => {
+    <PaginatedList items={courses ?? []}>{pageItems => <div className="ip-course-grid">{pageItems.map(course => {
       const state = owned.has(course.id) ? 'owned' : orders.get(course.id) === 'pending' ? 'pending' : null;
       return <article className="ip-course-card" key={course.id}>
         <div className="ip-cover">{course.cover_url ? <img src={course.cover_url} alt="" /> : <span>{course.title.slice(0, 1)}</span>}
@@ -51,6 +53,6 @@ export default function CourseStorePage() {
             : <Link className="ip-btn" href={`/learn/course?id=${course.id}`}>ดูรายละเอียด</Link>}
         </div>
       </article>;
-    })}</div>}
+    })}</div>}</PaginatedList>
   </>;
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FormEvent } from 'react';
 import { errorText, formatBaht, supabase } from '../../../lib/supabase';
@@ -48,9 +49,9 @@ export default function AdminCoursesPage() {
     {!courses && <Loading />}
     {courses && courses.length === 0 && <div className="ip-empty"><h2>ยังไม่มีคอร์ส</h2><p>เริ่มสร้างคอร์สแรกด้านบน</p></div>}
     {!!courses?.length && <AdminListHeading title="รายการคอร์ส" count={courses.length} />}
-    {courses && courses.length > 0 && <div className="ip-table-wrap"><table className="ip-table">
+    <PaginatedList items={courses ?? []}>{pageItems => <div className="ip-table-wrap"><table className="ip-table">
       <thead><tr><th>คอร์ส</th><th>ราคา</th><th>สถานะ</th><th /></tr></thead>
-      <tbody>{courses.map(course => <tr key={course.id}>
+      <tbody>{pageItems.map(course => <tr key={course.id}>
         <td data-label="คอร์ส"><b>{course.title}</b><br /><small className="ip-muted">{course.summary}</small></td>
         <td data-label="ราคา">{Number(course.price) > 0 ? formatBaht(course.price) : 'ฟรี'}
           {isOnPromo(course.price, course.compare_at_price) && <><br /><small className="ip-muted">จาก <s>{formatBaht(course.compare_at_price)}</s></small></>}
@@ -61,6 +62,6 @@ export default function AdminCoursesPage() {
         </div></td>
         <td><div className="admin-row-actions"><IconLink icon="edit" label="แก้ไขคอร์สและบทเรียน" href={`/admin/course?id=${course.id}`} /></div></td>
       </tr>)}</tbody>
-    </table></div>}
+    </table></div>}</PaginatedList>
   </>;
 }

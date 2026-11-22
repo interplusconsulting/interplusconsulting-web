@@ -1,5 +1,7 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
+
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useStudentAccess } from '../../../lib/student-access';
@@ -46,7 +48,7 @@ export default function ExamLibraryPage() {
     {error && <p className="ip-error">{error}</p>}
     {loading && !error && <Loading />}
     {!loading && shown.length === 0 && <div className="ip-empty"><h2>ไม่มีข้อสอบในหมวดนี้</h2></div>}
-    {!loading && shown.length > 0 && <div className="ip-course-grid">{shown.map(exam => {
+    <PaginatedList items={loading ? [] : shown} resetKey={filter}>{pageItems => <div className="ip-course-grid">{pageItems.map(exam => {
       const forSale = Number(exam.price) > 0;
       const freeToClaim = !forSale && !exam.course_id;
       return <article className={`ip-course-card ip-exam-card ${exam.has_access ? '' : 'locked'}`} key={exam.id}>
@@ -73,7 +75,7 @@ export default function ExamLibraryPage() {
               : <Link className="ip-btn" href={`/learn/exam?id=${exam.id}`}>{exam.pending_order ? 'ดูสถานะ' : forSale ? 'ซื้อข้อสอบ' : 'ดูวิธีรับสิทธิ์'}</Link>}
         </div>
       </article>;
-    })}</div>}
+    })}</div>}</PaginatedList>
     {shown.some(exam => exam.has_access && /gemini/.test(exam.url)) && <p className="ip-muted ip-small ip-exam-note">ข้อสอบที่สร้างด้วย Gemini จะมีหน้าต่างแจ้งเตือนก่อนเริ่ม ให้กด “Continue” เพื่อเข้าทำข้อสอบ</p>}
   </>;
 }

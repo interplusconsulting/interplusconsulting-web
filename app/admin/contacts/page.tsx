@@ -1,5 +1,6 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import { useCallback, useEffect, useState } from 'react';
 import { errorText, formatDate, supabase } from '../../../lib/supabase';
 import { Loading } from '../../_portal/shell';
@@ -42,9 +43,9 @@ export default function AdminContactsPage() {
     {error && <p className="ip-error">{error}</p>}
     {!items && <Loading />}
     {items && items.length === 0 && <div className="ip-empty"><h2>ไม่มีรายการ</h2></div>}
-    {items && items.length > 0 && <div className="ip-table-wrap"><table className="ip-table">
+    <PaginatedList items={items ?? []} resetKey={filter}>{pageItems => <div className="ip-table-wrap"><table className="ip-table">
       <thead><tr><th>ชื่อ</th><th>ติดต่อ</th><th>บริการที่สนใจ</th><th>วันที่</th><th>สถานะ</th><th /></tr></thead>
-      <tbody>{items.map(item => <tr key={item.id}>
+      <tbody>{pageItems.map(item => <tr key={item.id}>
         <td data-label="ชื่อ"><b>{item.name}</b></td>
         <td data-label="ติดต่อ"><a href={`tel:${item.phone.replace(/\D/g, '')}`}>{item.phone}</a><br /><small className="ip-muted">{item.email}</small></td>
         <td data-label="บริการที่สนใจ">{item.service || '-'}</td>
@@ -52,7 +53,7 @@ export default function AdminContactsPage() {
         <td data-label="สถานะ"><span className={`ip-status ${statusClass[item.status]}`}>{statusText[item.status]}</span></td>
         <td><button type="button" className="ip-btn small" onClick={() => { setSelected(item); setNote(item.note); }}>เปิดดู</button></td>
       </tr>)}</tbody>
-    </table></div>}
+    </table></div>}</PaginatedList>
 
     {selected && <div className="ip-modal-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setSelected(null); }}>
       <section className="ip-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">

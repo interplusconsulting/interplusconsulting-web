@@ -1,5 +1,6 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import { AdminListHeading, AdminSelect, IconButton } from '../../_portal/admin-ui';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -193,17 +194,17 @@ export default function AdminUsersPage() {
     </div>
     {!filtered && <Loading />}
     {filtered && filtered.length === 0 && <div className="ip-empty"><h2>ไม่พบผู้ใช้</h2></div>}
-    {filtered && filtered.length > 0 && <div className="ip-table-wrap"><table className="ip-table">
+    <PaginatedList items={filtered ?? []} resetKey={search}>{pageItems => <div className="ip-table-wrap"><table className="ip-table">
       <thead><tr><th>ชื่อ</th><th>ติดต่อ</th><th>สิทธิ์</th><th>สถานะ</th><th>สมัครเมื่อ</th><th /></tr></thead>
-      <tbody>{filtered.map(user => <tr key={user.id}>
+      <tbody>{pageItems.map(user => <tr key={user.id}>
         <td data-label="ชื่อ"><b>{user.full_name || '-'}</b></td>
         <td data-label="ติดต่อ">{user.email}<br /><small className="ip-muted">{user.phone}</small></td>
         <td data-label="สิทธิ์"><span className={`ip-status ${user.role === 'admin' ? 'admin' : 'draft'}`}>{user.role === 'admin' ? 'แอดมิน' : 'ผู้เรียน'}</span></td>
         <td data-label="สถานะ"><span className={`ip-status ${user.is_active ? 'approved' : 'rejected'}`}>{user.is_active ? 'ใช้งาน' : 'ระงับ'}</span></td>
         <td data-label="สมัครเมื่อ">{formatDate(user.created_at)}</td>
-        <td><div className="admin-row-actions"><IconButton icon="manage" label="จัดการผู้ใช้ (บทบาท สถานะ สิทธิ์คอร์ส)" onClick={() => void open(user)} /></div></td>
+        <td><div className="admin-row-actions"><IconButton icon="edit" label="แก้ไขผู้ใช้ (บทบาท สถานะ สิทธิ์คอร์ส)" onClick={() => void open(user)} /></div></td>
       </tr>)}</tbody>
-    </table></div>}
+    </table></div>}</PaginatedList>
 
     {selected && <div className="ip-modal-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setSelected(null); }}>
       <section className="ip-modal" role="dialog" aria-modal="true" aria-labelledby="user-title">

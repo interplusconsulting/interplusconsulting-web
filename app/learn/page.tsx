@@ -1,5 +1,7 @@
 'use client';
 
+import PaginatedList from '../_portal/paginated-list';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../lib/auth';
@@ -63,7 +65,7 @@ export default function MyCoursesPage() {
 
     {courses && courses.length > 0 && <section className="ip-my-section">
       <h2 className="ip-section-title">คอร์สเรียน <small>{courses.length}</small></h2>
-      <div className="ip-course-grid">{courses.map(course => {
+      <PaginatedList items={courses}>{pageItems => <div className="ip-course-grid">{pageItems.map(course => {
         const percent = course.lessonCount ? Math.round((course.doneCount / course.lessonCount) * 100) : 0;
         return <article className="ip-course-card" key={course.id}>
           <div className="ip-cover">{course.cover_url ? <img src={course.cover_url} alt="" /> : <span>{course.title.slice(0, 1)}</span>}</div>
@@ -75,12 +77,12 @@ export default function MyCoursesPage() {
             <Link className="ip-btn" href={`/learn/lesson?course=${course.id}`}>{course.doneCount ? 'เรียนต่อ' : 'เริ่มเรียน'}</Link>
           </div>
         </article>;
-      })}</div>
+      })}</div>}</PaginatedList>
     </section>}
 
     {courses && exams.length > 0 && <section className="ip-my-section">
       <h2 className="ip-section-title">ข้อสอบ <small>{exams.length}</small></h2>
-      <div className="ip-course-grid">{exams.map(exam => <article className="ip-course-card ip-exam-card" key={exam.id}>
+      <PaginatedList items={exams}>{pageItems => <div className="ip-course-grid">{pageItems.map(exam => <article className="ip-course-card ip-exam-card" key={exam.id}>
         <div className="ip-cover ip-exam-cover">
           {exam.cover_url ? <img src={exam.cover_url} alt="" /> : <span className="ip-exam-mark">{exam.title.match(/[A-Za-z]+/)?.[0]?.slice(0, 4).toUpperCase() ?? 'EXAM'}</span>}
           {exam.level && <em className="ip-badge">{exam.level}</em>}
@@ -95,7 +97,7 @@ export default function MyCoursesPage() {
             ? <a className="ip-btn" href={exam.url} target="_blank" rel="noreferrer">เริ่มทำข้อสอบ ↗︎</a>
             : <Link className="ip-btn" href={`/learn/exam?id=${exam.id}`}>ดูรายละเอียด</Link>}
         </div>
-      </article>)}</div>
+      </article>)}</div>}</PaginatedList>
     </section>}
   </>;
 }

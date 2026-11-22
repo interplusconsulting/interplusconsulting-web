@@ -1,5 +1,6 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../lib/auth';
@@ -31,15 +32,15 @@ export default function MyOrdersPage() {
     {error && <p className="ip-error">{error}</p>}
     {!orders && !error && <Loading />}
     {orders && orders.length === 0 && <div className="ip-empty"><h2>ยังไม่มีคำสั่งซื้อ</h2><Link className="ip-btn" href="/learn/courses">เลือกคอร์สเรียน</Link></div>}
-    {orders && orders.length > 0 && <div className="ip-table-wrap"><table className="ip-table">
+    <PaginatedList items={orders ?? []}>{pageItems => <div className="ip-table-wrap"><table className="ip-table">
       <thead><tr><th>รายการ</th><th>ยอดเงิน</th><th>วันที่ส่ง</th><th>สถานะ</th><th>หมายเหตุ</th></tr></thead>
-      <tbody>{orders.map(order => <tr key={order.id}>
+      <tbody>{pageItems.map(order => <tr key={order.id}>
         <td data-label="รายการ">{itemTitle(order)}</td>
         <td data-label="ยอดเงิน">{formatBaht(order.amount)}</td>
         <td data-label="วันที่ส่ง">{formatDate(order.created_at)}</td>
         <td data-label="สถานะ"><span className={`ip-status ${order.status}`}>{orderStatusText[order.status]}</span></td>
         <td data-label="หมายเหตุ">{order.status === 'rejected' ? <>{order.note || '-'} <Link href={retryHref(order)}>ส่งสลิปใหม่</Link></> : order.note || '-'}</td>
       </tr>)}</tbody>
-    </table></div>}
+    </table></div>}</PaginatedList>
   </>;
 }

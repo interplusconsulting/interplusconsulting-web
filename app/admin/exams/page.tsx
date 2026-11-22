@@ -1,5 +1,6 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { safeHttpUrl } from '../../../lib/media';
 import { errorText, formatBaht, supabase } from '../../../lib/supabase';
@@ -86,9 +87,9 @@ export default function AdminExamsPage() {
     {!items && <Loading />}
     {items && items.length === 0 && <div className="ip-empty"><h2>ยังไม่มีข้อสอบ</h2><p>กด “+ เพิ่มข้อสอบ” แล้ววางลิงก์ข้อสอบ</p></div>}
     {!!items?.length && <AdminListHeading title="รายการข้อสอบ" count={items.length} />}
-    {items && items.length > 0 && <div className="ip-table-wrap"><table className="ip-table">
+    <PaginatedList items={items ?? []}>{pageItems => <div className="ip-table-wrap"><table className="ip-table">
       <thead><tr><th>ข้อสอบ</th><th>รายละเอียด</th><th>ราคา / สิทธิ์</th><th>สถานะ</th><th /></tr></thead>
-      <tbody>{items.map(item => <tr key={item.id}>
+      <tbody>{pageItems.map(item => <tr key={item.id}>
         <td data-label="ข้อสอบ"><b>{item.title}</b><br /><small className="ip-muted">{item.level}</small></td>
         <td data-label="รายละเอียด">{item.question_count ? `${item.question_count} ข้อ` : '-'}{item.duration_min ? ` · ${item.duration_min} นาที` : ''}</td>
         <td data-label="ราคา / สิทธิ์">{accessText(item)}</td>
@@ -100,7 +101,7 @@ export default function AdminExamsPage() {
           <IconButton icon="delete" label="ลบ" tone="danger" onClick={() => void remove(item)} />
         </div></td>
       </tr>)}</tbody>
-    </table></div>}
+    </table></div>}</PaginatedList>
 
     {editing && <div className="ip-modal-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setEditing(null); }}>
       <form className="ip-modal wide ip-form" role="dialog" aria-modal="true" aria-labelledby="exam-title" onSubmit={save}>

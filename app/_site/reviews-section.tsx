@@ -5,6 +5,8 @@ import { safeHttpUrl } from '../../lib/media';
 import { contact } from '../../lib/site';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { Review } from '../../lib/types';
+import { formatReviewAge } from '../../lib/review-age';
+import { useReviewDay } from '../_portal/use-review-day';
 
 export type GoogleReview = { author: string; authorUrl: string; photo: string; text: string; when: string };
 export type GoogleSummary = { rating: number; count: number; url: string } | null;
@@ -16,6 +18,7 @@ function Stars({ value }: { value: number }) {
 /** Shows 5-star reviews: ones admins copied from Google Maps (database) plus, when configured, ones fetched from Google. */
 export default function ReviewsSection({ google, summary }: { google: GoogleReview[]; summary: GoogleSummary }) {
   const [manual, setManual] = useState<Review[]>([]);
+  const today = useReviewDay();
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
@@ -42,7 +45,7 @@ export default function ReviewsSection({ google, summary }: { google: GoogleRevi
           <blockquote>{review.body}</blockquote>
           <figcaption>
             <span className="review-avatar" aria-hidden="true">{review.author_name.trim().slice(0, 1).toUpperCase()}</span>
-            <span>{link ? <a href={link} target="_blank" rel="noreferrer">{review.author_name}</a> : review.author_name}<small>{[review.review_date, `รีวิวบน ${review.source}`].filter(Boolean).join(' · ')}</small></span>
+            <span>{link ? <a href={link} target="_blank" rel="noreferrer">{review.author_name}</a> : review.author_name}<small>{[formatReviewAge(review.review_date, today), `รีวิวบน ${review.source}`].filter(Boolean).join(' · ')}</small></span>
           </figcaption>
         </figure>;
       })}

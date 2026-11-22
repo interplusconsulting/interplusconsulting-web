@@ -1,5 +1,6 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { errorText, supabase } from '../../../lib/supabase';
 import type { DbAnnouncement } from '../../../lib/types';
@@ -61,7 +62,7 @@ export default function AdminAnnouncementsPage() {
     {!items && <Loading />}
     {items && items.length === 0 && <div className="ip-empty"><h2>ยังไม่มีประกาศ</h2><p>หน้าแรกจะแสดงประกาศชุดเดิมที่ติดมากับเว็บจนกว่าจะเพิ่มประกาศที่นี่</p></div>}
     {!!items?.length && <AdminListHeading title="รายการประกาศ" count={items.length} />}
-    {items && items.length > 0 && <div className="ip-announce-grid">{items.map(item => <article key={item.id} className="ip-card ip-announce">
+    <PaginatedList items={items ?? []}>{pageItems => <div className="ip-announce-grid">{pageItems.map(item => <article key={item.id} className="ip-card ip-announce">
       <img src={item.image_url} alt="" />
       <div>
         <div className="ip-row space"><small className="ip-eyebrow">#{item.position} · {item.label}</small><StatusPill on={item.is_published} onText="แสดงบนเว็บ" offText="ซ่อน" /></div>
@@ -73,7 +74,7 @@ export default function AdminAnnouncementsPage() {
           <IconButton icon="delete" label="ลบ" tone="danger" onClick={() => void remove(item)} />
         </div>
       </div>
-    </article>)}</div>}
+    </article>)}</div>}</PaginatedList>
 
     {editing && <div className="ip-modal-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setEditing(null); }}>
       <form className="ip-modal wide ip-form" role="dialog" aria-modal="true" aria-labelledby="announce-title" onSubmit={save}>

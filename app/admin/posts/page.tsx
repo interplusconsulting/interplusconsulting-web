@@ -1,5 +1,6 @@
 'use client';
 
+import PaginatedList from '../../_portal/paginated-list';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -29,9 +30,9 @@ export default function AdminPostsPage() {
     {error && <p className="ip-error">{error}</p>}
     {!posts && <Loading />}
     {posts && posts.length === 0 && <div className="ip-empty"><h2>ยังไม่มีโพสต์</h2></div>}
-    {posts && posts.length > 0 && <div className="ip-table-wrap"><table className="ip-table">
+    <PaginatedList items={posts ?? []}>{pageItems => <div className="ip-table-wrap"><table className="ip-table">
       <thead><tr><th>หัวข้อ</th><th>สถานะ</th><th>เผยแพร่เมื่อ</th><th /></tr></thead>
-      <tbody>{posts.map(post => <tr key={post.id}>
+      <tbody>{pageItems.map(post => <tr key={post.id}>
         <td data-label="หัวข้อ"><b>{post.title}</b><br /><small className="ip-muted">/blog/post?slug={post.slug}</small></td>
         <td data-label="สถานะ"><StatusPill on={post.is_published} /></td>
         <td data-label="เผยแพร่เมื่อ">{formatDate(post.published_at)}</td>
@@ -40,6 +41,6 @@ export default function AdminPostsPage() {
           {post.is_published && <IconLink icon="open" label="ดูหน้าโพสต์" href={`/blog/post?slug=${post.slug}`} external />}
         </div></td>
       </tr>)}</tbody>
-    </table></div>}
+    </table></div>}</PaginatedList>
   </>;
 }

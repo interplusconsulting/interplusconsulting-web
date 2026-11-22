@@ -59,7 +59,7 @@ export default async function Home() {
 
     {(show('announcements') || show('announcement_popup')) && <Announcements showList={show('announcements')} showPopup={show('announcement_popup')} />}
 
-    {show('courses') && <OnlineCourses />}
+    {(show('online_courses') || show('online_exams')) && <OnlineCourses showCourses={show('online_courses')} showExams={show('online_exams')} />}
 
     {show('about') && <section className="section about" id="about">
       <div className="about-art"><img src="/about-consultation.webp" alt="ที่ปรึกษา Inter Plus กำลังวางแผนการศึกษาต่อต่างประเทศกับผู้เรียน" /></div>

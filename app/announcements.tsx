@@ -6,7 +6,7 @@ import { initialAnnouncementData, type Announcement } from '../lib/announcement-
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import type { DbAnnouncement } from '../lib/types';
 
-/** Announcement carousel and the once-a-day popup; each can be turned off in Admin → ตั้งค่าการแสดงหน้าเว็บ. */
+/** Announcement carousel and popup; each can be turned off in Admin → ตั้งค่าการแสดงหน้าเว็บ. */
 export default function Announcements({ showList = true, showPopup = true }: { showList?: boolean; showPopup?: boolean }) {
   const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncementData);
   const announcementTrack = useRef<HTMLDivElement>(null);
@@ -74,17 +74,8 @@ export default function Announcements({ showList = true, showPopup = true }: { s
   }, [announcements.length]);
 
   useEffect(() => {
-    // Show the popup at most once per day per visitor.
-    const key = 'ip-announcement-popup';
-    const today = new Date().toISOString().slice(0, 10);
-    let seenToday = false;
-    try { seenToday = window.localStorage.getItem(key) === today; } catch { /* storage unavailable */ }
-    if (seenToday || !showPopup) return;
-    const timer = window.setTimeout(() => {
-      if (!initialAnnouncementData.length) return;
-      setPopupOpen(true);
-      try { window.localStorage.setItem(key, today); } catch { /* storage unavailable */ }
-    }, 2050);
+    if (!showPopup) return;
+    const timer = window.setTimeout(() => setPopupOpen(true), 2050);
     return () => window.clearTimeout(timer);
   }, [showPopup]);
 

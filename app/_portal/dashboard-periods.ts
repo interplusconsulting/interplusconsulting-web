@@ -30,3 +30,29 @@ export function loadWeeklyCounts(table: string, weeks: ReturnType<typeof recentW
     }
   }));
 }
+
+export async function loadRevenue(weeks: ReturnType<typeof recentWeeks>, signal: AbortSignal) {
+  let totalSatang = 0;
+  const weeklySatang = weeks.map(() => 0);
+  let afterId: string | undefined;
+
+  const db = supabase();
+  while (!signal.aborted) {
+    const query = db.from('orders').select('id, amount, reviewed_at, created_at')
+      .eq('status', 'approved').order('id').limit(500).abortSignal(signal);
+    const { data, error } = await (afterId ? query.gt('id', afterId) : query);
+    if (error || !data) return null;
+    if (!data.length) break;
+
+    for (const order of data) {
+      const satang = Math.round(Number(order.amount) * 100);
+      totalSatang += satang;
+      const date = new Date(order.reviewed_at ?? order.created_at).getTime();
+      const index = weeks.findIndex(({ start, end }) => date >= Date.parse(start) && date < Date.parse(end));
+      if (index >= 0) weeklySatang[index] += satang;
+    }
+    afterId = data[data.length - 1].id;
+  }
+
+  return { total: totalSatang / 100, weekly: weeklySatang.map(value => value / 100) };
+}

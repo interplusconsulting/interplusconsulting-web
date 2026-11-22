@@ -2,10 +2,12 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { formatBaht, supabase } from '../../../../lib/supabase';
-import type { OrderStatus } from '../../../../lib/types';
+import { formatBaht, formatDate, supabase } from '../../../../lib/supabase';
+import { orderStatusText, type OrderStatus } from '../../../../lib/types';
 import type { DashboardSection } from '../../../_portal/dashboard-sections';
-import { loadWeeklyCounts, recentWeeks } from '../../../_portal/dashboard-periods';
+import { loadRevenue, loadWeeklyCounts, recentWeeks } from '../../../_portal/dashboard-periods';
+import DashboardExport from '../../../_portal/dashboard-export';
+import { loadRecentRecords, RecentRecords, recentRecordHeaders } from './recent-records';
 import { BreakdownChart, loadRecentPayments, RecentPayments, TrendChart, type RecentOrder } from './payment-charts';
 
 type Metric = { label: string; filter?: readonly [string, string | boolean] };
@@ -23,32 +25,6 @@ const paymentFilters = [
 
 type PaymentFilter = (typeof paymentFilters)[number]['status'];
 
-async function loadRevenue(weeks: ReturnType<typeof recentWeeks>, signal: AbortSignal) {
-  let totalSatang = 0;
-  const weeklySatang = weeks.map(() => 0);
-  let afterId: string | undefined;
-
-  const db = supabase();
-  while (!signal.aborted) {
-    const query = db.from('orders').select('id, amount, reviewed_at, created_at')
-      .eq('status', 'approved').order('id').limit(500).abortSignal(signal);
-    const { data, error } = await (afterId ? query.gt('id', afterId) : query);
-    if (error || !data) return null;
-    if (!data.length) break;
-
-    for (const order of data) {
-      const satang = Math.round(Number(order.amount) * 100);
-      totalSatang += satang;
-      const date = new Date(order.reviewed_at ?? order.created_at).getTime();
-      const index = weeks.findIndex(({ start, end }) => date >= Date.parse(start) && date < Date.parse(end));
-      if (index >= 0) weeklySatang[index] += satang;
-    }
-    afterId = data[data.length - 1].id;
-  }
-
-  return { total: totalSatang / 100, weekly: weeklySatang.map(value => value / 100) };
-}
-
 export default function Dashboard({ section }: { section: DashboardSection }) {
   const [counts, setCounts] = useState<(number | null)[]>();
   const [weeklyCounts, setWeeklyCounts] = useState<(number | null)[]>();
@@ -56,6 +32,7 @@ export default function Dashboard({ section }: { section: DashboardSection }) {
   const [revenue, setRevenue] = useState<Awaited<ReturnType<typeof loadRevenue>>>();
   const [paymentFilter, setPaymentFilter] = useState<PaymentFilter>('all');
   const [recentResult, setRecentResult] = useState<{ filter: PaymentFilter; orders: RecentOrder[] | null }>();
+  const [recentRecords, setRecentRecords] = useState<Awaited<ReturnType<typeof loadRecentRecords>>>();
   const isPayments = section.slug === 'payments';
   const extraMetrics = 'metrics' in section ? section.metrics : publishedMetrics;
 
@@ -71,7 +48,7 @@ export default function Dashboard({ section }: { section: DashboardSection }) {
   useEffect(() => {
     if (!isPayments) return;
     const controller = new AbortController();
-    void loadRecentPayments(controller.signal, paymentFilter === 'all' ? undefined : paymentFilter).then(orders => {
+    void loadRecentPayments(controller.signal, paymentFilter === 'all' ? undefined : paymentFilter, 100).then(orders => {
       if (!controller.signal.aborted) setRecentResult({ filter: paymentFilter, orders });
     });
     return () => controller.abort();
@@ -100,6 +77,15 @@ export default function Dashboard({ section }: { section: DashboardSection }) {
     return () => controller.abort();
   }, [extraMetrics, section.table, weeks]);
 
+  useEffect(() => {
+    if (section.slug === 'payments') return;
+    const controller = new AbortController();
+    void loadRecentRecords(section, controller.signal).then(records => {
+      if (!controller.signal.aborted) setRecentRecords(records);
+    });
+    return () => controller.abort();
+  }, [section]);
+
   const breakdown = extraMetrics.map(({ label }, index) => ({
     label, count: counts?.[index + 1], selected: isPayments && paymentFilters[index + 1]?.status === paymentFilter,
   }));
@@ -117,9 +103,24 @@ export default function Dashboard({ section }: { section: DashboardSection }) {
   return <div className="admin-overview admin-section-overview">
     <div className="ip-page-head">
       <h1>ภาพรวม{section.label}</h1>
-      <Link href={section.href} className="ip-btn">
-        {section.slug === 'payments' ? 'ไปหน้าตรวจสลิป' : `ไปหน้าจัดการ${section.label}`}
-      </Link>
+      <div className="ip-row admin-dashboard-actions">
+        <DashboardExport name={`ภาพรวม${section.label}`} ready={Boolean(counts && weeklyCounts && (isPayments ? revenue !== undefined && recentOrders !== undefined : recentRecords !== undefined))} sheets={[
+          { name: 'สรุป', headers: ['รายการ', 'ยอดรวม', 'หน่วย'], rows: [
+            ...(isPayments ? [['รายได้จากรายการที่อนุมัติแล้ว', revenue?.total, 'บาท']] : []),
+            ['รายการทั้งหมด', counts?.[0], 'รายการ'],
+            ...breakdown.map(({ label, count }) => [label, count, 'รายการ']),
+          ] },
+          { name: 'แนวโน้ม 28 วัน', headers: ['ช่วงวันที่', 'รายการใหม่', ...(isPayments ? ['รายได้ที่อนุมัติ (บาท)'] : [])],
+            rows: trend.map(({ label, value }, index) => [label, value, ...(isPayments ? [revenue?.weekly[index]] : [])]) },
+          ...(recentRecords?.length ? [{ name: 'รายการล่าสุด', headers: recentRecordHeaders,
+            rows: recentRecords.map(({ name, detail, status, date }) => [name, detail, status, date]) }] : []),
+          ...(recentOrders?.length ? [{ name: 'รายการชำระเงินล่าสุด', headers: ['รหัสรายการ', 'วันที่สร้าง', 'สถานะ', 'ยอดเงิน (บาท)'],
+            rows: recentOrders.map(order => [order.id, formatDate(order.created_at), orderStatusText[order.status], Number(order.amount)]) }] : []),
+        ]} />
+        <Link href={section.href} className="ip-btn">
+          {isPayments ? 'ไปหน้าตรวจสลิป' : `ไปหน้าจัดการ${section.label}`}
+        </Link>
+      </div>
     </div>
     <div className="ip-stats" aria-busy={!counts || (isPayments && revenue === undefined)}>
       {isPayments && <div className="ip-stat accent">
@@ -146,9 +147,10 @@ export default function Dashboard({ section }: { section: DashboardSection }) {
       <BreakdownChart title={isPayments ? 'สถานะการชำระเงิน' : 'สัดส่วนตามสถานะหรือประเภท'} metrics={breakdown}
         selectMetric={isPayments ? index => openPaymentFilter(paymentFilters[index + 1].status) : undefined} />
     </div>
+    {section.slug !== 'payments' && <RecentRecords section={section} records={recentRecords} />}
     {isPayments && <>
       <div id="payment-results" tabIndex={-1} role="region" aria-label="ผลการกรองรายการชำระเงิน">
-        <RecentPayments orders={recentOrders} filterLabel={paymentFilter === 'all' ? undefined : paymentFilters.find(item => item.status === paymentFilter)?.label}
+        <RecentPayments orders={recentOrders} showAll paginate filterLabel={paymentFilter === 'all' ? undefined : paymentFilters.find(item => item.status === paymentFilter)?.label}
           controls={<div className="ip-tabs ip-payment-filter-tabs" role="group" aria-label="กรองตามสถานะ">
             {paymentFilters.map(({ status, label }) => <button key={status} type="button" aria-pressed={status === paymentFilter}
               className={status === paymentFilter ? 'active' : undefined} onClick={() => setPaymentFilter(status)}>{label}</button>)}

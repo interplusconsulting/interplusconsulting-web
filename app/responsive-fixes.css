@@ -460,14 +460,3 @@ html[lang="en"] .hero h1 {
 .social-contacts .line-contact span { grid-column:1/-1; font:700 9px var(--font-sarabun),sans-serif; letter-spacing:.15em; color:var(--red); }
 .social-contacts .line-contact b { font-family:var(--font-sarabun),sans-serif; }
 .social-contacts .line-contact:hover { transform:translateY(-3px); box-shadow:0 12px 28px #0003; }
-.line-modal-backdrop { position:fixed; inset:0; z-index:12500; display:grid; place-items:center; padding:20px; background:rgba(3,25,44,.8); backdrop-filter:blur(9px); animation:announcement-fade .28s ease both; }
-.line-modal { position:relative; width:min(430px,100%); max-height:92vh; overflow:auto; padding:clamp(26px,5vw,42px); background:var(--cream); color:var(--navy); text-align:center; box-shadow:0 30px 90px rgba(0,0,0,.4); animation:announcement-rise .42s cubic-bezier(.16,1,.3,1) both; }
-.line-modal .eyebrow { margin:0 0 8px; }
-.line-modal h3 { margin:0; font-size:clamp(27px,5vw,38px); line-height:1.18; }
-.line-modal>p:not(.eyebrow) { margin:14px auto 20px; max-width:330px; color:#607484; line-height:1.65; }
-.line-modal img { display:block; width:min(270px,82%); height:auto; margin:0 auto 22px; border:10px solid #fff; box-shadow:0 12px 34px rgba(4,47,80,.16); }
-.line-modal-close { position:absolute; top:12px; right:12px; width:42px; height:42px; border:2px solid #fff; border-radius:50%; background:var(--navy); color:#fff; font-size:27px; line-height:1; cursor:pointer; box-shadow:0 8px 24px #0003; }
-.line-modal-close:hover { background:var(--red); }
-.line-modal-action { display:flex; justify-content:center; width:100%; background:#06c755; }
-@media(max-width:480px){.line-modal-backdrop{padding:10px}.line-modal{padding:28px 18px 22px}.line-modal img{width:min(250px,88%)}.line-modal-close{top:8px;right:8px}}
-@media(prefers-reduced-motion:reduce){.line-modal-backdrop,.line-modal{animation:none}}

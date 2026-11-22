@@ -359,6 +359,51 @@ footer.site-footer{display:block;background:#061f35;color:#c7d6e1;padding:64px m
 .announcement-popup-actions .button:not(.secondary):hover { transform: translateY(-1px); box-shadow: 0 14px 28px #ef2d3255; }
 .announcement-popup-actions .button.secondary { border-radius: 12px; border-color: #d5dfe6; }
 .announcement-popup-actions .button.secondary:hover { background: #f3f7fa; border-color: #a9bccb; }
+
+.announcement-popup-backdrop.line-modal-backdrop { z-index: 12500; }
+.announcement-popup.line-modal {
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  width: min(700px, 100%);
+  max-height: min(88vh, 88dvh);
+}
+.line-modal-qr {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 30px;
+  background: #eaf1f7;
+}
+.line-modal-qr img {
+  display: block;
+  width: min(230px, 100%);
+  height: auto;
+  padding: 10px;
+  border: 1px solid #d6e1eb;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px #0b29441a;
+}
+.line-modal .line-modal-copy { min-width: 0; padding-top: 52px; }
+.line-modal .announcement-popup-badge { padding: 5px; border-color: #cde6d8; }
+.line-modal .announcement-popup-badge b { background: #08783e; }
+.line-modal .line-modal-action {
+  align-self: flex-start;
+  min-height: 46px;
+  gap: 8px;
+  border-radius: 12px;
+  background: #08783e;
+  color: #fff;
+}
+.line-modal .line-modal-action:hover { background: #065f32; }
+.line-modal :is(button, a):focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+@media (max-width: 640px) {
+  .announcement-popup.line-modal { grid-template-columns: minmax(0, 1fr); width: min(390px, 100%); }
+  .line-modal-qr { padding: 48px 16px 16px; }
+  .line-modal-qr img { width: min(200px, 100%); }
+  .line-modal .line-modal-copy { padding: 20px; }
+  .line-modal .announcement-popup-text { margin-bottom: 16px; }
+  .line-modal .line-modal-action { align-self: stretch; }
+}
 .announcement-pager { grid-template-columns: 36px 1fr 36px; margin: 22px 0 0; padding-top: 18px; border-top: 1px solid #e4ddd0; }
 .announcement-pager > button {
   width: 36px; height: 36px; border-radius: 50%; border-color: #d5dfe6;

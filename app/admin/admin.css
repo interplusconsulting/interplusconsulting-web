@@ -78,7 +78,8 @@
 .admin-overview-charts .ip-payment-status-panel { border-color: var(--admin-rule); border-radius: 12px; }
 .admin-kpis {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 12px;
   list-style: none;
   padding: 0;
@@ -94,6 +95,7 @@
   gap: 4px 8px;
   align-items: center;
   min-height: 88px;
+  height: 100%;
   padding: 12px 20px;
   color: #fff;
   background: var(--kpi-color);
@@ -151,11 +153,15 @@
 .admin-overview .ip-payment-legend li { border-top: 1px solid #ecf0f5; min-height: 34px; }
 .admin-overview .ip-payment-legend { gap: 0; }
 .admin-overview .ip-recent-payments-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.admin-overview .ip-recent-payments-head > a { color: var(--admin-action); font-weight: 600; }
+.admin-overview .ip-recent-payments-head > a:hover { text-decoration: underline; }
 .admin-overview .ip-recent-payments .ip-table { font-variant-numeric: tabular-nums; }
 .admin-overview .ip-recent-payments .ip-table th { background: #eef4fa; color: #34526e; }
 .admin-overview .ip-recent-payments .ip-table tbody tr:nth-child(even) { background: #f8fafc; }
 .admin-overview .admin-kpis a { border-radius: 12px; box-shadow: var(--admin-panel-shadow); }
-.admin-overview .admin-kpis li:first-child { --kpi-color: #0b2944; }
+.admin-kpis .admin-revenue-kpi { --kpi-color: #087344; }
+.admin-revenue-kpi a strong { font-size: 1.55rem; overflow-wrap: anywhere; }
+.admin-revenue-kpi a small { grid-column: 1 / -1; font-size: .75rem; }
 .admin-section-overview .ip-page-head { align-items: center; margin-bottom: 20px; }
 .admin-section-overview .ip-page-head h1 { margin: 0; font-size: 2rem; }
 .admin-section-overview .ip-stats {
@@ -179,7 +185,7 @@
 .admin-section-overview .ip-payment-filter-card:is(:hover, [aria-pressed="true"]) { background: #edf4fd; border-color: #779cc6; }
 .ip-status-legend-button { border: 0; background: transparent; text-align: start; padding: 8px 0; color: var(--admin-text); }
 .ip-status-legend-button:is(:hover, [aria-pressed="true"]) { color: #165c9b; text-decoration: underline; }
-.ip-payment-filter-tabs { flex-wrap: wrap; margin: 0 0 14px; }
+.ip-payment-filter-tabs { margin: 0 0 14px; }
 #payment-results { scroll-margin-top: 76px; }
 #payment-results:focus-visible { outline: 2px solid #245c9c; outline-offset: 3px; border-radius: 14px; }
 
@@ -212,9 +218,7 @@
   white-space: nowrap;
 }
 .ip-shell.admin .ip-main .ip-table .ip-btn.small:not(.danger):hover { background: #dae9f9; border-color: #98b6d4; }
-.ip-shell.admin .ip-tabs button { min-height: 40px; border-radius: 8px; }
-.ip-shell.admin .ip-tabs button:not(.active):hover { background: #edf4fc; border-color: #a8bfd5; }
-.ip-shell.admin .ip-tabs button.active { background: #0b2944; border-color: #0b2944; }
+.ip-shell.admin .ip-main .ip-tabs button:focus-visible { outline-offset: -3px; }
 .ip-shell.admin .ip-main :is(
   .ip-form input:not([type=checkbox]):not([type=radio]):not([type=file]),
   .ip-form textarea, .ip-form select, .ip-inline-form input, .ip-inline-form select, .ip-search
@@ -232,7 +236,14 @@
 .admin-list-heading h2 { font-size: 1.05rem; margin: 0; color: var(--admin-text); }
 .admin-list-heading span { font-size: .875rem; color: var(--admin-muted); }
 .admin-list-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin-bottom: 14px; }
-.admin-list-toolbar :is(.ip-search, .admin-list-heading) { margin: 0; }
+.admin-list-toolbar :is(.ip-search, .admin-list-heading, .ip-tabs) { margin: 0; }
+.admin-order-tabs {
+  flex: 1 1 480px;
+  max-width: min(100%, 640px);
+}
+.ip-shell.admin .admin-order-date-filter { align-items: end; margin-bottom: 16px; padding: 16px; }
+.admin-order-date-filter label { flex: 1 1 150px; min-width: 0; }
+.admin-order-date-filter .ip-btn { min-height: 44px; }
 .admin-invite-form { margin-bottom: 18px; }
 .admin-invite-form h2 { margin: 0 0 4px; }
 .admin-invite-form p { margin: 0; }
@@ -607,3 +618,27 @@
   .admin-kpis a, .ip-shell.admin .ip-btn, .ip-shell.admin .ip-main :is(.ip-stat, .ip-payment-filter-card) { transition: none; }
   .admin-kpis a:hover, .ip-shell.admin .ip-btn:hover, .ip-shell.admin .ip-main :is(.ip-stat, .ip-payment-filter-card):hover { transform: none; }
 }
+.ip-shell.admin .ip-order-slip-dialog { width: min(880px, 100%); padding: clamp(18px, 3vw, 30px); }
+.ip-order-slip-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; padding-right: 44px; margin-bottom: 16px; }
+.ip-order-slip-head h2 { margin: 0; color: var(--admin-text); }
+.ip-order-slip-dialog .ip-slip-layout { align-items: start; gap: 18px; grid-template-columns: minmax(0, .88fr) minmax(0, 1fr); }
+.ip-order-slip-dialog .ip-slip { min-height: 0; padding: 12px; border: 1px solid var(--admin-rule); border-radius: 12px; }
+.ip-order-slip-dialog .ip-slip img { display: block; max-width: 100%; max-height: min(58vh, 500px); width: auto; height: auto; object-fit: contain; }
+.ip-order-slip-details { display: grid; gap: 12px; min-width: 0; }
+.ip-order-slip-amount { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; padding: 12px 16px; background: #edf4fb; border: 1px solid #d8e5f0; border-radius: 10px; color: var(--admin-text); }
+.ip-order-slip-amount strong { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.ip-bank.ip-order-slip-facts { background: #fff; border: 1px solid var(--admin-rule); border-radius: 10px; }
+.ip-order-slip-note { padding: 12px 14px; border: 1px solid var(--admin-rule); border-radius: 10px; background: #f5f8fb; }
+.ip-order-slip-note h3 { margin: 0 0 4px; font-size: .875rem; color: var(--admin-text); }
+.ip-order-slip-note p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .ip-order-slip-dialog .ip-slip-layout { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .ip-order-slip-dialog .ip-slip img { max-height: 42vh; }
+}
+.ip-shell.admin .ip-order-view-slip { min-width: 44px; min-height: 44px; padding: 0; }
+.admin-dashboard-actions { align-items: start; }
+.admin-dashboard-export { display: grid; gap: 4px; }
+.admin-review-age { min-width: 0; margin: 0; padding: 0; border: 0; }
+.admin-review-age legend { padding: 0; margin-bottom: 6px; color: var(--admin-text); font-weight: 700; }
+.admin-review-age-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; align-items: start; }
+.admin-review-age > small { display: block; margin-top: 6px; }
