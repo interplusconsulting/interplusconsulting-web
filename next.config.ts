@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const securityHeaders = [
-  { key: 'Content-Security-Policy', value: "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' mailto:; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; frame-src https://www.google.com; connect-src 'self'; upgrade-insecure-requests" },
+  { key: 'Content-Security-Policy', value: `default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' mailto:; img-src 'self' data: blob: https:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}; frame-src https://www.google.com https://www.youtube-nocookie.com https://player.vimeo.com https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co; upgrade-insecure-requests` },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
