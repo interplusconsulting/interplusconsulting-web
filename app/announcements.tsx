@@ -168,22 +168,27 @@ export default function Announcements({ showList = true, showPopup = true }: { s
       <section className="announcement-popup" role="dialog" aria-modal="true" aria-labelledby="announcement-popup-title">
         <button type="button" className="announcement-close" aria-label="ปิดประกาศ" onClick={() => setPopupOpen(false)}>×</button>
         <button type="button" className="announcement-popup-image" onClick={() => { if (showList) showAnnouncement(popupIndex); else { setPopupOpen(false); setPreview({ index: popupIndex, image: 0 }); } }} aria-label={showList ? 'ไปยังประกาศ' : 'ดูรายละเอียดประกาศ'}>
-          <img src={activeAnnouncement.image} alt={activeAnnouncement.title} />
-          <span>{showList ? 'ไปยังประกาศ ↓' : 'ดูรายละเอียด ↗'}</span>
+          <span className="announcement-popup-blur" style={{ backgroundImage: `url("${activeAnnouncement.image}")` }} aria-hidden="true" />
+          <img key={activeAnnouncement.id} src={activeAnnouncement.image} alt={activeAnnouncement.title} />
+          <span className="announcement-popup-hint">{showList ? 'ไปยังประกาศ ↓' : 'ดูรายละเอียด ↗'}</span>
         </button>
-        <div className="announcement-popup-copy">
-          <p className="eyebrow">ประกาศ · {activeAnnouncement.label}</p>
+        <div className="announcement-popup-copy" key={activeAnnouncement.id}>
+          <p className="announcement-popup-badge"><b>ประกาศ</b>{activeAnnouncement.label}</p>
           <h3 id="announcement-popup-title">{activeAnnouncement.title}</h3>
-          <p>{activeAnnouncement.description}</p>
-          {announcements.length > 1 && <div className="announcement-pager" aria-label="เลือกประกาศ">
-            <button type="button" onClick={() => changePopup(-1)} aria-label="ประกาศก่อนหน้า">←</button>
-            <span>{popupIndex + 1} / {announcements.length}</span>
-            <button type="button" onClick={() => changePopup(1)} aria-label="ประกาศถัดไป">→</button>
-          </div>}
+          <p className="announcement-popup-text">{activeAnnouncement.description}</p>
           <div className="announcement-popup-actions">
             <button type="button" className="button" onClick={() => { setPopupOpen(false); setPreview({ index: popupIndex, image: 0 }); }}>ดูรายละเอียด</button>
             {showList && <button type="button" className="button secondary" onClick={showAllAnnouncements}>ดูประกาศทั้งหมด</button>}
           </div>
+          {announcements.length > 1 && <div className="announcement-pager" aria-label="เลือกประกาศ">
+            <button type="button" onClick={() => changePopup(-1)} aria-label="ประกาศก่อนหน้า">←</button>
+            <span className="announcement-pager-dots">
+              {announcements.length <= 10
+                ? announcements.map((item, index) => <button type="button" key={item.id} className={index === popupIndex ? 'active' : ''} aria-label={`ประกาศที่ ${index + 1}`} aria-current={index === popupIndex || undefined} onClick={() => setPopupIndex(index)} />)
+                : <span>{popupIndex + 1} / {announcements.length}</span>}
+            </span>
+            <button type="button" onClick={() => changePopup(1)} aria-label="ประกาศถัดไป">→</button>
+          </div>}
         </div>
       </section>
     </div>}
